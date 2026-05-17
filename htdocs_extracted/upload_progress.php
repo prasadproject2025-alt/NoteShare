@@ -1,0 +1,202 @@
+<?php
+session_start();
+
+// Require a logged in user
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+// If there's no note data, go back to sell page
+if (!isset($_SESSION['note_data'])) {
+    header('Location: sell_notes.php');
+    exit();
+}
+
+include 'includes/header.php';
+?>
+
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Uploading Note</h2>
+
+            <div id="upload-progress" class="alert alert-info">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-spinner fa-spin me-2" id="progress-icon"></i>
+                    <span id="progress-text">Preparing upload...</span>
+                </div>
+                <div class="progress mt-3" style="height:12px;">
+                    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%"></div>
+                </div>
+                <div class="mt-2"><strong id="progress-percent">0%</strong></div>
+            </div>
+
+            <div id="upload-actions" class="mt-3 d-none">
+                <button id="add-another" class="btn btn-primary">Add Another Note</button>
+            </div>
+
+            <div class="mt-3 p-3 bg-light rounded">
+                <h6>Debug Info:</h6>
+                <div id="debug-info"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<?php include 'includes/footer.php'; ?>
+
+<!-- Firebase SDK v8 (compat mode for legacy code) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="js/firebase-config.js"></script>
+
+<script>
+(function() {
+    // Note data passed from server session
+    const noteData = <?php echo json_encode($_SESSION['note_data']); ?>;
+    const progressDiv = document.getElementById('upload-progress');
+    const progressText = document.getElementById('progress-text');
+    const progressBar = document.getElementById('progress-bar');
+    const progressPercent = document.getElementById('progress-percent');
+    const progressIcon = document.getElementById('progress-icon');
+    const uploadActions = document.getElementById('upload-actions');
+    const debugInfo = document.getElementById('debug-info');
+
+    if (!noteData) {
+        window.location.href = 'sell_notes.php';
+        return;
+    }
+
+    function logDebug(msg) {
+        if (!debugInfo) return;
+        const p = document.createElement('p');
+        p.textContent = msg;
+        debugInfo.appendChild(p);
+    }
+
+    // Smoothly animate progress to a target percent
+    function animateTo(target, duration = 800) {
+        const start = parseFloat(progressBar.style.width) || 0;
+        const end = target;
+        const diff = end - start;
+        const startTime = Date.now();
+        return new Promise(resolve => {
+            const timer = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const t = Math.min(1, elapsed / duration);
+                const cur = start + diff * t;
+                progressBar.style.width = cur + '%';
+                progressPercent.textContent = Math.floor(cur) + '%';
+                if (t === 1) {
+                    clearInterval(timer);
+                    resolve();
+                }
+            }, 50);
+        });
+    }
+
+    function setImmediateProgress(p, txt) {
+        progressBar.style.width = p + '%';
+        progressPercent.textContent = p + '%';
+        if (txt) progressText.textContent = txt;
+    }
+
+    // Wait for firebase to be ready (same helper as existing app)
+    function waitForFirebase() {
+        return new Promise((resolve, reject) => {
+            let attempts = 0;
+            const maxAttempts = 100; // 10s
+            const check = setInterval(() => {
+                attempts++;
+                if (typeof firebase !== 'undefined' && firebase.database && firebase.database().ref) {
+                    clearInterval(check);
+                    resolve();
+                    return;
+                }
+                if (attempts >= maxAttempts) {
+                    clearInterval(check);
+                    reject(new Error('Firebase initialization timeout'));
+                }
+            }, 100);
+        });
+    }
+
+    // perform the upload with staged progress percentages
+    async function doUpload() {
+        try {
+            await animateTo(10, 400);
+            progressText.textContent = 'Initializing Firebase...';
+            await waitForFirebase();
+
+            await animateTo(30, 600);
+            progressText.textContent = 'Authenticating...';
+
+            // Anonymous auth
+            try {
+                await firebase.auth().signInAnonymously();
+                logDebug('Signed in anonymously');
+            } catch (e) {
+                logDebug('Auth failed, continuing: ' + e.message);
+            }
+
+            await animateTo(50, 600);
+            progressText.textContent = 'Preparing data...';
+
+            // small pause
+            await new Promise(r => setTimeout(r, 300));
+
+            await animateTo(70, 800);
+            progressText.textContent = 'Uploading to Firebase...';
+
+            // Push to Realtime Database
+            const notesRef = firebase.database().ref('notes');
+            const snapshot = await notesRef.push(noteData);
+            logDebug('Saved with key: ' + snapshot.key);
+
+            await animateTo(95, 600);
+            progressText.textContent = 'Finalizing...';
+
+            // clear server session (best effort)
+            try {
+                await fetch('clear_session.php', {
+                    method: 'POST',
+                    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                    body: 'clear_note_data=1'
+                });
+                logDebug('Server session cleared');
+            } catch (e) {
+                logDebug('Failed to clear session: ' + e.message);
+            }
+
+            await animateTo(100, 400);
+            progressText.textContent = 'Upload complete';
+            progressIcon.className = 'fas fa-check me-2';
+
+            // show Add Another button
+            if (uploadActions) uploadActions.classList.remove('d-none');
+            const addBtn = document.getElementById('add-another');
+            if (addBtn) {
+                addBtn.addEventListener('click', function() {
+                    // Redirect to sell page to add another
+                    window.location.href = 'sell_notes.php';
+                });
+            }
+
+        } catch (err) {
+            console.error('Upload failed', err);
+            progressDiv.classList.remove('alert-info');
+            progressDiv.classList.add('alert-danger');
+            progressText.textContent = 'Upload failed: ' + (err.message || err);
+            progressIcon.className = 'fas fa-times me-2';
+        }
+    }
+
+    // Start upload once DOM is ready and Firebase config loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // begin upload
+        doUpload();
+    });
+})();
+</script>

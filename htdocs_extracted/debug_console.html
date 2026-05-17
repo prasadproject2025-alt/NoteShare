@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Messaging Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug { background: #f8f9fa; padding: 10px; margin: 10px 0; border-left: 4px solid #007bff; }
+        .error { background: #f8d7da; border-left-color: #dc3545; }
+        .success { background: #d4edda; border-left-color: #28a745; }
+        button { padding: 10px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🐛 Messaging Debug Console</h1>
+
+    <div id="debug-output"></div>
+
+    <h3>Debug Controls:</h3>
+    <button onclick="debugFirebase()">Debug Firebase</button>
+    <button onclick="debugAuth()">Debug Auth</button>
+    <button onclick="debugDatabase()">Debug Database</button>
+    <button onclick="debugMessages()">Debug Messages</button>
+    <button onclick="clearDebug()">Clear</button>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhnmxrk0feR-4IIMIPPQKTSZTNzRXz__Y",
+            authDomain: "notes-sharing-6a8b2.firebaseapp.com",
+            databaseURL: "https://notes-sharing-6a8b2-default-rtdb.firebaseio.com",
+            projectId: "notes-sharing-6a8b2",
+            storageBucket: "notes-sharing-6a8b2.appspot.com",
+            messagingSenderId: "172945409962",
+            appId: "1:172945409962:web:38481eaf0140bde7ac8dd3",
+            measurementId: "172945409962"
+        };
+
+        const debugOutput = document.getElementById('debug-output');
+
+        function debug(message, type = 'debug') {
+            const div = document.createElement('div');
+            div.className = `debug ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            debugOutput.appendChild(div);
+            console.log(message);
+        }
+
+        function clearDebug() {
+            debugOutput.innerHTML = '';
+        }
+
+        async function debugFirebase() {
+            try {
+                debug('🔥 Testing Firebase initialization...');
+
+                // Check if Firebase is already initialized
+                if (firebase.apps.length > 0) {
+                    debug('⚠️ Firebase already initialized, reinitializing...');
+                }
+
+                firebase.initializeApp(firebaseConfig);
+                debug('✅ Firebase initialized successfully', 'success');
+
+                debug('🔍 Firebase config details:');
+                debug(`API Key: ${firebaseConfig.apiKey.substring(0, 20)}...`);
+                debug(`Project ID: ${firebaseConfig.projectId}`);
+                debug(`Database URL: ${firebaseConfig.databaseURL}`);
+
+            } catch (error) {
+                debug(`❌ Firebase initialization failed: ${error.message}`, 'error');
+                console.error('Firebase init error:', error);
+            }
+        }
+
+        async function debugAuth() {
+            try {
+                debug('🔐 Testing Firebase Authentication...');
+
+                // Check current auth state
+                const currentUser = firebase.auth().currentUser;
+                if (currentUser) {
+                    debug(`ℹ️ Already authenticated as: ${currentUser.uid}`, 'success');
+                    return;
+                }
+
+                debug('🚪 Attempting anonymous authentication...');
+                const userCredential = await firebase.auth().signInAnonymously();
+                const user = userCredential.user;
+
+                debug(`✅ Anonymous auth successful`, 'success');
+                debug(`User ID: ${user.uid}`);
+                debug(`Is Anonymous: ${user.isAnonymous}`);
+
+            } catch (error) {
+                debug(`❌ Authentication failed: ${error.message}`, 'error');
+                console.error('Auth error:', error);
+
+                if (error.code === 'auth/operation-not-allowed') {
+                    debug('💡 SOLUTION: Enable Anonymous authentication in Firebase Console → Authentication → Sign-in method', 'error');
+                } else if (error.code === 'auth/project-not-found') {
+                    debug('💡 SOLUTION: Check if Firebase project ID is correct', 'error');
+                }
+            }
+        }
+
+        async function debugDatabase() {
+            try {
+                debug('🗄️ Testing Firebase Database connection...');
+
+                const db = firebase.database();
+                debug('✅ Database reference created', 'success');
+
+                // Test connection by writing to a test location
+                debug('📝 Testing write operation...');
+                const testRef = db.ref('debug_test');
+                await testRef.set({
+                    message: 'Debug test successful',
+                    timestamp: Date.now(),
+                    userAgent: navigator.userAgent
+                });
+                debug('✅ Write operation successful', 'success');
+
+                // Test reading
+                debug('📖 Testing read operation...');
+                const snapshot = await testRef.once('value');
+                const data = snapshot.val();
+                debug(`✅ Read operation successful: "${data.message}"`, 'success');
+
+                // Test rules by trying to access chats
+                debug('💬 Testing access to chats collection...');
+                const chatsRef = db.ref('chats');
+                const chatsSnapshot = await chatsRef.limitToFirst(1).once('value');
+                debug(`✅ Chats access successful (found ${chatsSnapshot.numChildren()} chats)`, 'success');
+
+            } catch (error) {
+                debug(`❌ Database operation failed: ${error.message}`, 'error');
+                console.error('Database error:', error);
+
+                if (error.message.includes('permission-denied')) {
+                    debug('💡 SOLUTION: Update Firebase Realtime Database rules to allow read/write', 'error');
+                    debug('💡 Go to Firebase Console → Realtime Database → Rules', 'error');
+                }
+            }
+        }
+
+        async function debugMessages() {
+            try {
+                debug('💬 Testing messaging functionality...');
+
+                // Create a test chat
+                debug('🏗️ Creating test chat...');
+                const chatRef = firebase.database().ref('chats').push();
+                const chatData = {
+                    user1_id: 'debug_user_1',
+                    user2_id: 'debug_user_2',
+                    user1_name: 'Debug User 1',
+                    user2_name: 'Debug User 2',
+                    created_at: Date.now(),
+                    last_message: '',
+                    last_message_time: Date.now()
+                };
+
+                await chatRef.set(chatData);
+                const chatId = chatRef.key;
+                debug(`✅ Test chat created: ${chatId}`, 'success');
+
+                // Send a test message
+                debug('📨 Sending test message...');
+                const messageRef = firebase.database().ref('messages').push();
+                const messageData = {
+                    chat_id: chatId,
+                    sender_id: 'debug_user_1',
+                    sender_name: 'Debug User 1',
+                    text: 'This is a debug test message',
+                    timestamp: Date.now(),
+                    status: 'sent'
+                };
+
+                await messageRef.set(messageData);
+                debug('✅ Test message sent', 'success');
+
+                // Update chat last message
+                await firebase.database().ref('chats/' + chatId).update({
+                    last_message: 'This is a debug test message',
+                    last_message_time: Date.now()
+                });
+                debug('✅ Chat updated with last message', 'success');
+
+                // Read messages back
+                debug('📖 Reading messages...');
+                const messagesSnapshot = await firebase.database().ref('messages')
+                    .orderByChild('chat_id')
+                    .equalTo(chatId)
+                    .once('value');
+
+                let messageCount = 0;
+                messagesSnapshot.forEach(child => {
+                    messageCount++;
+                    const msg = child.val();
+                    debug(`📨 Found message ${messageCount}: "${msg.text}"`, 'success');
+                });
+
+                debug(`✅ Messaging test complete! Found ${messageCount} message(s)`, 'success');
+
+            } catch (error) {
+                debug(`❌ Messaging test failed: ${error.message}`, 'error');
+                console.error('Messaging error:', error);
+            }
+        }
+
+        // Auto-run Firebase debug on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                debugFirebase();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

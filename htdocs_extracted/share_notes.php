@@ -1,0 +1,279 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+include 'includes/header.php';
+?>
+
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Share Notes</h2>
+            <p class="text-muted">Share notes with your batch mates (VIT Slot System: A1-G2)</p>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Select Your VIT Slot</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="slot-select" class="form-label">Choose Your Slot</label>
+                            <select class="form-control" id="slot-select">
+                                <option value="">Select Your Slot</option>
+                                <option value="A1">A1 (Morning)</option>
+                                <option value="A2">A2 (Afternoon)</option>
+                                <option value="B1">B1 (Morning)</option>
+                                <option value="B2">B2 (Afternoon)</option>
+                                <option value="C1">C1 (Morning)</option>
+                                <option value="C2">C2 (Afternoon)</option>
+                                <option value="D1">D1 (Morning)</option>
+                                <option value="D2">D2 (Afternoon)</option>
+                                <option value="E1">E1 (Morning)</option>
+                                <option value="E2">E2 (Afternoon)</option>
+                                <option value="F1">F1 (Morning)</option>
+                                <option value="F2">F2 (Afternoon)</option>
+                                <option value="G1">G1 (Morning)</option>
+                                <option value="G2">G2 (Afternoon)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="slot_course" class="form-label">Course Code (optional)</label>
+                            <input type="text" class="form-control" id="slot_course" placeholder="e.g., CSE101">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="slot_subject" class="form-label">Subject Name (optional)</label>
+                            <input type="text" class="form-control" id="slot_subject" placeholder="e.g., Data Structures">
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-primary w-100" onclick="loadSlotNotes()">
+                                Load Notes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="batch-notes">
+                <!-- Batch notes will be loaded here -->
+            </div>
+
+            <hr>
+
+            <h3>Share Your Notes</h3>
+
+            <form id="share-form" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="share_subject" class="form-label">Subject Name</label>
+                    <input type="text" class="form-control" id="share_subject" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="share_course" class="form-label">Course Code</label>
+                    <input type="text" class="form-control" id="share_course" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="share_faculty" class="form-label">Faculty Name</label>
+                    <input type="text" class="form-control" id="share_faculty" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="share_year" class="form-label">Year</label>
+                        <select class="form-control" id="share_year" required>
+                            <option value="">Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="share_batch" class="form-label">VIT Slot</label>
+                        <select class="form-control" id="share_batch" required>
+                            <option value="">Select Your Slot</option>
+                            <option value="A1">A1 (Morning)</option>
+                            <option value="A2">A2 (Afternoon)</option>
+                            <option value="B1">B1 (Morning)</option>
+                            <option value="B2">B2 (Afternoon)</option>
+                            <option value="C1">C1 (Morning)</option>
+                            <option value="C2">C2 (Afternoon)</option>
+                            <option value="D1">D1 (Morning)</option>
+                            <option value="D2">D2 (Afternoon)</option>
+                            <option value="E1">E1 (Morning)</option>
+                            <option value="E2">E2 (Afternoon)</option>
+                            <option value="F1">F1 (Morning)</option>
+                            <option value="F2">F2 (Afternoon)</option>
+                            <option value="G1">G1 (Morning)</option>
+                            <option value="G2">G2 (Afternoon)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="share_description" class="form-label">Description</label>
+                    <textarea class="form-control" id="share_description" rows="3" required></textarea>
+                </div>
+
+                <!-- Photo upload removed per request -->
+
+                <button type="submit" class="btn btn-info">Share Notes</button>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Sharing Guidelines</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li>✓ Share with batch mates only</li>
+                        <li>✓ No sharing is free</li>
+                        <li>✓ Good quality images</li>
+                        <li>✓ Help each other learn</li>
+                        <li>✓ Report inappropriate content</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<?php include 'includes/footer.php'; ?>
+
+<!-- Firebase SDK v8 (compat mode for legacy code) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+<script src="js/firebase-config.js"></script>
+<script>
+const userId = '<?php echo $_SESSION['user_id']; ?>';
+
+// Load slot notes when page loads or slot changes
+document.addEventListener('DOMContentLoaded', function() {
+    // Don't auto-load, wait for user to select slot
+});
+
+function loadSlotNotes() {
+    const selectedSlot = document.getElementById('slot-select').value;
+    if (!selectedSlot) {
+        alert('Please select your VIT slot first');
+        return;
+    }
+
+    const notesDiv = document.getElementById('batch-notes');
+    notesDiv.innerHTML = '<p class="text-muted">Loading notes...</p>';
+
+    const courseFilter = (document.getElementById('slot_course').value || '').trim().toUpperCase();
+    const subjectFilter = (document.getElementById('slot_subject').value || '').trim().toLowerCase();
+
+    firebase.database().ref('shared_notes').orderByChild('batch').equalTo(selectedSlot)
+        .once('value').then(snapshot => {
+            const notes = [];
+            snapshot.forEach(childSnapshot => {
+                const note = childSnapshot.val();
+                note.id = childSnapshot.key;
+
+                const noteCourse = (note.course_code || '').toString().toUpperCase();
+                const noteSubject = (note.subject_name || '').toString().toLowerCase();
+
+                if ((courseFilter === '' || noteCourse === courseFilter) &&
+                    (subjectFilter === '' || noteSubject.indexOf(subjectFilter) !== -1)) {
+                    notes.push(note);
+                }
+            });
+
+            if (notes.length === 0) {
+                notesDiv.innerHTML = '<p class="text-muted">No shared notes found.</p>';
+                return;
+            }
+
+            let html = '<h5>Shared Notes in Slot ' + selectedSlot + '</h5>';
+            notes.forEach(note => {
+                html += `
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${note.subject_name}</h5>
+                            <p class="card-text">
+                                <strong>Course Code:</strong> ${note.course_code || ''}<br>
+                                <strong>Faculty:</strong> ${note.faculty_name || ''}<br>
+                                <strong>Year:</strong> ${note.year || ''}<br>
+                                <strong>Slot:</strong> ${note.batch || ''}<br>
+                                <strong>Shared by:</strong> ${note.sharer_name || ''}
+                            </p>
+                            <p class="card-text"><small class="text-muted">${note.description || ''}</small></p>
+                            <button class="btn btn-info btn-sm" onclick="messageSharer('${note.sharer_id}')">
+                                <i class="fas fa-envelope me-1"></i>Message Sharer (1 coin)
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            notesDiv.innerHTML = html;
+        });
+}
+
+document.getElementById('share-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    shareNotes();
+});
+
+function shareNotes() {
+    const sharedNoteData = {
+        subject_name: document.getElementById('share_subject').value,
+        course_code: document.getElementById('share_course').value,
+        faculty_name: document.getElementById('share_faculty').value,
+        year: document.getElementById('share_year').value,
+        batch: document.getElementById('share_batch').value,
+        description: document.getElementById('share_description').value,
+        sharer_id: userId,
+        sharer_name: '<?php echo $_SESSION['user_name']; ?>',
+        created_at: Date.now(),
+        likes: 0
+    };
+
+    firebase.database().ref('shared_notes').push(sharedNoteData).then(() => {
+        alert('Notes shared successfully!');
+        document.getElementById('share-form').reset();
+        loadSlotNotes();
+    }).catch(error => {
+        alert('Error sharing notes: ' + error.message);
+    });
+}
+
+function messageSharer(sharerId) {
+    // Similar to contactSeller in buy_notes.php
+    const coinsRef = firebase.database().ref('users/' + userId + '/coins');
+    coinsRef.once('value').then(snapshot => {
+        const coins = snapshot.val() || 0;
+        if (coins < 1) {
+            alert('You need at least 1 coin to message');
+            return;
+        }
+
+        coinsRef.set(coins - 1);
+
+        const chatRef = firebase.database().ref('chats').push();
+        chatRef.set({
+            user1_id: userId,
+            user2_id: sharerId,
+            type: 'share_inquiry',
+            created_at: Date.now()
+        }).then(() => {
+            window.location.href = 'messages.php?chat_id=' + chatRef.key;
+        });
+    });
+}
+</script>

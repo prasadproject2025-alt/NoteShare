@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Test</title>
+</head>
+<body>
+    <h1>Firebase Connection Test</h1>
+    <button onclick="testConnection()">Test Firebase</button>
+    <div id="results"></div>
+
+    <!-- Firebase SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhnmxrk0feR-4IIMIPPQKTSZTNzRXz__Y",
+            authDomain: "notes-sharing-6a8b2.firebaseapp.com",
+            databaseURL: "https://notes-sharing-6a8b2-default-rtdb.firebaseio.com",
+            projectId: "notes-sharing-6a8b2",
+            storageBucket: "notes-sharing-6a8b2.appspot.com",
+            messagingSenderId: "172945409962",
+            appId: "1:172945409962:web:38481eaf0140bde7ac8dd3",
+            measurementId: "172945409962"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        console.log('Firebase initialized');
+
+        function testConnection() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Testing...';
+
+            // Test 1: Anonymous Auth
+            firebase.auth().signInAnonymously().then(() => {
+                results.innerHTML += '<br>✅ Anonymous auth successful';
+                console.log('Auth successful');
+
+                // Test 2: Database Access
+                const notesRef = firebase.database().ref('notes');
+                return notesRef.once('value');
+            }).then(snapshot => {
+                results.innerHTML += '<br>✅ Database access successful';
+                results.innerHTML += '<br>📊 Notes found: ' + snapshot.numChildren();
+                console.log('Database access successful, notes:', snapshot.numChildren());
+
+                if (snapshot.exists()) {
+                    results.innerHTML += '<br>📝 Sample data:';
+                    let count = 0;
+                    snapshot.forEach(child => {
+                        if (count < 3) {
+                            const note = child.val();
+                            results.innerHTML += '<br>&nbsp;&nbsp;- ' + (note.subject_name || 'No title') + ' (' + child.key + ')';
+                            count++;
+                        }
+                    });
+                }
+            }).catch(error => {
+                results.innerHTML += '<br>❌ Error: ' + error.message;
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

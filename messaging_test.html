@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Messaging Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        input { padding: 8px; margin: 5px; width: 200px; }
+    </style>
+</head>
+<body>
+    <h1>📱 Messaging System Test</h1>
+
+    <div class="test-section">
+        <h3>Step 1: Firebase Connection</h3>
+        <div id="firebase-status">Testing...</div>
+        <button onclick="testFirebaseConnection()">Test Firebase</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 2: Create Test Chat</h3>
+        <div id="chat-status">Not tested</div>
+        <button onclick="createTestChat()">Create Test Chat</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 3: Send Test Message</h3>
+        <div id="message-status">Not tested</div>
+        <input type="text" id="test-message" placeholder="Enter test message" value="Hello from test!">
+        <button onclick="sendTestMessage()">Send Message</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 4: Check Messages</h3>
+        <div id="messages-status">Not tested</div>
+        <button onclick="checkMessages()">Check Messages</button>
+        <div id="messages-list"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Step 5: Full Messaging Test</h3>
+        <div id="full-test-status">Not tested</div>
+        <button onclick="runFullTest()">Run Full Test</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhnmxrk0feR-4IIMIPPQKTSZTNzRXz__Y",
+            authDomain: "notes-sharing-6a8b2.firebaseapp.com",
+            databaseURL: "https://notes-sharing-6a8b2-default-rtdb.firebaseio.com",
+            projectId: "notes-sharing-6a8b2",
+            storageBucket: "notes-sharing-6a8b2.appspot.com",
+            messagingSenderId: "172945409962",
+            appId: "1:172945409962:web:38481eaf0140bde7ac8dd3",
+            measurementId: "172945409962"
+        };
+
+        let testChatId = null;
+        let isFirebaseReady = false;
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<span class="${type}">${message}</span>`;
+            console.log(`${elementId}: ${message}`);
+        }
+
+        function testFirebaseConnection() {
+            updateStatus('firebase-status', 'Connecting...', 'info');
+
+            firebase.auth().signInAnonymously().then(() => {
+                updateStatus('firebase-status', '✅ Firebase connected successfully', 'success');
+                isFirebaseReady = true;
+
+                // Test database access
+                return firebase.database().ref('test').set({ timestamp: Date.now() });
+            }).then(() => {
+                updateStatus('firebase-status', '✅ Firebase connected and database accessible', 'success');
+            }).catch(error => {
+                updateStatus('firebase-status', `❌ Firebase error: ${error.message}`, 'error');
+                isFirebaseReady = false;
+            });
+        }
+
+        function createTestChat() {
+            if (!isFirebaseReady) {
+                updateStatus('chat-status', '❌ Firebase not connected', 'error');
+                return;
+            }
+
+            updateStatus('chat-status', 'Creating test chat...', 'info');
+
+            const chatRef = firebase.database().ref('chats').push();
+            chatRef.set({
+                user1_id: 'test_user_1',
+                user2_id: 'test_user_2',
+                user1_name: 'Test User 1',
+                user2_name: 'Test User 2',
+                created_at: Date.now(),
+                last_message: '',
+                last_message_time: Date.now()
+            }).then(() => {
+                testChatId = chatRef.key;
+                updateStatus('chat-status', `✅ Test chat created: ${testChatId}`, 'success');
+            }).catch(error => {
+                updateStatus('chat-status', `❌ Error creating chat: ${error.message}`, 'error');
+            });
+        }
+
+        function sendTestMessage() {
+            if (!isFirebaseReady) {
+                updateStatus('message-status', '❌ Firebase not connected', 'error');
+                return;
+            }
+
+            if (!testChatId) {
+                updateStatus('message-status', '❌ No test chat created', 'error');
+                return;
+            }
+
+            const messageText = document.getElementById('test-message').value;
+            if (!messageText.trim()) {
+                updateStatus('message-status', '❌ Please enter a message', 'error');
+                return;
+            }
+
+            updateStatus('message-status', 'Sending message...', 'info');
+
+            firebase.database().ref('messages').push({
+                chat_id: testChatId,
+                sender_id: 'test_user_1',
+                sender_name: 'Test User 1',
+                text: messageText,
+                timestamp: Date.now(),
+                status: 'sent'
+            }).then(() => {
+                // Update chat's last message
+                return firebase.database().ref('chats/' + testChatId).update({
+                    last_message: messageText,
+                    last_message_time: Date.now()
+                });
+            }).then(() => {
+                updateStatus('message-status', `✅ Message sent: "${messageText}"`, 'success');
+            }).catch(error => {
+                updateStatus('message-status', `❌ Error sending message: ${error.message}`, 'error');
+            });
+        }
+
+        function checkMessages() {
+            if (!isFirebaseReady) {
+                updateStatus('messages-status', '❌ Firebase not connected', 'error');
+                return;
+            }
+
+            if (!testChatId) {
+                updateStatus('messages-status', '❌ No test chat created', 'error');
+                return;
+            }
+
+            updateStatus('messages-status', 'Checking messages...', 'info');
+
+            firebase.database().ref('messages')
+                .orderByChild('chat_id')
+                .equalTo(testChatId)
+                .once('value')
+                .then(snapshot => {
+                    const messages = [];
+                    snapshot.forEach(child => {
+                        messages.push(child.val());
+                    });
+
+                    const messagesList = document.getElementById('messages-list');
+                    if (messages.length > 0) {
+                        let html = '<h4>Messages found:</h4><ul>';
+                        messages.forEach(msg => {
+                            html += `<li><strong>${msg.sender_name}:</strong> ${msg.text} (${new Date(msg.timestamp).toLocaleString()})</li>`;
+                        });
+                        html += '</ul>';
+                        messagesList.innerHTML = html;
+                        updateStatus('messages-status', `✅ Found ${messages.length} message(s)`, 'success');
+                    } else {
+                        messagesList.innerHTML = '<p>No messages found</p>';
+                        updateStatus('messages-status', 'ℹ️ No messages found', 'info');
+                    }
+                })
+                .catch(error => {
+                    updateStatus('messages-status', `❌ Error checking messages: ${error.message}`, 'error');
+                });
+        }
+
+        async function runFullTest() {
+            updateStatus('full-test-status', 'Running full test...', 'info');
+
+            try {
+                // Step 1: Test Firebase
+                await new Promise((resolve, reject) => {
+                    firebase.auth().signInAnonymously().then(() => {
+                        isFirebaseReady = true;
+                        resolve();
+                    }).catch(reject);
+                });
+
+                // Step 2: Create chat
+                const chatRef = firebase.database().ref('chats').push();
+                await chatRef.set({
+                    user1_id: 'test_user_1',
+                    user2_id: 'test_user_2',
+                    user1_name: 'Test User 1',
+                    user2_name: 'Test User 2',
+                    created_at: Date.now(),
+                    last_message: '',
+                    last_message_time: Date.now()
+                });
+                testChatId = chatRef.key;
+
+                // Step 3: Send message
+                await firebase.database().ref('messages').push({
+                    chat_id: testChatId,
+                    sender_id: 'test_user_1',
+                    sender_name: 'Test User 1',
+                    text: 'Automated test message',
+                    timestamp: Date.now(),
+                    status: 'sent'
+                });
+
+                // Step 4: Update chat
+                await firebase.database().ref('chats/' + testChatId).update({
+                    last_message: 'Automated test message',
+                    last_message_time: Date.now()
+                });
+
+                // Step 5: Verify message
+                const snapshot = await firebase.database().ref('messages')
+                    .orderByChild('chat_id')
+                    .equalTo(testChatId)
+                    .once('value');
+
+                let messageCount = 0;
+                snapshot.forEach(() => messageCount++);
+
+                updateStatus('full-test-status', `✅ Full test passed! Created chat, sent message, and verified ${messageCount} message(s)`, 'success');
+
+            } catch (error) {
+                updateStatus('full-test-status', `❌ Full test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-run Firebase test on page load
+        window.addEventListener('load', () => {
+            setTimeout(testFirebaseConnection, 1000);
+        });
+    </script>
+</body>
+</html>

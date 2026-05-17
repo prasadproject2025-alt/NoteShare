@@ -1,0 +1,780 @@
+2025-12-26 09:29:59 - Email to: durgaprasad.s2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>047979</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 09:30:17 - Email to: durgaprasad.s2022a@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>582658</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 13:18:25 - Email to: durgaprasad.s2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>920969</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 13:29:58 - SIMULATED (Development Mode) - Email to: durgaprasad.s2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>269220</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 16:25:24 - SUCCESS - Email sent via SMTP - Email to: your_test_email@gmail.com
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>123456</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 16:31:15 - SUCCESS - Email sent via SMTP - Email to: test@example.com
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>292012</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 16:33:05 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>043908</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 16:43:07 - SUCCESS - Email sent via SMTP - Email to: prasad.project2025@gmail.com
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>842645</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 16:48:03 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>615385</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-26 16:48:30 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022a@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>467596</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2025-12-30 15:06:01 - SUCCESS - Email sent via SMTP - Email to: abc@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>725369</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-02 16:26:33 - SUCCESS - Email sent via SMTP - Email to: your_test_email@gmail.com
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>123456</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-06 09:21:14 - SUCCESS - Email sent via SMTP - Email to: akash.k2022a@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>468639</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-09 13:03:35 - SUCCESS - Email sent via SMTP - Email to: admin@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>701987</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-09 13:30:15 - SUCCESS - Email sent via SMTP - Email to: abc@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>397621</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-09 13:34:38 - SUCCESS - Email sent via SMTP - Email to: abc@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>528973</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-09 15:23:05 - SUCCESS - Email sent via SMTP - Email to: abssc@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>931654</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-09 15:29:55 - SUCCESS - Email sent via SMTP - Email to: abc@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>995154</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-10 11:20:08 - SUCCESS - Email sent via SMTP - Email to: subbulakshmi.v2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>575461</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-01-15 14:58:14 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022a@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>941406</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-02-17 15:07:47 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>098057</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-02-21 06:27:21 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022a@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>412914</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-02-25 04:08:05 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>910010</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-03-10 18:10:05 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>489025</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-03-10 18:10:20 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.sa2022@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>337774</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---
+2026-03-10 18:10:36 - SUCCESS - Email sent via SMTP - Email to: durgaprasad.s2022a@vitstudent.ac.in
+Subject: NoteShare - Your OTP for Account Verification
+Message: 
+        <html>
+        <head>
+            <title>NoteShare OTP</title>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .otp-code { font-size: 32px; font-weight: bold; color: #007bff; text-align: center; padding: 20px; background: #f8f9fa; border-radius: 5px; margin: 20px 0; }
+                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <h2>Welcome to NoteShare!</h2>
+                <p>Your One-Time Password (OTP) for account verification is:</p>
+                <div class='otp-code'>314895</div>
+                <p>This OTP will expire in 5 minutes.</p>
+                <p>If you didn't request this OTP, please ignore this email.</p>
+
+                <div class='footer'>
+                    <p>Best regards,<br>NoteShare Team</p>
+                    <p><small>This is an automated message. Please do not reply to this email.</small></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        
+---

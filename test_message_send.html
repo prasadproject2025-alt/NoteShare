@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Message Test</title>
+</head>
+<body>
+    <h1>Firebase Message Test</h1>
+    <button onclick="testFirebase()">Test Firebase Connection</button>
+    <button onclick="testMessageSend()">Test Message Send</button>
+    <div id="results"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        let testChatId = null;
+
+        async function testFirebase() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Testing Firebase connection...<br>';
+
+            try {
+                // Wait for Firebase to initialize
+                await new Promise((resolve, reject) => {
+                    const checkFirebase = () => {
+                        if (firebase.apps && firebase.apps.length > 0) {
+                            resolve();
+                        } else {
+                            setTimeout(checkFirebase, 100);
+                        }
+                    };
+                    checkFirebase();
+                });
+
+                results.innerHTML += 'Firebase initialized<br>';
+
+                // Test database connection
+                const db = firebase.database();
+                results.innerHTML += 'Database reference created<br>';
+
+                // Test reading from a public collection
+                const snapshot = await db.ref('notes').limitToFirst(1).once('value');
+                results.innerHTML += 'Database read successful<br>';
+                results.innerHTML += 'Found ' + snapshot.numChildren() + ' notes<br>';
+
+                // Test creating a test chat
+                const chatRef = db.ref('chats').push();
+                await chatRef.set({
+                    user1_id: 'test_user_1',
+                    user2_id: 'test_user_2',
+                    created_at: Date.now(),
+                    last_message: 'Test message',
+                    last_message_time: Date.now(),
+                    message_count: 0
+                });
+
+                testChatId = chatRef.key;
+                results.innerHTML += 'Test chat created: ' + testChatId + '<br>';
+
+                results.innerHTML += '<span style="color: green;">✅ Firebase connection successful!</span><br>';
+
+            } catch (error) {
+                results.innerHTML += '<span style="color: red;">❌ Error: ' + error.message + '</span><br>';
+                console.error('Firebase test error:', error);
+            }
+        }
+
+        async function testMessageSend() {
+            if (!testChatId) {
+                alert('Please run Firebase test first to create a test chat');
+                return;
+            }
+
+            const results = document.getElementById('results');
+            results.innerHTML += 'Testing message send...<br>';
+
+            try {
+                const messageRef = firebase.database().ref('messages').push();
+                await messageRef.set({
+                    chat_id: testChatId,
+                    sender_id: 'test_user_1',
+                    sender_name: 'Test User',
+                    text: 'Test message from diagnostic',
+                    timestamp: Date.now(),
+                    status: 'sent'
+                });
+
+                results.innerHTML += '<span style="color: green;">✅ Message sent successfully!</span><br>';
+
+                // Test reading the message back
+                const messagesSnapshot = await firebase.database().ref('messages')
+                    .orderByChild('chat_id')
+                    .equalTo(testChatId)
+                    .once('value');
+
+                results.innerHTML += 'Found ' + messagesSnapshot.numChildren() + ' messages in chat<br>';
+
+            } catch (error) {
+                results.innerHTML += '<span style="color: red;">❌ Message send failed: ' + error.message + '</span><br>';
+                console.error('Message send error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "coins": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        }
+      }
+    },
+    "notes": {
+      ".read": true,
+      ".indexOn": ["seller_id", "course_code", "slot", "status"],
+      "$noteId": {
+        ".write": "root.child('notes').child($noteId).child('seller_id').val() === auth.uid || !root.child('notes').child($noteId).exists()"
+      }
+    },
+    "shared_notes": {
+      ".read": true,
+      ".indexOn": ["sharer_id", "batch"],
+      "$noteId": {
+        ".write": "root.child('shared_notes').child($noteId).child('sharer_id').val() === auth.uid || !root.child('shared_notes').child($noteId).exists()"
+      }
+    },
+    "rental_notes": {
+      ".read": true,
+      ".indexOn": ["renter_id", "course_code", "slot"],
+      "$noteId": {
+        ".write": "root.child('rental_notes').child($noteId).child('renter_id').val() === auth.uid || !root.child('rental_notes').child($noteId).exists()"
+      }
+    },
+    "chats": {
+      "$chatId": {
+        ".read": "root.child('chats').child($chatId).child('buyer_id').val() === auth.uid || root.child('chats').child($chatId).child('seller_id').val() === auth.uid",
+        ".write": "root.child('chats').child($chatId).child('buyer_id').val() === auth.uid || root.child('chats').child($chatId).child('seller_id').val() === auth.uid || !root.child('chats').child($chatId).exists()"
+      }
+    },
+    "messages": {
+      ".read": "query.limitToFirst(100).val() !== null",
+      ".write": "newData.child('sender_id').val() === auth.uid",
+      ".indexOn": ["chat_id", "timestamp"]
+    }
+  }
+}

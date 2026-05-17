@@ -1,0 +1,24 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "notes": {
+      ".read": true,
+      ".write": true
+    },
+    "shared_notes": {
+      ".read": true,
+      ".write": true
+    },
+    "rental_notes": {
+      ".read": true,
+      ".write": true
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "$uid === auth.uid"
+      }
+    }
+  }
+}

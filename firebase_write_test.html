@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Write Test</title>
+</head>
+<body>
+    <h1>Firebase Write Test</h1>
+    <button onclick="testWrite()">Test Write to Firebase</button>
+    <div id="status"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhnmxrk0feR-4IIMIPPQKTSZTNzRXz__Y",
+            authDomain: "notes-sharing-6a8b2.firebaseapp.com",
+            databaseURL: "https://notes-sharing-6a8b2-default-rtdb.firebaseio.com",
+            projectId: "notes-sharing-6a8b2",
+            storageBucket: "notes-sharing-6a8b2.appspot.com",
+            messagingSenderId: "172945409962",
+            appId: "1:172945409962:web:38481eaf0140bde7ac8dd3"
+        };
+
+        const status = document.getElementById('status');
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function testWrite() {
+            status.innerHTML = 'Authenticating...';
+
+            // Authenticate anonymously first
+            firebase.auth().signInAnonymously().then(() => {
+                status.innerHTML = 'Creating test note...';
+
+                // Create test note data
+                const testNote = {
+                    subject_name: "Firebase Write Test",
+                    course_code: "TEST101",
+                    faculty_name: "Test Faculty",
+                    slot: "A1",
+                    year: "1",
+                    description: "This is a test note to check Firebase write permissions",
+                    price: 10,
+                    seller_id: "test_seller",
+                    created_at: Date.now(),
+                    status: "available",
+                    likes: 0
+                };
+
+                // Try to write to database
+                const notesRef = firebase.database().ref('notes');
+                return notesRef.push(testNote);
+
+            }).then(snapshot => {
+                status.innerHTML = '✅ Write successful!<br>';
+                status.innerHTML += 'Note ID: ' + snapshot.key + '<br>';
+                status.innerHTML += '<a href="buy_notes.php">Check if it appears in Buy Notes</a>';
+
+            }).catch(error => {
+                status.innerHTML = '❌ Write failed: ' + error.message + '<br>';
+                status.innerHTML += 'Error code: ' + error.code + '<br>';
+
+                if (error.code === 'PERMISSION_DENIED') {
+                    status.innerHTML += '<strong>SOLUTION:</strong> Update Firebase rules to allow writes:<br>';
+                    status.innerHTML += '<code>{ "rules": { ".read": true, ".write": true } }</code>';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Write Test</title>
+</head>
+<body>
+    <h1>Firebase Write Test</h1>
+    <button onclick="testWrite()">Test Write to Firebase</button>
+    <div id="result"></div>
+
+    <!-- Firebase SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script>
+    function testWrite() {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '<p>Testing...</p>';
+        
+        // Wait for Firebase to be ready
+        setTimeout(() => {
+            if (typeof firebase === 'undefined' || !firebase.database) {
+                resultDiv.innerHTML = '<p style="color: red;">❌ Firebase not loaded</p>';
+                return;
+            }
+            
+            const testRef = firebase.database().ref('test').push();
+            const testData = {
+                message: 'Test write from HTML',
+                timestamp: Date.now()
+            };
+            
+            testRef.set(testData).then(() => {
+                resultDiv.innerHTML = '<p style="color: green;">✅ Write successful! Check Firebase console.</p>';
+                console.log('Test data saved with key:', testRef.key);
+            }).catch(error => {
+                resultDiv.innerHTML = '<p style="color: red;">❌ Write failed: ' + error.message + '</p>';
+                console.error('Error:', error);
+            });
+        }, 1000);
+    }
+    </script>
+</body>
+</html>
+
+

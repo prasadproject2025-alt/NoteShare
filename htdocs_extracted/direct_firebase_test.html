@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Direct Firebase Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button { padding: 10px; margin: 5px; cursor: pointer; }
+        input { padding: 8px; margin: 5px; width: 200px; }
+    </style>
+</head>
+<body>
+    <h1>🔥 Direct Firebase Messaging Test</h1>
+
+    <div id="results"></div>
+
+    <h3>Test Controls:</h3>
+    <button onclick="testBasicConnection()">1. Test Basic Connection</button>
+    <button onclick="createTestChat()">2. Create Test Chat</button>
+    <button onclick="sendTestMessage()">3. Send Test Message</button>
+    <button onclick="readMessages()">4. Read Messages</button>
+    <button onclick="clearAll()">Clear All Tests</button>
+
+    <h3>Manual Message Test:</h3>
+    <input type="text" id="manualMessage" placeholder="Enter message" value="Hello World!">
+    <button onclick="sendManualMessage()">Send Manual Message</button>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhnmxrk0feR-4IIMIPPQKTSZTNzRXz__Y",
+            authDomain: "notes-sharing-6a8b2.firebaseapp.com",
+            databaseURL: "https://notes-sharing-6a8b2-default-rtdb.firebaseio.com",
+            projectId: "notes-sharing-6a8b2",
+            storageBucket: "notes-sharing-6a8b2.appspot.com",
+            messagingSenderId: "172945409962",
+            appId: "1:172945409962:web:38481eaf0140bde7ac8dd3",
+            measurementId: "172945409962"
+        };
+
+        let testChatId = null;
+        const resultsDiv = document.getElementById('results');
+
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            resultsDiv.appendChild(div);
+            console.log(message);
+        }
+
+        async function testBasicConnection() {
+            try {
+                addResult('Initializing Firebase...', 'info');
+
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+                addResult('✅ Firebase initialized', 'success');
+
+                // Test anonymous auth
+                addResult('Testing anonymous authentication...', 'info');
+                await firebase.auth().signInAnonymously();
+                addResult('✅ Anonymous auth successful', 'success');
+
+                // Test database connection
+                addResult('Testing database connection...', 'info');
+                const db = firebase.database();
+                addResult('✅ Database connected', 'success');
+
+                // Test simple write
+                addResult('Testing write operation...', 'info');
+                await firebase.database().ref('test').set({
+                    message: 'Connection test',
+                    timestamp: Date.now()
+                });
+                addResult('✅ Write operation successful', 'success');
+
+                // Test simple read
+                addResult('Testing read operation...', 'info');
+                const snapshot = await firebase.database().ref('test').once('value');
+                addResult(`✅ Read operation successful: ${snapshot.val().message}`, 'success');
+
+            } catch (error) {
+                addResult(`❌ Error: ${error.message}`, 'error');
+                console.error('Test error:', error);
+            }
+        }
+
+        async function createTestChat() {
+            try {
+                addResult('Creating test chat...', 'info');
+
+                const chatRef = firebase.database().ref('chats').push();
+                await chatRef.set({
+                    user1_id: 'test_user_1',
+                    user2_id: 'test_user_2',
+                    user1_name: 'Test User 1',
+                    user2_name: 'Test User 2',
+                    created_at: Date.now(),
+                    last_message: '',
+                    last_message_time: Date.now()
+                });
+
+                testChatId = chatRef.key;
+                addResult(`✅ Test chat created: ${testChatId}`, 'success');
+
+            } catch (error) {
+                addResult(`❌ Error creating chat: ${error.message}`, 'error');
+            }
+        }
+
+        async function sendTestMessage() {
+            if (!testChatId) {
+                addResult('❌ No test chat created yet', 'error');
+                return;
+            }
+
+            try {
+                addResult('Sending test message...', 'info');
+
+                const messageRef = firebase.database().ref('messages').push();
+                await messageRef.set({
+                    chat_id: testChatId,
+                    sender_id: 'test_user_1',
+                    sender_name: 'Test User 1',
+                    text: 'This is a test message from direct Firebase test',
+                    timestamp: Date.now(),
+                    status: 'sent'
+                });
+
+                // Update chat last message
+                await firebase.database().ref('chats/' + testChatId).update({
+                    last_message: 'This is a test message from direct Firebase test',
+                    last_message_time: Date.now()
+                });
+
+                addResult('✅ Test message sent successfully', 'success');
+
+            } catch (error) {
+                addResult(`❌ Error sending message: ${error.message}`, 'error');
+            }
+        }
+
+        async function readMessages() {
+            if (!testChatId) {
+                addResult('❌ No test chat created yet', 'error');
+                return;
+            }
+
+            try {
+                addResult('Reading messages...', 'info');
+
+                const snapshot = await firebase.database().ref('messages')
+                    .orderByChild('chat_id')
+                    .equalTo(testChatId)
+                    .once('value');
+
+                let count = 0;
+                snapshot.forEach(child => {
+                    count++;
+                    const msg = child.val();
+                    addResult(`📨 Message ${count}: "${msg.text}" from ${msg.sender_name}`, 'success');
+                });
+
+                if (count === 0) {
+                    addResult('ℹ️ No messages found', 'info');
+                } else {
+                    addResult(`✅ Found ${count} message(s)`, 'success');
+                }
+
+            } catch (error) {
+                addResult(`❌ Error reading messages: ${error.message}`, 'error');
+            }
+        }
+
+        async function sendManualMessage() {
+            if (!testChatId) {
+                addResult('❌ No test chat created yet', 'error');
+                return;
+            }
+
+            const messageText = document.getElementById('manualMessage').value.trim();
+            if (!messageText) {
+                addResult('❌ Please enter a message', 'error');
+                return;
+            }
+
+            try {
+                addResult(`Sending manual message: "${messageText}"`, 'info');
+
+                const messageRef = firebase.database().ref('messages').push();
+                await messageRef.set({
+                    chat_id: testChatId,
+                    sender_id: 'manual_test_user',
+                    sender_name: 'Manual Test User',
+                    text: messageText,
+                    timestamp: Date.now(),
+                    status: 'sent'
+                });
+
+                // Update chat last message
+                await firebase.database().ref('chats/' + testChatId).update({
+                    last_message: messageText,
+                    last_message_time: Date.now()
+                });
+
+                addResult('✅ Manual message sent successfully', 'success');
+
+            } catch (error) {
+                addResult(`❌ Error sending manual message: ${error.message}`, 'error');
+            }
+        }
+
+        function clearAll() {
+            resultsDiv.innerHTML = '';
+            testChatId = null;
+        }
+
+        // Auto-run basic connection test
+        window.addEventListener('load', () => {
+            setTimeout(testBasicConnection, 1000);
+        });
+    </script>
+</body>
+</html>

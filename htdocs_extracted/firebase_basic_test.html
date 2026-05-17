@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Basic Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .test-box { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔥 Firebase Basic Connection Test</h1>
+
+    <div class="test-box">
+        <h3>Step 1: Initialize Firebase</h3>
+        <div id="init-status" class="status info">Initializing...</div>
+        <button class="btn-primary" onclick="testInitialization()">Test Initialization</button>
+    </div>
+
+    <div class="test-box">
+        <h3>Step 2: Anonymous Authentication</h3>
+        <div id="auth-status" class="status info">Not tested</div>
+        <button class="btn-primary" onclick="testAuthentication()">Test Auth</button>
+    </div>
+
+    <div class="test-box">
+        <h3>Step 3: Database Connection</h3>
+        <div id="db-status" class="status info">Not tested</div>
+        <button class="btn-primary" onclick="testDatabaseConnection()">Test Database</button>
+    </div>
+
+    <div class="test-box">
+        <h3>Step 4: Write Test Data</h3>
+        <div id="write-status" class="status info">Not tested</div>
+        <button class="btn-success" onclick="testWriteOperation()">Test Write</button>
+    </div>
+
+    <div class="test-box">
+        <h3>Step 5: Read Test Data</h3>
+        <div id="read-status" class="status info">Not tested</div>
+        <button class="btn-success" onclick="testReadOperation()">Test Read</button>
+    </div>
+
+    <div class="test-box">
+        <h3>🔧 Troubleshooting</h3>
+        <div id="troubleshoot-status" class="status info">Check results above first</div>
+        <button class="btn-secondary" onclick="showTroubleshooting()">Show Help</button>
+        <div id="troubleshooting" style="display: none;">
+            <h4>Common Issues:</h4>
+            <ul>
+                <li><strong>Firebase Rules:</strong> Make sure you copied the rules exactly as provided</li>
+                <li><strong>Anonymous Auth:</strong> Enable Anonymous sign-in in Firebase Console → Authentication → Sign-in method</li>
+                <li><strong>Realtime Database:</strong> Make sure Realtime Database is enabled in your project</li>
+                <li><strong>Network:</strong> Check if your firewall blocks Firebase connections</li>
+                <li><strong>API Key:</strong> Verify the API key in firebase-config.js is correct</li>
+            </ul>
+            <h4>Correct Firebase Rules:</h4>
+            <pre id="rules-text"></pre>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhnmxrk0feR-4IIMIPPQKTSZTNzRXz__Y",
+            authDomain: "notes-sharing-6a8b2.firebaseapp.com",
+            databaseURL: "https://notes-sharing-6a8b2-default-rtdb.firebaseio.com",
+            projectId: "notes-sharing-6a8b2",
+            storageBucket: "notes-sharing-6a8b2.appspot.com",
+            messagingSenderId: "172945409962",
+            appId: "1:172945409962:web:38481eaf0140bde7ac8dd3",
+            measurementId: "172945409962"
+        };
+
+        let firebaseApp = null;
+        let isInitialized = false;
+        let isAuthenticated = false;
+
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.className = `status ${type}`;
+            element.textContent = message;
+            console.log(`${elementId}: ${message}`);
+        }
+
+        function testInitialization() {
+            updateStatus('init-status', 'Initializing Firebase...', 'info');
+
+            try {
+                if (!firebaseApp) {
+                    firebaseApp = firebase.initializeApp(firebaseConfig);
+                }
+                isInitialized = true;
+                updateStatus('init-status', '✅ Firebase initialized successfully', 'success');
+                console.log('Firebase config:', firebaseConfig);
+            } catch (error) {
+                updateStatus('init-status', `❌ Initialization failed: ${error.message}`, 'error');
+                console.error('Firebase init error:', error);
+            }
+        }
+
+        function testAuthentication() {
+            if (!isInitialized) {
+                updateStatus('auth-status', '❌ Initialize Firebase first', 'error');
+                return;
+            }
+
+            updateStatus('auth-status', 'Attempting anonymous authentication...', 'info');
+
+            firebase.auth().signInAnonymously()
+                .then((userCredential) => {
+                    isAuthenticated = true;
+                    const user = userCredential.user;
+                    updateStatus('auth-status', `✅ Anonymous auth successful (UID: ${user.uid.substring(0, 8)}...)`, 'success');
+                    console.log('Auth successful, user:', user);
+                })
+                .catch((error) => {
+                    updateStatus('auth-status', `❌ Auth failed: ${error.message}`, 'error');
+                    console.error('Auth error:', error);
+
+                    if (error.code === 'auth/operation-not-allowed') {
+                        updateStatus('auth-status', '❌ Anonymous authentication not enabled in Firebase Console', 'error');
+                    }
+                });
+        }
+
+        function testDatabaseConnection() {
+            if (!isInitialized) {
+                updateStatus('db-status', '❌ Initialize Firebase first', 'error');
+                return;
+            }
+
+            updateStatus('db-status', 'Testing database connection...', 'info');
+
+            try {
+                const db = firebase.database();
+                updateStatus('db-status', '✅ Database reference created successfully', 'success');
+                console.log('Database reference:', db);
+            } catch (error) {
+                updateStatus('db-status', `❌ Database connection failed: ${error.message}`, 'error');
+                console.error('Database error:', error);
+            }
+        }
+
+        function testWriteOperation() {
+            if (!isAuthenticated) {
+                updateStatus('write-status', '❌ Authenticate first', 'error');
+                return;
+            }
+
+            updateStatus('write-status', 'Writing test data...', 'info');
+
+            const testRef = firebase.database().ref('test_connection');
+            const testData = {
+                message: 'Connection test successful',
+                timestamp: Date.now(),
+                userAgent: navigator.userAgent
+            };
+
+            testRef.set(testData)
+                .then(() => {
+                    updateStatus('write-status', '✅ Write operation successful', 'success');
+                    console.log('Write successful:', testData);
+                })
+                .catch((error) => {
+                    updateStatus('write-status', `❌ Write failed: ${error.message}`, 'error');
+                    console.error('Write error:', error);
+
+                    if (error.message.includes('permission-denied')) {
+                        updateStatus('write-status', '❌ Permission denied - check Firebase rules', 'error');
+                    }
+                });
+        }
+
+        function testReadOperation() {
+            if (!isAuthenticated) {
+                updateStatus('read-status', '❌ Authenticate first', 'error');
+                return;
+            }
+
+            updateStatus('read-status', 'Reading test data...', 'info');
+
+            const testRef = firebase.database().ref('test_connection');
+
+            testRef.once('value')
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        updateStatus('read-status', `✅ Read successful: "${data.message}"`, 'success');
+                        console.log('Read successful:', data);
+                    } else {
+                        updateStatus('read-status', 'ℹ️ No test data found (try write test first)', 'warning');
+                    }
+                })
+                .catch((error) => {
+                    updateStatus('read-status', `❌ Read failed: ${error.message}`, 'error');
+                    console.error('Read error:', error);
+
+                    if (error.message.includes('permission-denied')) {
+                        updateStatus('read-status', '❌ Permission denied - check Firebase rules', 'error');
+                    }
+                });
+        }
+
+        function showTroubleshooting() {
+            const troubleshootDiv = document.getElementById('troubleshooting');
+            const rulesText = document.getElementById('rules-text');
+
+            if (troubleshootDiv.style.display === 'none') {
+                troubleshootDiv.style.display = 'block';
+                rulesText.textContent = `{
+  "rules": {
+    "chats": {
+      "$chatId": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "messages": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["chat_id", "timestamp"]
+    },
+    "typing": {
+      "$chatId": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}`;
+            } else {
+                troubleshootDiv.style.display = 'none';
+            }
+        }
+
+        // Auto-run initialization on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testInitialization();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

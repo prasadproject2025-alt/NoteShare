@@ -1,0 +1,14 @@
+firebase_key
+.env
+.env.local
+node_modules/
+vendor/
+.DS_Store
+thumbs.db
+*.log
+.vscode/
+.idea/
+*.swp
+*.swo
+.htaccess
+config.php

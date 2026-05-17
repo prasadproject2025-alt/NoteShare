@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f4f6fb;
+  color: #212529;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ns-main {
+  padding: 1rem;
+}
+
+.tile-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tile {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  color: inherit;
+}
+
+.tile .icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  flex: 0 0 64px;
+}
+
+.tile h5 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.tile p {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.tile .actions {
+  margin-left: auto;
+}
+
+@media (min-width: 320px) and (max-width: 575px) {
+  .tile {
+    width: calc(50% - 6px);
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .tile .icon {
+    width: 56px;
+    height: 56px;
+    font-size: 20px;
+  }
+
+  .tile .actions {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .tile .actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 319px) {
+  .tile {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .tile .icon {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (min-width: 768px) {
+  .tile {
+    width: calc(33.333% - 8px);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+    text-align: left;
+  }
+
+  .tile .actions {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .tile .actions .btn {
+    width: auto;
+  }
+}
+
+.ic-buy { background: linear-gradient(135deg, #4e73df, #6c8cff); }
+.ic-sell { background: linear-gradient(135deg, #1cc88a, #4cd69a); }
+.ic-share { background: linear-gradient(135deg, #36b9cc, #60d0de); }
+.ic-rent { background: linear-gradient(135deg, #f6c23e, #f8d66a); }
+.ic-coins { background: linear-gradient(135deg, #858796, #b1b2c1); }
+.ic-msg { background: linear-gradient(135deg, #5a5c69, #8a8ca0); }
