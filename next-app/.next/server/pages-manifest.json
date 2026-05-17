@@ -2,8 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/dashboard": "pages/admin/dashboard.js",
-  "/admin/login": "pages/admin/login.js",
-  "/api/admin/stats": "pages/api/admin/stats.js",
   "/login": "pages/login.js"
 }
