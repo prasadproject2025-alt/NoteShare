@@ -1,64 +1,101 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=login.php">
-    <title>Redirecting...</title>
-    <script>
-        // Fallback redirect if meta refresh is blocked
-        window.location.replace('login.php');
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteShare - VIT Note Sharing Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/nav.js" defer></script>
 </head>
 <body>
-    <p>If you are not redirected automatically, <a href="login.php">click here to log in</a>.</p>
+<div id="app-header"></div>
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Welcome to NoteShare</h1>
+            <p>Choose what you want to do:</p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Buy Notes</h5>
+                    <p class="card-text">Browse and purchase notes from other students.</p>
+                    <a href="buy-notes.html" class="btn btn-primary">Browse Notes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Sell Notes</h5>
+                    <p class="card-text">Upload and sell your notes to other students.</p>
+                    <a href="sell-notes.html" class="btn btn-success">Sell Notes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Share Notes</h5>
+                    <p class="card-text">Share notes with classmates (Morning & Afternoon batches).</p>
+                    <a href="share-notes.html" class="btn btn-info">Share Notes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Rent Notes</h5>
+                    <p class="card-text">Rent notes temporarily for a short period.</p>
+                    <a href="rent-notes.html" class="btn btn-warning">Rent Notes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">My Coins</h5>
+                    <p class="card-text" id="coins-balance">Loading...</p>
+                    <a href="coins.html" class="btn btn-secondary">Manage Coins</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Messages</h5>
+                    <p class="card-text">Check your messages and chat history.</p>
+                    <a href="messages.html" class="btn btn-dark">View Messages</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const el = document.getElementById('coins-balance');
+  if (!el || !window.NoteShareAuth) return;
+  const uid = window.NoteShareAuth.getUserId();
+  firebase.database().ref('users/' + uid + '/coins').once('value').then(s => {
+    el.textContent = 'Coins: ' + (s.val() || 0);
+  });
+});
+</script>
+<div id="app-footer"></div>
 </body>
 </html>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=login.php">
-    <title>Redirecting...</title>
-    <script>
-        // Fallback redirect if meta refresh is blocked
-        window.location.replace('login.php');
-    </script>
-</head>
-<body>
-    <p>If you are not redirected automatically, <a href="login.php">click here to log in</a>.</p>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=login.php">
-    <title>Redirecting...</title>
-    <script>
-        // Fallback redirect if meta refresh is blocked
-        window.location.replace('login.php');
-    </script>
-</head>
-<body>
-    <p>If you are not redirected automatically, <a href="login.php">click here to log in</a>.</p>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=login.php">
-    <title>Redirecting...</title>
-    <script>
-        // Fallback redirect if meta refresh is blocked
-        window.location.replace('login.php');
-    </script>
-</head>
-<body>
-    <p>If you are not redirected automatically, <a href="login.php">click here to log in</a>.</p>
-</body>
-</html>
 

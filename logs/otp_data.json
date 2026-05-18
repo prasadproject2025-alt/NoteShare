@@ -1,0 +1,37 @@
+{
+  "durgaprasad_s2022a_vitstudent_ac_in": {
+    "otp": "161297",
+    "email": "durgaprasad.s2022a@vitstudent.ac.in",
+    "name": "durgaprasad.s2022a",
+    "createdAt": 1779124427824,
+    "expiresAt": 1779125027823
+  },
+  "test_vitstudent_ac_in": {
+    "otp": "257758",
+    "email": "test@vitstudent.ac.in",
+    "name": "test",
+    "createdAt": 1779124327622,
+    "expiresAt": 1779124927622
+  },
+  "t_vitstudent_ac_in": {
+    "otp": "405110",
+    "email": "t@vitstudent.ac.in",
+    "name": "t",
+    "createdAt": 1779124272045,
+    "expiresAt": 1779124872045
+  },
+  "a_vitstudent_ac_in": {
+    "otp": "199583",
+    "email": "a@vitstudent.ac.in",
+    "name": "a",
+    "createdAt": 1779124304840,
+    "expiresAt": 1779124904839
+  },
+  "u_vitstudent_ac_in": {
+    "otp": "348520",
+    "email": "u@vitstudent.ac.in",
+    "name": "u",
+    "createdAt": 1779124341482,
+    "expiresAt": 1779124941481
+  }
+}

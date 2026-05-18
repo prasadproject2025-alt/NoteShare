@@ -1,0 +1,12 @@
+{
+  "name": "noteshare",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server/dev.js",
+    "start": "node server/dev.js"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}

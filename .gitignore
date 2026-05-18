@@ -12,3 +12,5 @@ thumbs.db
 *.swo
 .htaccess
 config.php
+.vercel
+.env*.local

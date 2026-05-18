@@ -166,49 +166,6 @@ body {
     .card {
         margin-bottom: 15px;
     }
-
-    body {
-        font-size: 14px;
-    }
-
-    .navbar-brand {
-        font-size: 18px;
-    }
-
-    .btn {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-
-    .form-control {
-        font-size: 16px; /* Prevents zoom on iOS */
-    }
-
-    .card-header {
-        padding: 12px 16px;
-        font-size: 16px;
-    }
-
-    .table {
-        font-size: 14px;
-    }
-
-    .table td, .table th {
-        padding: 8px;
-    }
-
-    /* Touch-friendly buttons */
-    .btn, .card, .conversation-item {
-        min-height: 44px;
-    }
-
-    /* Improve readability on small screens */
-    h1 { font-size: 24px; }
-    h2 { font-size: 20px; }
-    h3 { font-size: 18px; }
-    h4 { font-size: 16px; }
-    h5 { font-size: 14px; }
-    h6 { font-size: 12px; }
 }
 
 /* Utility classes */
