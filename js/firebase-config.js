@@ -1,12 +1,12 @@
-// Firebase Configuration (SDK v8 — loaded by nav.js)
+// Firebase Configuration (SDK v8 — must match your Firebase Console project)
 const firebaseConfig = {
-  apiKey: 'AIzaSyBhnmxrk0feR-4IIMIPPQKTSZTNzRXz__Y',
-  authDomain: 'notes-sharing-6a8b2.firebaseapp.com',
-  databaseURL: 'https://notes-sharing-6a8b2-default-rtdb.firebaseio.com',
-  projectId: 'notes-sharing-6a8b2',
-  storageBucket: 'notes-sharing-6a8b2.appspot.com',
-  messagingSenderId: '172945409962',
-  appId: '1:172945409962:web:38481eaf0140bde7ac8dd3',
+  apiKey: 'AIzaSyDZyyejjFwpWn6uZdlQpW8xO_o6vtCL4rE',
+  authDomain: 'noteshare-3.firebaseapp.com',
+  databaseURL: 'https://noteshare-3-default-rtdb.firebaseio.com',
+  projectId: 'noteshare-3',
+  storageBucket: 'noteshare-3.firebasestorage.app',
+  messagingSenderId: '147584632956',
+  appId: '1:147584632956:web:54f02157d6e298082f61f9',
 };
 
 if (typeof firebase !== 'undefined') {
