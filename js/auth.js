@@ -1,6 +1,5 @@
 /**
- * Authentication — replaces PHP sessions + auth/*.php
- * Uses Firebase Auth + Realtime Database (legacy user id = md5(email))
+ * Authentication — Firebase Auth + local session
  */
 (function (global) {
   const SESSION_KEY = 'noteshare_session';
@@ -48,28 +47,63 @@
     });
   }
 
+  /** Wait until Firebase has finished restoring persisted auth (avoids false redirects). */
+  async function waitForAuthState(timeoutMs = 4000) {
+    const auth = await waitForFirebaseAuth();
+    return new Promise((resolve) => {
+      let settled = false;
+      const finish = (user) => {
+        if (settled) return;
+        settled = true;
+        resolve(user || null);
+      };
+      const unsub = auth.onAuthStateChanged((user) => {
+        unsub();
+        finish(user);
+      });
+      setTimeout(() => {
+        unsub();
+        finish(auth.currentUser);
+      }, timeoutMs);
+    });
+  }
+
   async function syncUserToDatabase(user, extra) {
     const userId = md5(user.email);
     const name = extra?.name || user.displayName || user.email.split('@')[0];
-    const ref = firebase.database().ref('users/' + userId);
-    const snap = await ref.once('value');
-    if (!snap.exists()) {
-      await ref.set({
-        email: user.email,
-        name,
-        coins: 10,
-        created_at: new Date().toISOString(),
-        status: 'active',
-        firebase_uid: user.uid,
-      });
-    } else {
-      await ref.update({ firebase_uid: user.uid, email: user.email });
+    let coins = 10;
+
+    try {
+      const ref = firebase.database().ref('users/' + userId);
+      const snap = await ref.once('value');
+      if (!snap.exists()) {
+        await ref.set({
+          email: user.email,
+          name,
+          coins: 10,
+          created_at: new Date().toISOString(),
+          status: 'active',
+          firebase_uid: user.uid,
+        });
+        coins = 10;
+      } else {
+        const val = snap.val();
+        coins = val?.coins ?? 10;
+        try {
+          await ref.update({ firebase_uid: user.uid, email: user.email });
+        } catch (e) {
+          console.warn('Profile update skipped:', e.message);
+        }
+      }
+    } catch (err) {
+      console.warn('Database sync failed (login still OK):', err.message);
     }
+
     setSession({
       user_id: userId,
       user_email: user.email,
       user_name: name,
-      user_coins: snap.val()?.coins ?? 10,
+      user_coins: coins,
       firebase_uid: user.uid,
     });
     return userId;
@@ -107,7 +141,13 @@
       if (!isVitEmail(email)) throw new Error('Please use your VIT student email (@vitstudent.ac.in)');
       const auth = await waitForFirebaseAuth();
       const cred = await auth.createUserWithEmailAndPassword(email, password);
-      if (name) await cred.user.updateProfile({ displayName: name });
+      if (name) {
+        try {
+          await cred.user.updateProfile({ displayName: name });
+        } catch (e) {
+          console.warn(e);
+        }
+      }
       await syncUserToDatabase(cred.user, { name: name || email.split('@')[0] });
       return cred.user;
     },
@@ -131,10 +171,11 @@
       return true;
     },
 
+    async waitForAuthState,
+
     async restoreFromFirebase() {
       try {
-        const auth = await waitForFirebaseAuth();
-        const user = auth.currentUser;
+        const user = await waitForAuthState();
         if (user && user.email) {
           await syncUserToDatabase(user);
           return true;

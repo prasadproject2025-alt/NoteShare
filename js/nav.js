@@ -67,53 +67,167 @@
     );
   }
 
+  function scriptBaseUrl() {
+    const nav = document.querySelector('script[src*="nav.js"]');
+    if (nav && nav.src) {
+      return nav.src.replace(/\/js\/nav\.js(\?.*)?$/i, '/');
+    }
+    const path = window.location.pathname.replace(/\/[^/]*$/, '/');
+    return window.location.origin + path;
+  }
+
+  function resolveScriptUrl(src) {
+    if (/^https?:\/\//i.test(src)) return src;
+    return new URL(src, scriptBaseUrl()).href;
+  }
+
   function loadScript(src) {
+    const url = resolveScriptUrl(src);
     return new Promise((resolve, reject) => {
-      if (document.querySelector('script[src="' + src + '"]')) {
-        resolve();
-        return;
+      const existing = document.querySelector('script[src="' + url + '"]');
+      if (existing) {
+        if (existing.dataset.loadError) {
+          existing.remove();
+        } else if (existing.dataset.loaded === '1') {
+          resolve();
+          return;
+        } else {
+          existing.addEventListener('load', () => resolve(), { once: true });
+          existing.addEventListener('error', () => reject(new Error('Failed to load ' + src)), { once: true });
+          return;
+        }
       }
       const s = document.createElement('script');
-      s.src = src;
-      s.onload = resolve;
-      s.onerror = reject;
+      s.src = url;
+      s.async = false;
+      s.onload = function () {
+        s.dataset.loaded = '1';
+        resolve();
+      };
+      s.onerror = function () {
+        s.dataset.loadError = '1';
+        reject(new Error('Failed to load ' + src));
+      };
       document.head.appendChild(s);
     });
   }
 
+  let injectPromise = null;
+
   async function injectHeadAssets() {
-    if (document.documentElement.dataset.noteshareHead) return;
-    document.documentElement.dataset.noteshareHead = '1';
+    if (window.NoteShareReady) return;
+    if (injectPromise) return injectPromise;
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-    document.head.appendChild(link);
+    injectPromise = (async () => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+      if (!document.querySelector('link[href*="font-awesome"]')) {
+        document.head.appendChild(link);
+      }
 
-    const scripts = [
-      'https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js',
-      'https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js',
-      'https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js',
-      'https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js',
-      'https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js',
-      'js/firebase-config.js',
-      'js/config.js',
-      'js/auth.js',
-      'js/coins.js',
-      'js/coins-shim.js',
-      'js/page-init.js',
-    ];
+      const scripts = [
+        'https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js',
+        'https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js',
+        'https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js',
+        'https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js',
+        'https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js',
+        'js/firebase-config.js',
+        'js/config.js',
+        'js/auth.js',
+        'js/coins.js',
+        'js/coins-shim.js',
+      ];
 
-    for (const src of scripts) {
-      await loadScript(src);
-    }
+      for (const src of scripts) {
+        await loadScript(src);
+      }
 
-    window.NoteShareReady = true;
-    window.dispatchEvent(new Event('noteshare-ready'));
+      if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length) {
+        throw new Error('Firebase did not initialize. Check your connection and refresh.');
+      }
+
+      window.NoteShareReady = true;
+      window.dispatchEvent(new Event('noteshare-ready'));
+
+      await loadScript('js/page-init.js').catch(function (e) {
+        console.warn('page-init:', e.message);
+      });
+    })().catch(function (err) {
+      injectPromise = null;
+      console.error('NoteShare boot failed:', err);
+      window.dispatchEvent(new CustomEvent('noteshare-error', { detail: err }));
+      throw err;
+    });
+
+    return injectPromise;
+  }
+
+  function isAppReady() {
+    return !!(
+      window.NoteShareAuth &&
+      typeof firebase !== 'undefined' &&
+      firebase.apps &&
+      firebase.apps.length
+    );
+  }
+
+  function waitForApp(timeoutMs) {
+    timeoutMs = timeoutMs || 30000;
+    if (isAppReady()) return Promise.resolve();
+
+    return new Promise(function (resolve, reject) {
+      function done() {
+        if (isAppReady()) resolve();
+      }
+
+      window.addEventListener('noteshare-ready', done, { once: true });
+      window.addEventListener(
+        'noteshare-error',
+        function (e) {
+          reject(e.detail || new Error('Failed to load the app'));
+        },
+        { once: true }
+      );
+
+      const poll = setInterval(done, 50);
+
+      setTimeout(function () {
+        clearInterval(poll);
+        if (isAppReady()) {
+          resolve();
+          return;
+        }
+        injectHeadAssets()
+          .then(function () {
+            if (isAppReady()) resolve();
+            else {
+              reject(
+                new Error(
+                  'Could not start the app. Open http://localhost:3000/login.html (run npm run dev) and check the browser console (F12).'
+                )
+              );
+            }
+          })
+          .catch(function (err) {
+            reject(
+              err.message
+                ? err
+                : new Error(
+                    'Could not start the app. Open http://localhost:3000/login.html (run npm run dev).'
+                  )
+            );
+          });
+      }, timeoutMs);
+    });
   }
 
   document.addEventListener('DOMContentLoaded', async function () {
-    await injectHeadAssets();
+    try {
+      await injectHeadAssets();
+    } catch (e) {
+      console.error(e);
+    }
 
     const headerEl = document.getElementById('app-header');
     if (headerEl) headerEl.innerHTML = renderHeader();
@@ -130,4 +244,5 @@
   });
 
   window.NoteShareNav = { renderHeader, renderFooter };
+  window.NoteShareBoot = { injectHeadAssets, waitForApp, isAppReady };
 })();

@@ -45,3 +45,6 @@
 2026-05-18T18:04:17.925Z - OTP for durgaprasad.s2022a@vitstudent.ac.in: 329373 (dev mode - email not sent)
 2026-05-18T18:04:54.471Z - OTP for durgaprasad.s2022a@vitstudent.ac.in: 786125 (dev mode - email not sent)
 2026-05-18T18:05:18.642Z - OTP for durgaprasad.s2022a@vitstudent.ac.in: 648280 (dev mode - email not sent)
+2026-05-18T18:07:32.021Z - OTP for durgaprasad.s2022a@vitstudent.ac.in: 803632 - Email sent: YES
+2026-05-18T18:09:59.690Z - OTP for durgaprasad.s2022a@vitstudent.ac.in: 880641 - Email sent: YES
+2026-05-18T18:10:33.895Z - OTP for durgaprasad.s2022a@vitstudent.ac.in: 661689 - Email sent: YES

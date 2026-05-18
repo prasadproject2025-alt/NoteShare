@@ -1,13 +1,18 @@
 let userEmail = '';
 
 async function waitForApp() {
-  for (let i = 0; i < 150; i++) {
+  if (window.NoteShareBoot && window.NoteShareBoot.waitForApp) {
+    return window.NoteShareBoot.waitForApp(30000);
+  }
+  for (let i = 0; i < 300; i++) {
     if (window.NoteShareAuth && typeof firebase !== 'undefined' && firebase.apps?.length) {
       return;
     }
     await new Promise((r) => setTimeout(r, 100));
   }
-  throw new Error('App still loading. Please refresh the page.');
+  throw new Error(
+    'Could not start the app. Open http://localhost:3000/create-account.html (run: npm run dev).'
+  );
 }
 
 function updateStepIndicator(activeStep) {
