@@ -389,7 +389,7 @@ function messageUser() {
                 last_message: '',
                 last_message_time: Date.now()
             }).then(() => {
-                window.location.href = 'messages.php?chat_id=' + chatRef.key;
+                window.location.href = 'messages.html?chat_id=' + chatRef.key;
             }).catch(error => {
                 console.error('Error creating chat:', error);
                 alert('Error creating conversation. Please try again.');
@@ -407,10 +407,11 @@ function messageUser() {
 }
 
 function buyNoteFromProfile(noteId) {
-    window.location.href = 'buy_notes.php#' + noteId;
+    window.location.href = 'buy-notes.html#' + noteId;
 }
 </script>
 <div id="app-footer">
 </body>
 </html>
+
 

@@ -47,7 +47,7 @@ async function sendOTP() {
     updateStepIndicator(2);
     if (data.devMode) {
       alert(
-        'Dev mode: OTP was not emailed.\n\nCheck the terminal running "npm run dev" or logs/otp_log.txt for your 6-digit code.'
+        'Dev mode: OTP was not emailed.\n\nRun "npm run dev" in the project folder, then check that terminal or logs/otp_log.txt for your 6-digit code.'
       );
     } else {
       alert('OTP sent! Check your Gmail inbox and spam folder.');

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Add Test Note</title>
@@ -57,13 +57,13 @@
                 return notesRef.push(testNote);
 
             }).then(snapshot => {
-                status.innerHTML = '✅ Test note added successfully!<br>';
+                status.innerHTML = 'âœ… Test note added successfully!<br>';
                 status.innerHTML += 'Note ID: ' + snapshot.key + '<br>';
-                status.innerHTML += '<a href="buy_notes.php">Go to Buy Notes</a> to see if it loads.';
+                status.innerHTML += '<a href="buy-notes.html">Go to Buy Notes</a> to see if it loads.';
                 console.log('Test note added:', snapshot.key);
 
             }).catch(error => {
-                status.innerHTML = '❌ Error: ' + error.message;
+                status.innerHTML = 'âŒ Error: ' + error.message;
                 console.error('Error adding test note:', error);
             });
         }

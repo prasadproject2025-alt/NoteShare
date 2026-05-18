@@ -1,4 +1,4 @@
-/** Replaces get_user_coins.php / update_user_coins.php fetch calls on legacy pages */
+﻿/** Replaces get_user_coins.html / update_user_coins.html fetch calls on legacy pages */
 (function () {
   const origFetch = window.fetch;
   window.fetch = function (url, opts) {
@@ -23,3 +23,4 @@
     return origFetch.apply(this, arguments);
   };
 })();
+

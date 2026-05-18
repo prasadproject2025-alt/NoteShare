@@ -244,7 +244,7 @@ function shareNotes() {
 }
 
 function messageSharer(sharerId) {
-    // Similar to contactSeller in buy_notes.php
+    // Similar to contactSeller in buy-notes.html
     const coinsRef = firebase.database().ref('users/' + userId + '/coins');
     coinsRef.once('value').then(snapshot => {
         const coins = snapshot.val() || 0;
@@ -262,7 +262,7 @@ function messageSharer(sharerId) {
             type: 'share_inquiry',
             created_at: Date.now()
         }).then(() => {
-            window.location.href = 'messages.php?chat_id=' + chatRef.key;
+            window.location.href = 'messages.html?chat_id=' + chatRef.key;
         });
     });
 }
@@ -270,3 +270,4 @@ function messageSharer(sharerId) {
 <div id="app-footer">
 </body>
 </html>
+

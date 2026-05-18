@@ -3,6 +3,11 @@ firebase_key
 .env.local
 node_modules/
 vendor/
+htdocs_extracted/
+_php_ref/
+next-app/
+*.bak.php
+*.php
 .DS_Store
 thumbs.db
 *.log

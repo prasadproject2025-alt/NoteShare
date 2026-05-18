@@ -1,10 +1,14 @@
 {
   "name": "noteshare",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
+  "description": "NoteShare — VIT note sharing (HTML/CSS/JS + Node API)",
   "scripts": {
     "dev": "node server/dev.js",
     "start": "node server/dev.js"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
     "nodemailer": "^6.9.7"

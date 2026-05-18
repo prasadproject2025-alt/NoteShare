@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Firebase Write Test</title>
@@ -57,12 +57,12 @@
                 return notesRef.push(testNote);
 
             }).then(snapshot => {
-                status.innerHTML = '✅ Write successful!<br>';
+                status.innerHTML = 'âœ… Write successful!<br>';
                 status.innerHTML += 'Note ID: ' + snapshot.key + '<br>';
-                status.innerHTML += '<a href="buy_notes.php">Check if it appears in Buy Notes</a>';
+                status.innerHTML += '<a href="buy-notes.html">Check if it appears in Buy Notes</a>';
 
             }).catch(error => {
-                status.innerHTML = '❌ Write failed: ' + error.message + '<br>';
+                status.innerHTML = 'âŒ Write failed: ' + error.message + '<br>';
                 status.innerHTML += 'Error code: ' + error.code + '<br>';
 
                 if (error.code === 'PERMISSION_DENIED') {

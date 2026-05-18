@@ -1,5 +1,5 @@
-/**
- * Coin operations — replaces get_user_coins.php & update_user_coins.php
+﻿/**
+ * Coin operations â€” replaces get_user_coins.html & update_user_coins.html
  */
 (function (global) {
   const NoteShareCoins = {
@@ -62,3 +62,4 @@
 
   global.NoteShareCoins = NoteShareCoins;
 })(window);
+
