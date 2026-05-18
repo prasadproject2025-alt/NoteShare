@@ -23,6 +23,11 @@
   whenReady(async function () {
     await waitForAuth();
 
+    if (!window.NoteShareAuth) {
+      console.error('NoteShareAuth failed to load. Check the console for script errors.');
+      return;
+    }
+
     const isPublic = publicPages.includes(file);
 
     if (file === 'login.html') {

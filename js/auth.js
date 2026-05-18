@@ -171,7 +171,7 @@
       return true;
     },
 
-    async waitForAuthState,
+    waitForAuthState,
 
     async restoreFromFirebase() {
       try {
