@@ -1,26 +1,22 @@
 const fs = require('fs');
 const path = require('path');
+const { loadEnv } = require('../lib/env');
 const { isSmtpConfigured, sendOtpEmail } = require('../lib/mailer');
+
+loadEnv();
 
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-function isDevMode() {
-  return (
-    process.env.OTP_DEV_MODE === 'true' ||
-    process.env.NODE_ENV === 'development' ||
-    process.env.APP_ENV === 'development' ||
-    !process.env.VERCEL
-  );
-}
-
-function logOtpDev(email, otp) {
+function logOtp(email, otp, emailSent) {
   const logsDir = path.join(process.cwd(), 'logs');
   if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-  const line = `${new Date().toISOString()} - OTP for ${email}: ${otp} (dev mode - email not sent)\n`;
+  const line = `${new Date().toISOString()} - OTP for ${email}: ${otp} - Email sent: ${emailSent ? 'YES' : 'NO'}\n`;
   fs.appendFileSync(path.join(logsDir, 'otp_log.txt'), line, 'utf8');
-  console.log(`[NoteShare DEV] OTP for ${email}: ${otp}`);
+  if (!emailSent) {
+    console.log(`[NoteShare] OTP for ${email}: ${otp} (logged — email not sent)`);
+  }
 }
 
 module.exports = async function handler(req, res) {
@@ -67,44 +63,43 @@ module.exports = async function handler(req, res) {
     otpData[key] = { otp, email, name: displayName, createdAt: now, expiresAt: expirationTime };
     fs.writeFileSync(otpFile, JSON.stringify(otpData, null, 2), 'utf8');
 
-    const smtpReady = isSmtpConfigured();
-
-    if (smtpReady) {
-      try {
-        await sendOtpEmail({ to: email, name: displayName, otp });
+    if (!isSmtpConfigured()) {
+      const allowDevLog = process.env.OTP_DEV_MODE === 'true';
+      if (allowDevLog) {
+        logOtp(email, otp, false);
         return res.status(200).json({
           success: true,
-          message: 'OTP sent to your email successfully',
+          devMode: true,
+          message:
+            'SMTP not configured. OTP saved to logs/otp_log.txt — add GMAIL_USERNAME and GMAIL_APP_PASSWORD to .env.local',
           email,
         });
-      } catch (mailErr) {
-        console.error('SMTP send failed:', mailErr.message);
-        if (!isDevMode()) {
-          return res.status(500).json({
-            success: false,
-            message: 'Failed to send OTP email. Check SMTP settings.',
-            details: mailErr.message,
-          });
-        }
       }
-    }
-
-    if (isDevMode()) {
-      logOtpDev(email, otp);
-      return res.status(200).json({
-        success: true,
+      return res.status(500).json({
+        success: false,
         message:
-          'OTP generated (dev mode). Email was not sent — check logs/otp_log.txt or the server console for your code.',
-        email,
-        devMode: true,
+          'Email not configured. Add GMAIL_USERNAME and GMAIL_APP_PASSWORD to .env.local (see .env.example), then restart the server.',
       });
     }
 
-    return res.status(500).json({
-      success: false,
-      message:
-        'Email is not configured. Set GMAIL_USERNAME and GMAIL_APP_PASSWORD in .env.local (see .env.example).',
-    });
+    try {
+      await sendOtpEmail({ to: email, name: displayName, otp });
+      logOtp(email, otp, true);
+      return res.status(200).json({
+        success: true,
+        message: 'OTP sent to your email successfully! Check inbox and spam folder.',
+        email,
+      });
+    } catch (mailErr) {
+      console.error('SMTP send failed:', mailErr);
+      logOtp(email, otp, false);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to send OTP email.',
+        details: mailErr.message,
+        hint: 'Check Gmail App Password, enable 2FA, and ensure FROM_EMAIL matches GMAIL_USERNAME.',
+      });
+    }
   } catch (error) {
     console.error('OTP sending error:', error);
     return res.status(500).json({

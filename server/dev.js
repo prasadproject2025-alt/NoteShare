@@ -2,9 +2,13 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
+const { loadEnv } = require('../lib/env');
+const { isSmtpConfigured, getSmtpConfig } = require('../lib/mailer');
 
 const ROOT = path.join(__dirname, '..');
 const PORT = process.env.PORT || 3000;
+
+loadEnv();
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -20,24 +24,6 @@ const MIME = {
   '.woff2': 'font/woff2',
 };
 
-function loadEnv() {
-  for (const file of ['.env.local', '.env']) {
-    const p = path.join(ROOT, file);
-    if (!fs.existsSync(p)) continue;
-    fs.readFileSync(p, 'utf8')
-      .split('\n')
-      .forEach((line) => {
-        const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
-        if (!m || process.env[m[1]]) return;
-        process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
-      });
-  }
-}
-
-loadEnv();
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-process.env.OTP_DEV_MODE = process.env.OTP_DEV_MODE || 'true';
-
 async function handleApi(req, res, pathname) {
   const apiFile = path.join(ROOT, 'api', path.basename(pathname) + '.js');
   if (!fs.existsSync(apiFile)) {
@@ -49,7 +35,9 @@ async function handleApi(req, res, pathname) {
   let body = '';
   for await (const chunk of req) body += chunk;
 
+  delete require.cache[require.resolve(apiFile)];
   const handler = require(apiFile);
+
   const mockReq = {
     method: req.method,
     body: body ? JSON.parse(body) : {},
@@ -69,9 +57,8 @@ async function handleApi(req, res, pathname) {
       if (!this.headers['Content-Type']) {
         this.setHeader('Content-Type', 'application/json');
       }
-      const payload = JSON.stringify(data);
       res.writeHead(this.statusCode, this.headers);
-      res.end(payload);
+      res.end(JSON.stringify(data));
     },
     end(data) {
       res.writeHead(this.statusCode, this.headers);
@@ -127,7 +114,12 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`NoteShare running at http://localhost:${PORT}`);
-  console.log(`  Login:  http://localhost:${PORT}/login.html`);
-  console.log(`  Home:   http://localhost:${PORT}/index.html`);
+  const cfg = getSmtpConfig();
+  console.log(`\nNoteShare → http://localhost:${PORT}/login.html\n`);
+  if (isSmtpConfigured()) {
+    console.log(`✓ Email OTP enabled (from: ${cfg.fromEmail})\n`);
+  } else {
+    console.log('✗ Email NOT configured — add GMAIL_USERNAME + GMAIL_APP_PASSWORD to .env.local');
+    console.log('  Or set OTP_DEV_MODE=true to log OTP in logs/otp_log.txt\n');
+  }
 });

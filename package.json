@@ -5,7 +5,8 @@
   "description": "NoteShare — VIT note sharing (HTML/CSS/JS + Node API)",
   "scripts": {
     "dev": "node server/dev.js",
-    "start": "node server/dev.js"
+    "start": "node server/dev.js",
+    "test:email": "node scripts/test-smtp.js"
   },
   "engines": {
     "node": ">=18"

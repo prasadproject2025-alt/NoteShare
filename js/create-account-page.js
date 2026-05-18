@@ -40,14 +40,17 @@ async function sendOTP() {
       body: JSON.stringify({ email, name: email.split('@')[0] }),
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.message || data.details || 'Failed to send OTP');
+    if (!data.success) {
+      const msg = [data.message, data.details, data.hint].filter(Boolean).join('\n\n');
+      throw new Error(msg || 'Failed to send OTP');
+    }
 
     document.getElementById('email-section').style.display = 'none';
     document.getElementById('otp-password-section').style.display = 'block';
     updateStepIndicator(2);
     if (data.devMode) {
       alert(
-        'Dev mode: OTP was not emailed.\n\nRun "npm run dev" in the project folder, then check that terminal or logs/otp_log.txt for your 6-digit code.'
+        'SMTP not set up. Your OTP is in logs/otp_log.txt (project folder).\n\nTo receive real emails, add GMAIL_USERNAME and GMAIL_APP_PASSWORD to .env.local and restart: npm run dev'
       );
     } else {
       alert('OTP sent! Check your Gmail inbox and spam folder.');
