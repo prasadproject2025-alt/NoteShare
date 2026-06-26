@@ -126,26 +126,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadCoinBalance() {
-    // Load coins from API with cache busting
-    fetch('get_user_coins.html?t=' + Date.now(), {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('coin-display').textContent = data.coins;
-        } else {
-            console.error('Error loading coins:', data.message);
+    // Load coins from Firebase
+    if (window.NoteShareCoins && typeof window.NoteShareCoins.getBalanceInfo === 'function') {
+        window.NoteShareCoins.getBalanceInfo().then(data => {
+            if (data.success) {
+                document.getElementById('coin-display').textContent = data.coins;
+            } else {
+                console.error('Error loading coins:', data.message);
+                document.getElementById('coin-display').textContent = 'Error';
+            }
+        }).catch(error => {
+            console.error('Error loading coins:', error);
             document.getElementById('coin-display').textContent = 'Error';
+        });
+    } else {
+        // Fallback: try to get coins from session
+        const session = window.NoteShareAuth?.getSession?.();
+        if (session && session.user_coins !== undefined) {
+            document.getElementById('coin-display').textContent = session.user_coins;
+        } else {
+            document.getElementById('coin-display').textContent = '0';
         }
-    })
-    .catch(error => {
-        console.error('Error loading coins:', error);
-        document.getElementById('coin-display').textContent = 'Error';
-    });
+    }
 }
 
 function loadCoinPackages() {
