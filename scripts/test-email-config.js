@@ -14,7 +14,6 @@
 
 require('dotenv').config({ path: '.env.local' });
 const nodemailer = require('nodemailer');
-const chalk = require('chalk') || { green: (s) => `✓ ${s}`, red: (s) => `✗ ${s}`, yellow: (s) => `⚠ ${s}`, blue: (s) => s };
 
 const tests = {
   passed: 0,
