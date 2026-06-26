@@ -56,9 +56,23 @@ const chatId = new URLSearchParams(window.location.search).get('chat_id') || '';
 let currentChatId = chatId;
 
 document.addEventListener('DOMContentLoaded', function() {
-    loadConversations();
-    if (chatId) {
-        loadMessages(chatId);
+    // Wait for NoteShare app to be ready
+    if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
+        window.NoteShareBoot.waitForApp().then(() => {
+            console.log('NoteShare app ready, initializing messages page...');
+            loadConversations();
+            if (chatId) {
+                loadMessages(chatId);
+            }
+        }).catch(error => {
+            console.error('Failed to initialize:', error);
+            document.getElementById('messages-container').innerHTML = '<div class="alert alert-danger">Error loading messages. Please refresh.</div>';
+        });
+    } else {
+        loadConversations();
+        if (chatId) {
+            loadMessages(chatId);
+        }
     }
 });
 

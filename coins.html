@@ -108,9 +108,21 @@ const packages = [
 ];
 
 document.addEventListener('DOMContentLoaded', function() {
-    loadCoinBalance();
-    loadCoinPackages();
-    loadUsageHistory();
+    // Wait for NoteShare app to be ready
+    if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
+        window.NoteShareBoot.waitForApp().then(() => {
+            console.log('NoteShare app ready, initializing coins page...');
+            loadCoinBalance();
+            loadCoinPackages();
+            loadUsageHistory();
+        }).catch(error => {
+            console.error('Failed to initialize:', error);
+        });
+    } else {
+        loadCoinBalance();
+        loadCoinPackages();
+        loadUsageHistory();
+    }
 });
 
 function loadCoinBalance() {

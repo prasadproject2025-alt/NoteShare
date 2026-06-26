@@ -1,16 +1,1 @@
-{
-  "test_vitstudent_ac_in": {
-    "otp": "615719",
-    "email": "test@vitstudent.ac.in",
-    "name": "test",
-    "createdAt": 1779127254133,
-    "expiresAt": 1779127854133
-  },
-  "a_vitstudent_ac_in": {
-    "otp": "416452",
-    "email": "a@vitstudent.ac.in",
-    "name": "a",
-    "createdAt": 1779127431991,
-    "expiresAt": 1779128031990
-  }
-}
+{}

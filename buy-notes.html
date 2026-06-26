@@ -175,15 +175,33 @@ let userId = '';
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Page loaded, initializing...');
     
-    // Wait for Firebase to be ready and authenticated
-    initializeFirebaseAuth().then(() => {
-        console.log('Firebase auth initialized, loading data...');
-        loadCoinBalance();
-        loadAllAvailableNotes();
-    }).catch(error => {
-        console.error('Firebase auth error:', error);
-        document.getElementById('notes-list').innerHTML = '<div class="alert alert-danger">Error connecting to database. Please refresh the page.</div>';
-    });
+    // Wait for Firebase to be ready via nav.js
+    if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
+        window.NoteShareBoot.waitForApp().then(() => {
+            console.log('NoteShare app ready, initializing...');
+            initializeFirebaseAuth().then(() => {
+                console.log('Firebase auth initialized, loading data...');
+                loadCoinBalance();
+                loadAllAvailableNotes();
+            }).catch(error => {
+                console.error('Firebase auth error:', error);
+                document.getElementById('notes-list').innerHTML = '<div class="alert alert-danger">Error connecting to database. Please refresh the page.</div>';
+            });
+        }).catch(error => {
+            console.error('NoteShare boot error:', error);
+            document.getElementById('notes-list').innerHTML = '<div class="alert alert-danger">Error initializing application. Please refresh the page.</div>';
+        });
+    } else {
+        // Fallback if boot not available
+        initializeFirebaseAuth().then(() => {
+            console.log('Firebase auth initialized, loading data...');
+            loadCoinBalance();
+            loadAllAvailableNotes();
+        }).catch(error => {
+            console.error('Firebase auth error:', error);
+            document.getElementById('notes-list').innerHTML = '<div class="alert alert-danger">Error connecting to database. Please refresh the page.</div>';
+        });
+    }
 });
 
 function initializeFirebaseAuth() {

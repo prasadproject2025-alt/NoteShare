@@ -97,11 +97,26 @@ const profileUserId = '';
 const isOwnProfile = ;
 
 document.addEventListener('DOMContentLoaded', function() {
-    loadProfileDetails();
-    loadSellingNotes();
-    loadLikedNotes();
-    loadRentalNotes();
-    loadSharedNotes();
+    // Wait for NoteShare app to be ready
+    if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
+        window.NoteShareBoot.waitForApp().then(() => {
+            console.log('NoteShare app ready, initializing profile page...');
+            loadProfileDetails();
+            loadSellingNotes();
+            loadLikedNotes();
+            loadRentalNotes();
+            loadSharedNotes();
+        }).catch(error => {
+            console.error('Failed to initialize:', error);
+            document.getElementById('profile-section').innerHTML = '<div class="alert alert-danger">Error loading profile. Please refresh.</div>';
+        });
+    } else {
+        loadProfileDetails();
+        loadSellingNotes();
+        loadLikedNotes();
+        loadRentalNotes();
+        loadSharedNotes();
+    }
 });
 
 function loadProfileDetails() {
