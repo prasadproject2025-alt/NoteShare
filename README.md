@@ -1,6 +1,6 @@
 # NoteShare (JavaScript)
 
-VIT note-sharing platform — **HTML, CSS, and JavaScript** only. No PHP.
+VIT note-sharing platform — **HTML, CSS, and JavaScript**
 
 ## Run locally
 
