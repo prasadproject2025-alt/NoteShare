@@ -17,16 +17,17 @@
     if (loggedIn) {
       navLinks =
         '<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>' +
+        '<li class="nav-item"><a class="nav-link" href="buy-notes.html">Notes</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="coins.html">Coins</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="messages.html">Messages</a></li>' +
         (isAdmin
-          ? '<li class="nav-item"><a class="nav-link text-warning" href="admin-dashboard.html"><i class="fas fa-tachometer-alt me-1"></i>Admin Panel</a></li>'
+          ? '<li class="nav-item"><a class="nav-link text-warning" href="admin-dashboard.html"><i class="fas fa-tachometer-alt me-1"></i>Admin</a></li>'
           : '') +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">' +
         escapeHtml(name) +
         '</a>' +
-        '<ul class="dropdown-menu">' +
+        '<ul class="dropdown-menu dropdown-menu-end">' +
         '<li><a class="dropdown-item" href="profile.html">My Profile</a></li>' +
         '<li><a class="dropdown-item" href="edit-profile.html">Edit Profile</a></li>' +
         '<li><hr class="dropdown-divider"></li>' +
@@ -34,20 +35,20 @@
         '</ul></li>';
     } else {
       navLinks =
-        '<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>' +
-        '<li class="nav-item"><a class="nav-link text-warning" href="admin-login.html"><i class="fas fa-shield-alt me-1"></i>Admin</a></li>';
+        '<li class="nav-item me-2"><a class="nav-link btn btn-outline-primary px-3" href="login.html">Login</a></li>' +
+        '<li class="nav-item"><a class="nav-link btn btn-outline-warning px-3" href="admin-login.html"><i class="fas fa-shield-alt me-1"></i>Admin</a></li>';
     }
 
     return (
-      '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">' +
+      '<nav class="navbar navbar-expand-lg navbar-light bg-white py-3">' +
       '<div class="container">' +
       '<a class="navbar-brand" href="' +
       (loggedIn ? 'index.html' : 'login.html') +
       '"><strong>NoteShare</strong></a>' +
-      '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">' +
+      '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">' +
       '<span class="navbar-toggler-icon"></span></button>' +
       '<div class="collapse navbar-collapse" id="navbarNav">' +
-      '<ul class="navbar-nav ms-auto">' +
+      '<ul class="navbar-nav ms-auto align-items-lg-center">' +
       navLinks +
       '</ul></div></div></nav>'
     );
@@ -55,14 +56,30 @@
 
   function renderFooter() {
     return (
-      '<footer class="bg-dark text-white mt-5 py-4">' +
-      '<div class="container"><div class="row">' +
-      '<div class="col-md-4"><h5>NoteShare</h5><p class="text-muted">Website for sell, buy and share notes for VIT students.</p></div>' +
-      '<div class="col-md-4"><h5>Quick Links</h5><ul class="list-unstyled text-muted">' +
-      '<li><a href="index.html">Home</a></li><li><a href="buy-notes.html">Buy Notes</a></li>' +
-      '<li><a href="sell-notes.html">Sell Notes</a></li></ul></div>' +
-      '<div class="col-md-4"><h5>Contact</h5><p>Email: prasad.project2025@gmail.com</p></div></div>' +
-      '<hr><div class="text-center text-muted"><p>&copy; 2025 NoteShare. All rights reserved.</p></div></div></footer>' +
+      '<footer class="footer py-5">' +
+      '<div class="container">' +
+      '<div class="row gy-4">' +
+      '<div class="col-md-4">' +
+      '<div class="footer-brand">NoteShare</div>' +
+      '<p class="text-muted mt-3">A student-first platform to buy, sell, rent, and share notes securely.</p>' +
+      '</div>' +
+      '<div class="col-md-4">' +
+      '<h5>Quick Links</h5>' +
+      '<ul class="list-unstyled mt-3">' +
+      '<li><a href="index.html">Home</a></li>' +
+      '<li><a href="buy-notes.html">Buy Notes</a></li>' +
+      '<li><a href="sell-notes.html">Sell Notes</a></li>' +
+      '<li><a href="share-notes.html">Share Notes</a></li>' +
+      '</ul>' +
+      '</div>' +
+      '<div class="col-md-4">' +
+      '<h5>Contact</h5>' +
+      '<p class="text-muted mt-3 mb-1">Email: prasad.project2025@gmail.com</p>' +
+      '<p class="text-muted mb-0">Need help? Reach out anytime.</p>' +
+      '</div>' +
+      '</div>' +
+      '<div class="text-center text-muted mt-4"><small>&copy; 2025 NoteShare. All rights reserved.</small></div>' +
+      '</div></footer>' +
       '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>'
     );
   }
