@@ -6,11 +6,18 @@
     <title>Login - NoteShare</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/nav.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js" defer></script>
+    <script src="js/firebase-config.js" defer></script>
+    <script src="js/config.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/page-init.js" defer></script>
     <script src="js/login-page.js" defer></script>
 </head>
-<body>
-<div id="app-header"></div>
+<body class="login-body">
 <div class="login-header py-3">
     <div class="container d-flex align-items-center justify-content-between">
         <div class="login-brand">

@@ -241,6 +241,11 @@ body {
     padding: 3rem 0 4rem;
 }
 
+body.login-body #app-header,
+body.login-body #app-footer {
+    display: none !important;
+}
+
 .login-hero {
     background: rgba(248, 250, 255, 0.92);
     border-radius: 28px;
