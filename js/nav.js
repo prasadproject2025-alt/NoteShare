@@ -27,11 +27,15 @@
         '<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">' +
         escapeHtml(name) +
         '</a>' +
-        '<ul class="dropdown-menu dropdown-menu-end">' +
+        '<ul class="dropdown-menu dropdown-menu-end p-2" style="min-width:260px; max-width:360px;">' +
+        '<li><a class="dropdown-item" href="index.html">Dashboard</a></li>' +
         '<li><a class="dropdown-item" href="profile.html">My Profile</a></li>' +
         '<li><a class="dropdown-item" href="edit-profile.html">Edit Profile</a></li>' +
+        '<li><a class="dropdown-item" href="my-notes.html">My Uploaded Notes</a></li>' +
         '<li><hr class="dropdown-divider"></li>' +
-        '<li><a class="dropdown-item" href="#" id="logout-link">Logout</a></li>' +
+        '<li class="px-2"><div id="nav-uploaded-notes" style="max-height:260px; overflow:auto;"></div></li>' +
+        '<li><hr class="dropdown-divider"></li>' +
+        '<li><a class="dropdown-item text-danger" href="#" id="logout-link">Logout of device</a></li>' +
         '</ul></li>';
     } else {
       navLinks =
@@ -258,6 +262,47 @@
     });
 
     if (window.NoteShareAuth) window.NoteShareAuth.initNavGlobals();
+
+    // Populate uploaded notes list in nav dropdown when opened
+    const dropdownToggle = document.querySelector('.nav-item.dropdown .dropdown-toggle');
+    if (dropdownToggle) {
+      dropdownToggle.addEventListener('click', async function () {
+        const container = document.getElementById('nav-uploaded-notes');
+        if (!container) return;
+        if (container.dataset.loaded === '1') return; // avoid reloading repeatedly
+        container.innerHTML = '<p class="text-muted mb-1">Loading your notes...</p>';
+        try {
+          if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
+            await window.NoteShareBoot.waitForApp();
+          }
+          if (!window.NoteShareAuth || !window.NoteShareAuth.isLoggedIn()) {
+            container.innerHTML = '<p class="text-muted mb-1">Please login to see your notes.</p>';
+            return;
+          }
+          const userId = window.NoteShareAuth.getUserId();
+          const snap = await firebase.database().ref('notes').orderByChild('seller_id').equalTo(userId).limitToLast(6).once('value');
+          let html = '';
+          snap.forEach(s => {
+            const n = s.val();
+            const id = s.key;
+            html += `<div class="d-flex align-items-start mb-2">
+                      <div class="flex-grow-1">
+                        <strong>${n.subject_name || 'Untitled'}</strong>
+                        <div class="text-muted small">${n.course_code || ''}</div>
+                      </div>
+                      <div class="ms-2"><a class="btn btn-sm btn-link" href="edit-note.html?note_id=${id}">Edit</a></div>
+                    </div>`;
+          });
+          if (!html) html = '<p class="text-muted mb-0">No uploaded notes yet.</p>';
+          html += '<div class="mt-2 text-end"><a href="my-notes.html" class="btn btn-sm btn-outline-secondary">Manage all</a></div>';
+          container.innerHTML = html;
+          container.dataset.loaded = '1';
+        } catch (err) {
+          console.error('Nav uploaded notes error:', err);
+          container.innerHTML = '<div class="text-danger">Error loading notes</div>';
+        }
+      });
+    }
   });
 
   window.NoteShareNav = { renderHeader, renderFooter };

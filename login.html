@@ -11,27 +11,65 @@
 </head>
 <body>
 <div id="app-header"></div>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-primary text-white"><h3>Welcome to NoteShare</h3></div>
-                <div class="card-body">
+<div class="login-header py-3">
+    <div class="container d-flex align-items-center justify-content-between">
+        <div class="login-brand">
+            <div class="login-brand-logo">VIT</div>
+            <div>
+                <div class="login-brand-title">Vellore Institute of Technology</div>
+                <div class="login-brand-subtitle">VIT on TOP — Student access portal</div>
+            </div>
+        </div>
+        <div class="login-header-actions">
+            <a href="login.html" class="btn btn-light btn-sm">Student Login</a>
+            <a href="create-account.html" class="btn btn-outline-light btn-sm">Create Account</a>
+        </div>
+    </div>
+</div>
+<div class="container login-page">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-4">
+            <div class="login-hero p-5 rounded-4 shadow-sm">
+                <h1 class="login-hero-title">Welcome back to NoteShare</h1>
+                <p class="login-hero-text">Securely login with your VIT student account, manage your notes, search available uploads, and chat with fellow students.</p>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <div class="login-feature-card">
+                        <strong>Notes Search</strong>
+                        <p>Find notes by course, slot, and semester fast.</p>
+                    </div>
+                    <div class="login-feature-card">
+                        <strong>Upload & Manage</strong>
+                        <p>Upload your notes and edit them anytime.</p>
+                    </div>
+                    <div class="login-feature-card">
+                        <strong>Secure Chat</strong>
+                        <p>Message sellers with just one coin.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 ms-lg-auto">
+            <div class="card login-card shadow-lg rounded-4 overflow-hidden">
+                <div class="card-body p-5">
+                    <div class="mb-4 text-center">
+                        <h3 class="mb-1">Sign in to NoteShare</h3>
+                        <p class="text-muted mb-0">Use your @vitstudent.ac.in email and password.</p>
+                    </div>
                     <div id="login-error" class="alert alert-danger d-none" role="alert"></div>
                     <form id="login-form" onsubmit="event.preventDefault(); loginUser();">
                         <div class="mb-3">
-                            <label for="login-email" class="form-label">VIT Student Gmail</label>
-                            <input type="email" class="form-control" id="login-email" placeholder="your.email@vitstudent.ac.in" required>
+                            <label for="login-email" class="form-label">VIT Student Email</label>
+                            <input type="email" class="form-control" id="login-email" placeholder="your.name@vitstudent.ac.in" required>
                         </div>
                         <div class="mb-3">
                             <label for="login-password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="login-password" required>
+                            <input type="password" class="form-control" id="login-password" placeholder="Enter your password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Login</button>
                     </form>
-                    <hr>
-                    <div class="text-center">
-                        <a href="create-account.html" class="btn btn-success btn-lg">Create Account</a>
+                    <div class="mt-4 text-center">
+                        <span class="text-muted">New here?</span>
+                        <a href="create-account.html" class="fw-semibold">Create an account</a>
                     </div>
                 </div>
             </div>
