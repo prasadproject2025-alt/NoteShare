@@ -370,8 +370,8 @@ body.login-body #app-footer {
 }
 
 .conversation-item.unread {
-    border-left: 4px solid var(--danger-color);
-    background: #fef2f2;
+    border-left: 4px solid var(--success-color);
+    background: #f0fdf4;
 }
 
 .conversation-status {
@@ -380,7 +380,10 @@ body.login-body #app-footer {
     gap: 0.35rem;
     font-size: 0.8rem;
     font-weight: 600;
-    margin-top: 0.2rem;
+    margin-top: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    width: fit-content;
 }
 
 .conversation-status .status-dot {
@@ -391,19 +394,21 @@ body.login-body #app-footer {
 }
 
 .conversation-status.opened {
-    color: var(--success-color);
+    color: #64748b;
+    background: #f1f5f9;
 }
 
 .conversation-status.opened .status-dot {
-    background: var(--success-color);
+    background: #64748b;
 }
 
 .conversation-status.unread {
-    color: var(--danger-color);
+    color: var(--success-color);
+    background: rgba(16, 185, 129, 0.12);
 }
 
 .conversation-status.unread .status-dot {
-    background: var(--danger-color);
+    background: var(--success-color);
 }
 
 .conversation-avatar {
@@ -521,16 +526,23 @@ body.login-body #app-footer {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 0.3rem;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 0.35rem;
     margin-left: 0.35rem;
     border-radius: 999px;
     background: var(--danger-color);
     color: #fff;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
     line-height: 1;
+}
+
+.dashboard-page-badge {
+    min-width: 24px;
+    height: 24px;
+    font-size: 0.82rem;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
 }
 
 .chat-note-card {

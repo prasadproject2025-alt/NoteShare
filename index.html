@@ -14,7 +14,10 @@
     <div class="dashboard-panel shadow-sm">
         <div class="dashboard-header d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between">
             <div>
-                <span class="theme-badge">Student Dashboard</span>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <span class="theme-badge">Student Dashboard</span>
+                    <span class="notification-badge dashboard-page-badge" id="dashboard-message-badge" style="display:none">0</span>
+                </div>
                 <h1 class="dashboard-title mt-3 mb-2">Welcome to NoteShare</h1>
                 <p class="dashboard-intro mb-0">A VTOP-inspired student hub for buying, selling, sharing and managing study notes through a clean and modern interface.</p>
             </div>
@@ -75,7 +78,6 @@
                 <div>
                     <div class="d-flex align-items-center justify-content-between gap-2">
                         <h5 class="mb-0">Messages</h5>
-                        <span class="notification-badge" id="dashboard-message-badge" style="display:none">0</span>
                     </div>
                     <p class="mt-2">Check your messages and chat history.</p>
                 </div>
