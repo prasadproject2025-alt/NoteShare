@@ -8,21 +8,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   const list = document.getElementById('my-notes-list');
-  // Debug header to help troubleshoot missing notes
-  const dbg = document.createElement('div');
-  dbg.id = 'my-notes-debug';
-  dbg.style.marginBottom = '10px';
-  list.parentNode.insertBefore(dbg, list);
-  // show debug info (session/localStorage/firebase user)
-  try {
-    const sess = localStorage.getItem('noteshare_session') || 'null';
-    const isLogged = window.NoteShareAuth && window.NoteShareAuth.isLoggedIn ? window.NoteShareAuth.isLoggedIn() : false;
-    const uid = window.NoteShareAuth && window.NoteShareAuth.getUserId ? window.NoteShareAuth.getUserId() : null;
-    const fUser = (typeof firebase !== 'undefined' && firebase.auth) ? firebase.auth().currentUser : null;
-    dbg.innerHTML = `<div class="alert alert-secondary p-2"><strong>Debug:</strong> isLoggedIn=${isLogged} userId=${uid} firebaseUser=${fUser?fUser.email+'('+fUser.uid+')':'null'}<br><small>session=${escapeHtml(sess)}</small></div>`;
-  } catch (e) {
-    dbg.textContent = 'Debug init error: ' + e.message;
-  }
 
   if (!window.NoteShareAuth || !window.NoteShareAuth.isLoggedIn()) {
     list.innerHTML = '<div class="alert alert-warning">Please login to manage your notes.</div>';

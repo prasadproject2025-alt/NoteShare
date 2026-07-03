@@ -1,4 +1,40 @@
 /** Client-side sell form — replaces PHP POST + session note_data */
+function compressImageFile(file, maxWidth = 1200, quality = 0.8) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = () => {
+      try {
+        const scale = Math.min(1, maxWidth / img.width);
+        const width = Math.max(600, Math.round(img.width * scale));
+        const height = Math.max(600, Math.round(img.height * scale));
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL(file.type || 'image/jpeg', quality);
+        const base64 = dataUrl.split(',')[1] || '';
+        URL.revokeObjectURL(objectUrl);
+        resolve({ base64, mime_type: file.type || 'image/jpeg', size: Math.round(base64.length * 0.75) });
+      } catch (err) {
+        URL.revokeObjectURL(objectUrl);
+        reject(err);
+      }
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error('Could not read the selected image.'));
+    };
+
+    img.src = objectUrl;
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('sell-notes-form');
   if (!form) return;
@@ -25,16 +61,12 @@ document.addEventListener('DOMContentLoaded', function () {
       let totalSize = 0;
       for (let i = 0; i < Math.min(files.length, 5); i++) {
         const file = files[i];
-        const buf = await file.arrayBuffer();
-        const bytes = new Uint8Array(buf);
-        let binary = '';
-        for (let j = 0; j < bytes.length; j++) binary += String.fromCharCode(bytes[j]);
-        const base64 = btoa(binary);
-        totalSize += file.size;
         if (file.size > 10 * 1024 * 1024) throw new Error('Max 10MB per file');
-        images.push({ base64, mime_type: file.type || 'image/jpeg', size: file.size });
+        const compressed = await compressImageFile(file);
+        totalSize += compressed.size;
+        images.push(compressed);
       }
-      if (totalSize > 50 * 1024 * 1024) throw new Error('Total size max 50MB');
+      if (totalSize > 8 * 1024 * 1024) throw new Error('These images are too large for a reliable upload. Please choose smaller images.');
 
       const noteData = {
         subject_name: form.subject_name.value,
@@ -54,7 +86,11 @@ document.addEventListener('DOMContentLoaded', function () {
         likes: 0,
       };
 
-      sessionStorage.setItem('noteshare_note_data', JSON.stringify(noteData));
+      const serialized = JSON.stringify(noteData);
+      if (serialized.length > 4_500_000) {
+        throw new Error('These images are too large to save in the browser session. Please choose smaller images.');
+      }
+      sessionStorage.setItem('noteshare_note_data', serialized);
       window.location.href = 'upload-progress.html';
     } catch (err) {
       alert(err.message || 'Upload failed');

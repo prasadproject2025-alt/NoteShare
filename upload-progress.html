@@ -29,11 +29,6 @@
             <div id="upload-actions" class="mt-3 d-none">
                 <button id="add-another" class="btn btn-primary">Add Another Note</button>
             </div>
-
-            <div class="mt-3 p-3 bg-light rounded">
-                <h6>Debug Info:</h6>
-                <div id="debug-info"></div>
-            </div>
         </div>
     </div>
 </main>
@@ -51,18 +46,10 @@
     const progressPercent = document.getElementById('progress-percent');
     const progressIcon = document.getElementById('progress-icon');
     const uploadActions = document.getElementById('upload-actions');
-    const debugInfo = document.getElementById('debug-info');
 
     if (!noteData) {
         window.location.href = 'sell-notes.html';
         return;
-    }
-
-    function logDebug(msg) {
-        if (!debugInfo) return;
-        const p = document.createElement('p');
-        p.textContent = msg;
-        debugInfo.appendChild(p);
     }
 
     // Smoothly animate progress to a target percent
@@ -125,9 +112,8 @@
             // Anonymous auth
             try {
                 await firebase.auth().signInAnonymously();
-                logDebug('Signed in anonymously');
             } catch (e) {
-                logDebug('Auth failed, continuing: ' + e.message);
+                // Continue even if anonymous auth is unavailable.
             }
 
             await animateTo(50, 600);
@@ -141,8 +127,7 @@
 
             // Push to Realtime Database
             const notesRef = firebase.database().ref('notes');
-            const snapshot = await notesRef.push(noteData);
-            logDebug('Saved with key: ' + snapshot.key);
+            await notesRef.push(noteData);
 
             await animateTo(95, 600);
             progressText.textContent = 'Finalizing...';
@@ -154,9 +139,8 @@
                     headers: {'Content-Type':'application/x-www-form-urlencoded'},
                     body: 'clear_note_data=1'
                 });
-                logDebug('Server session cleared');
             } catch (e) {
-                logDebug('Failed to clear session: ' + e.message);
+                // Best-effort cleanup only.
             }
 
             await animateTo(100, 400);
