@@ -51,15 +51,32 @@
 
 <script>
 let userId = '';
-let userName = window.NoteShareAuth ? window.NoteShareAuth.getUserName() : '';
+let userName = '';
 const chatId = new URLSearchParams(window.location.search).get('chat_id') || '';
 let currentChatId = chatId;
+let messagesBaseline = Date.now();
 
 document.addEventListener('DOMContentLoaded', function() {
     // Wait for NoteShare app to be ready
     if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
         window.NoteShareBoot.waitForApp().then(() => {
             console.log('NoteShare app ready, initializing messages page...');
+
+            // Initialize auth-backed globals
+            if (window.NoteShareAuth) {
+                userId = window.NoteShareAuth.getUserId() || '';
+                userName = window.NoteShareAuth.getUserName() || '';
+                window.userId = userId; // keep global sync
+            }
+
+            // Request notification permission once app is ready
+            requestNotificationPermission();
+
+            // Start listening for incoming messages (only new ones after page load)
+            messagesBaseline = Date.now();
+            attachGlobalMessageListener(messagesBaseline);
+
+            // Load UI
             loadConversations();
             if (chatId) {
                 loadMessages(chatId);
@@ -69,12 +86,89 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('messages-container').innerHTML = '<div class="alert alert-danger">Error loading messages. Please refresh.</div>';
         });
     } else {
+        // Fallback: attempt to use NoteShareAuth if already available
+        if (window.NoteShareAuth) {
+            userId = window.NoteShareAuth.getUserId() || '';
+            userName = window.NoteShareAuth.getUserName() || '';
+        }
+        requestNotificationPermission();
+        messagesBaseline = Date.now();
+        attachGlobalMessageListener(messagesBaseline);
         loadConversations();
         if (chatId) {
             loadMessages(chatId);
         }
     }
 });
+
+// Request Notification permission from the user
+function requestNotificationPermission() {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'default') {
+        try {
+            Notification.requestPermission().then(function (permission) {
+                console.log('Notification permission:', permission);
+            });
+        } catch (e) {
+            console.warn('Notification request failed:', e);
+        }
+    }
+}
+
+function showMessageNotification(title, body, chatId) {
+    if (!('Notification' in window)) return;
+    if (Notification.permission !== 'granted') return;
+    try {
+        const n = new Notification(title, {
+            body: body,
+            tag: 'noteshare-message-' + chatId,
+            data: { chatId }
+        });
+        n.onclick = function () {
+            window.focus();
+            if (chatId) window.location.href = 'messages.html?chat_id=' + chatId;
+            this.close();
+        };
+    } catch (e) {
+        console.warn('Failed to show notification:', e);
+    }
+}
+
+// Attach a global listener for new messages arriving after `baselineTs`.
+function attachGlobalMessageListener(baselineTs) {
+    try {
+        const ref = firebase.database().ref('messages').orderByChild('timestamp').startAt(baselineTs + 1);
+        ref.on('child_added', async function (snap) {
+            const msg = snap.val();
+            if (!msg) return;
+            // Ignore messages sent by ourselves
+            if (msg.sender_id === userId) return;
+
+            // Ensure the chat exists and that the current user is a participant
+            try {
+                const chatSnap = await firebase.database().ref('chats/' + msg.chat_id).once('value');
+                const chat = chatSnap.val();
+                if (!chat) return;
+                const participants = [chat.user1_id, chat.user2_id, chat.buyer_id, chat.seller_id].filter(Boolean);
+                if (!participants.includes(userId)) return; // not for this user
+
+                // Update conversations UI badge/list
+                try { loadConversations(); } catch (e) { /* ignore */ }
+
+                // If message is not for currently open chat, show a notification
+                if (msg.chat_id !== currentChatId) {
+                    const title = msg.sender_name || 'New message';
+                    const body = (msg.text && msg.text.length > 120) ? msg.text.slice(0, 117) + '...' : (msg.text || 'You have a new message');
+                    showMessageNotification(title, body, msg.chat_id);
+                }
+            } catch (err) {
+                console.error('Global message handler error:', err);
+            }
+        });
+    } catch (e) {
+        console.warn('Could not attach global message listener:', e);
+    }
+}
 
 function loadConversations() {
     firebase.database().ref('chats').orderByChild('created_at').once('value').then(snapshot => {
