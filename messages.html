@@ -10,44 +10,51 @@
 </head>
 <body>
 <div id="app-header"></div>
-<main class="container mt-5">
-    <div class="row" style="height: 75vh;">
-        <div class="col-md-8">
-            <div class="card h-100 d-flex flex-column">
-                <div class="card-header">
-                    <h5 id="chat-header">Messages</h5>
-                </div>
-                <div class="card-body flex-grow-1 overflow-auto" id="messages-container">
-                    <p class="text-muted text-center">Loading messages...</p>
-                    <p class="text-muted text-center">Select a conversation or start a new one</p>
-                    </div>
-                <div class="card-footer">
-                    <form id="message-form" class="input-group">
-                        <input type="text" class="form-control" id="message-input" placeholder="Type your message..." 
-                               >
-                        <button class="btn btn-primary" type="submit" >
-                            Send
-                        </button>
-                    </form>
-                </div>
+<main class="container py-4">
+    <div class="chat-shell">
+        <aside class="chat-sidebar">
+            <div class="chat-sidebar-header">
+                <h5 class="mb-0">Chats</h5>
+                <small class="text-muted">Discuss price and note details</small>
             </div>
-        </div>
+            <div class="chat-sidebar-list" id="conversations-list">
+                <p class="text-muted">Loading conversations...</p>
+            </div>
+        </aside>
 
-        <div class="col-md-4">
-            <div class="card h-100 d-flex flex-column">
-                <div class="card-header">
-                    <h5>Conversations</h5>
-                </div>
-                <div class="card-body flex-grow-1 overflow-auto" id="conversations-list">
-                    <p class="text-muted">Loading conversations...</p>
+        <section class="chat-main">
+            <div class="chat-header">
+                <div class="d-flex align-items-center justify-content-between gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="conversation-avatar" id="chat-avatar">N</div>
+                        <div>
+                            <h5 class="mb-0" id="chat-header">Select a chat</h5>
+                            <small class="text-muted" id="chat-subtitle">Negotiate price and note content</small>
+                        </div>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="btn btn-outline-primary btn-sm" type="button" onclick="viewNoteAd()">View Note Ad</button>
+                        <button class="btn btn-outline-danger btn-sm" type="button" onclick="deleteCurrentChat()">Delete</button>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="chat-body" id="messages-container">
+                <div class="chat-empty-state">
+                    <p class="text-muted">Choose a conversation to see the note discussion thread.</p>
+                </div>
+            </div>
+
+            <div id="chat-note-card"></div>
+            <div class="quick-actions" id="quick-actions"></div>
+
+            <form id="message-form" class="chat-footer">
+                <input type="text" class="form-control chat-input" id="message-input" placeholder="Type your message about the price or content...">
+                <button class="btn btn-primary" type="submit">Send</button>
+            </form>
+        </section>
     </div>
 </main>
-
-<!-- Firebase SDK -->
-
 
 <script>
 let userId = '';
@@ -55,58 +62,64 @@ let userName = '';
 const chatId = new URLSearchParams(window.location.search).get('chat_id') || '';
 let currentChatId = chatId;
 let messagesBaseline = Date.now();
+let currentChatData = null;
+
+function getCurrentUserId() {
+    if (userId) return userId;
+    if (window.NoteShareAuth && typeof window.NoteShareAuth.getUserId === 'function') {
+        userId = window.NoteShareAuth.getUserId() || '';
+    }
+    if (!userId && window.userId) {
+        userId = window.userId;
+    }
+    if (!userId) {
+        try {
+            const session = JSON.parse(localStorage.getItem('noteshare_session') || 'null');
+            userId = session?.user_id || '';
+        } catch (e) {
+            userId = '';
+        }
+    }
+    return userId;
+}
+
+function initMessagesPage() {
+    if (window.NoteShareAuth) {
+        userId = window.NoteShareAuth.getUserId() || '';
+        userName = window.NoteShareAuth.getUserName() || '';
+        window.userId = userId;
+    }
+    getCurrentUserId();
+    updateNotificationBadge();
+
+    requestNotificationPermission();
+    messagesBaseline = Date.now();
+    attachGlobalMessageListener(messagesBaseline);
+    loadConversations();
+    if (currentChatId) {
+        loadMessages(currentChatId);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Wait for NoteShare app to be ready
     if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
         window.NoteShareBoot.waitForApp().then(() => {
             console.log('NoteShare app ready, initializing messages page...');
-
-            // Initialize auth-backed globals
-            if (window.NoteShareAuth) {
-                userId = window.NoteShareAuth.getUserId() || '';
-                userName = window.NoteShareAuth.getUserName() || '';
-                window.userId = userId; // keep global sync
-            }
-
-            // Request notification permission once app is ready
-            requestNotificationPermission();
-
-            // Start listening for incoming messages (only new ones after page load)
-            messagesBaseline = Date.now();
-            attachGlobalMessageListener(messagesBaseline);
-
-            // Load UI
-            loadConversations();
-            if (chatId) {
-                loadMessages(chatId);
-            }
+            initMessagesPage();
         }).catch(error => {
             console.error('Failed to initialize:', error);
             document.getElementById('messages-container').innerHTML = '<div class="alert alert-danger">Error loading messages. Please refresh.</div>';
         });
     } else {
-        // Fallback: attempt to use NoteShareAuth if already available
-        if (window.NoteShareAuth) {
-            userId = window.NoteShareAuth.getUserId() || '';
-            userName = window.NoteShareAuth.getUserName() || '';
-        }
-        requestNotificationPermission();
-        messagesBaseline = Date.now();
-        attachGlobalMessageListener(messagesBaseline);
-        loadConversations();
-        if (chatId) {
-            loadMessages(chatId);
-        }
+        initMessagesPage();
     }
 });
 
-// Request Notification permission from the user
 function requestNotificationPermission() {
     if (!('Notification' in window)) return;
     if (Notification.permission === 'default') {
         try {
-            Notification.requestPermission().then(function (permission) {
+            Notification.requestPermission().then(function(permission) {
                 console.log('Notification permission:', permission);
             });
         } catch (e) {
@@ -124,7 +137,7 @@ function showMessageNotification(title, body, chatId) {
             tag: 'noteshare-message-' + chatId,
             data: { chatId }
         });
-        n.onclick = function () {
+        n.onclick = function() {
             window.focus();
             if (chatId) window.location.href = 'messages.html?chat_id=' + chatId;
             this.close();
@@ -134,29 +147,82 @@ function showMessageNotification(title, body, chatId) {
     }
 }
 
-// Attach a global listener for new messages arriving after `baselineTs`.
+function escapeHtml(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function getOtherUserName(chat) {
+    if (!chat) return '';
+    const activeUserId = getCurrentUserId();
+    if (chat.buyer_id === activeUserId) return chat.seller_name || chat.seller_id || '';
+    if (chat.seller_id === activeUserId) return chat.buyer_name || chat.buyer_id || '';
+    if (chat.user1_id === activeUserId) return chat.user2_name || chat.user2_id || '';
+    if (chat.user2_id === activeUserId) return chat.user1_name || chat.user1_id || '';
+    return '';
+}
+
+async function getProfileName(userIdToLookup) {
+    if (!userIdToLookup) return '';
+    try {
+        const snap = await firebase.database().ref('users/' + userIdToLookup).once('value');
+        const data = snap.val() || {};
+        return data.name || data.user_name || data.displayName || '';
+    } catch (e) {
+        return '';
+    }
+}
+
+async function getChatDisplayName(chat) {
+    const otherName = getOtherUserName(chat);
+    if (otherName) return otherName;
+
+    const otherUserId = getOtherUserId(chat);
+    if (otherUserId) {
+        const profileName = await getProfileName(otherUserId);
+        if (profileName) return profileName;
+    }
+
+    if (chat?.subject) return chat.subject;
+    if (chat?.note_title) return chat.note_title;
+    return 'Note discussion';
+}
+
+function getOtherUserId(chat) {
+    if (!chat) return '';
+    const activeUserId = getCurrentUserId();
+    if (chat.buyer_id === activeUserId) return chat.seller_id || '';
+    if (chat.seller_id === activeUserId) return chat.buyer_id || '';
+    if (chat.user1_id === activeUserId) return chat.user2_id || '';
+    if (chat.user2_id === activeUserId) return chat.user1_id || '';
+    return '';
+}
+
 function attachGlobalMessageListener(baselineTs) {
     try {
         const ref = firebase.database().ref('messages').orderByChild('timestamp').startAt(baselineTs + 1);
-        ref.on('child_added', async function (snap) {
+        ref.on('child_added', async function(snap) {
             const msg = snap.val();
-            if (!msg) return;
-            // Ignore messages sent by ourselves
-            if (msg.sender_id === userId) return;
+            if (!msg || msg.sender_id === getCurrentUserId()) return;
 
-            // Ensure the chat exists and that the current user is a participant
             try {
                 const chatSnap = await firebase.database().ref('chats/' + msg.chat_id).once('value');
                 const chat = chatSnap.val();
                 if (!chat) return;
                 const participants = [chat.user1_id, chat.user2_id, chat.buyer_id, chat.seller_id].filter(Boolean);
-                if (!participants.includes(userId)) return; // not for this user
+                if (!participants.includes(getCurrentUserId())) return;
 
-                // Update conversations UI badge/list
-                try { loadConversations(); } catch (e) { /* ignore */ }
-
-                // If message is not for currently open chat, show a notification
-                if (msg.chat_id !== currentChatId) {
+                loadConversations();
+                if (msg.chat_id === currentChatId) {
+                    loadMessages(msg.chat_id);
+                } else {
+                    const chatRef = firebase.database().ref('chats/' + msg.chat_id);
+                    const unreadCount = (chat.unread_count || 0) + 1;
+                    chatRef.update({ unread_count: unreadCount });
                     const title = msg.sender_name || 'New message';
                     const body = (msg.text && msg.text.length > 120) ? msg.text.slice(0, 117) + '...' : (msg.text || 'You have a new message');
                     showMessageNotification(title, body, msg.chat_id);
@@ -170,113 +236,240 @@ function attachGlobalMessageListener(baselineTs) {
     }
 }
 
-function loadConversations() {
-    firebase.database().ref('chats').orderByChild('created_at').once('value').then(snapshot => {
+async function markMessagesAsViewed(chatId) {
+    if (!chatId || !getCurrentUserId()) return;
+
+    try {
+        const messagesRef = firebase.database().ref('messages');
+        const snapshot = await messagesRef.orderByChild('chat_id').equalTo(chatId).once('value');
+        const updates = [];
+
+        snapshot.forEach(child => {
+            const msg = child.val() || {};
+            if (msg.sender_id && msg.sender_id !== getCurrentUserId() && msg.viewed !== true) {
+                updates.push(messagesRef.child(child.key).update({ viewed: true }));
+            }
+        });
+
+        if (updates.length) {
+            await Promise.all(updates);
+        }
+
+        await firebase.database().ref('chats/' + chatId).update({ unread_count: 0 });
+    } catch (err) {
+        console.warn('Could not mark messages as viewed:', err);
+    }
+}
+
+async function loadConversations() {
+    firebase.database().ref('chats').orderByChild('created_at').once('value').then(async snapshot => {
         const conversations = [];
         snapshot.forEach(childSnapshot => {
             const chat = childSnapshot.val();
             const chatKey = childSnapshot.key;
-            
-            // Check if current user is part of this chat
-            if ((chat.buyer_id === userId || chat.seller_id === userId) ||
-                (chat.user1_id === userId || chat.user2_id === userId)) {
-                chat.id = chatKey;
-                conversations.push(chat);
+            const activeUserId = getCurrentUserId();
+            if ((chat.buyer_id === activeUserId || chat.seller_id === activeUserId) ||
+                (chat.user1_id === activeUserId || chat.user2_id === activeUserId)) {
+                conversations.push({ ...chat, id: chatKey });
             }
         });
+
+        conversations.sort((a, b) => (b.last_message_time || 0) - (a.last_message_time || 0));
 
         const convoDiv = document.getElementById('conversations-list');
         if (conversations.length === 0) {
             convoDiv.innerHTML = '<p class="text-muted">No conversations yet</p>';
+            updateNotificationBadge();
             return;
         }
 
-        let html = '';
-        conversations.forEach(conv => {
-            const otherUserId = conv.buyer_id === userId ? conv.seller_id : 
-                                (conv.seller_id === userId ? conv.buyer_id :
-                                 (conv.user1_id === userId ? conv.user2_id : conv.user1_id));
-            
+        let unreadCount = 0;
+        const conversationItems = await Promise.all(conversations.map(async conv => {
             const isActive = conv.id === currentChatId;
-            
-            html += `
-                <div class="conversation-item p-2 border-bottom cursor-pointer ${isActive ? 'bg-light' : ''}" 
-                     onclick="selectConversation('${conv.id}')" style="cursor: pointer;">
-                    <p class="mb-1 font-weight-bold">${conv.subject || 'Conversation'}</p>
-                    <small class="text-muted">${conv.last_message || 'No messages yet'}</small><br>
-                    <small class="text-muted">${new Date(conv.last_message_time).toLocaleDateString()}</small>
+            const otherUserId = getOtherUserId(conv);
+            const displayName = await getChatDisplayName(conv);
+            const initial = (displayName.charAt(0) || 'N').toUpperCase();
+            const preview = conv.last_message || 'Discuss price and note content here';
+            const previewTime = conv.last_message_time ? new Date(conv.last_message_time).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
+            const isUnread = !isActive && (conv.unread_count || 0) > 0;
+            if (isUnread) unreadCount += Number(conv.unread_count || 1);
+
+            return `
+                <div class="conversation-item ${isActive ? 'active' : ''} ${isUnread ? 'unread' : ''}" onclick="selectConversation('${conv.id}')">
+                    <div class="conversation-avatar">${initial}</div>
+                    <div class="conversation-meta">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong>${escapeHtml(preview)}</strong>
+                            <small class="text-muted">${previewTime}</small>
+                        </div>
+                        <div class="conversation-preview text-muted">${escapeHtml(displayName)}</div>
+                        <div class="conversation-status ${isUnread ? 'unread' : 'opened'}">
+                            <span class="status-dot"></span>
+                            <span>${isUnread ? 'Unread' : 'Opened'}</span>
+                        </div>
+                    </div>
                 </div>
             `;
-        });
-        convoDiv.innerHTML = html;
+        }));
+
+        convoDiv.innerHTML = conversationItems.join('');
+        updateNotificationBadge(unreadCount);
     });
 }
 
 function selectConversation(chatId) {
     currentChatId = chatId;
+    if (currentChatId) {
+        firebase.database().ref('chats/' + currentChatId).update({ unread_count: 0 });
+    }
     window.location.href = 'messages.html?chat_id=' + chatId;
 }
 
-function loadMessages(chatId) {
-    firebase.database().ref('chats/' + chatId).once('value').then(snapshot => {
-        const chat = snapshot.val();
-        if (!chat) {
-            alert('Chat not found');
-            return;
-        }
+function updateNotificationBadge(count = 0) {
+    const badge = document.getElementById('nav-notification-badge');
+    if (!badge) return;
+    const total = Number(count || 0);
+    badge.textContent = total;
+    badge.style.display = total > 0 ? 'inline-flex' : 'none';
+}
 
-        // Update header with other user info
-        const header = document.getElementById('chat-header');
-        const otherUserId = chat.buyer_id === userId ? chat.seller_id : 
-                            (chat.seller_id === userId ? chat.buyer_id :
-                             (chat.user1_id === userId ? chat.user2_id : chat.user1_id));
-        
-        header.textContent = chat.subject || 'Chat';
+function viewNoteAd() {
+    if (!currentChatData?.note_id) {
+        alert('No note ad linked to this chat.');
+        return;
+    }
+    window.location.href = 'buy-notes.html?note_id=' + encodeURIComponent(currentChatData.note_id);
+}
 
-        // Load chat messages
-        firebase.database().ref('messages').orderByChild('chat_id').equalTo(chatId)
-            .once('value').then(snapshot => {
-                const container = document.getElementById('messages-container');
-                const messages = [];
+async function deleteCurrentChat() {
+    if (!currentChatId) {
+        alert('Please select a chat first.');
+        return;
+    }
 
-                snapshot.forEach(childSnapshot => {
-                    messages.push(childSnapshot.val());
-                });
+    const confirmed = confirm('Delete this entire chat thread?');
+    if (!confirmed) return;
 
-                if (messages.length === 0) {
-                    container.innerHTML = '<p class="text-muted text-center">No messages yet. Start the conversation!</p>';
-                    return;
-                }
+    try {
+        const chatRef = firebase.database().ref('chats/' + currentChatId);
+        const messagesRef = firebase.database().ref('messages');
+        const messagesSnap = await messagesRef.orderByChild('chat_id').equalTo(currentChatId).once('value');
 
-                let html = '';
-                messages.forEach(msg => {
-                    const isSender = msg.sender_id === userId;
-                    const timestamp = new Date(msg.timestamp).toLocaleTimeString();
-                    
-                    html += `
-                        <div class="mb-3 ${isSender ? 'text-end' : 'text-start'}">
-                            <div class="d-inline-block p-2 rounded ${isSender ? 'bg-primary text-white' : 'bg-light'}">
-                                <p class="mb-1">${msg.text}</p>
-                                <small class="${isSender ? 'text-light' : 'text-muted'}">${timestamp}</small>
-                            </div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-                
-                // Scroll to bottom
-                container.scrollTop = container.scrollHeight;
+        const updates = {};
+        messagesSnap.forEach(child => {
+            updates[child.key] = null;
+        });
 
-                // Set up real-time listener for new messages
-                firebase.database().ref('messages').orderByChild('chat_id').equalTo(chatId)
-                    .on('child_added', (snapshot) => {
-                        const msg = snapshot.val();
-                        if (!messages.find(m => m.text === msg.text && m.timestamp === msg.timestamp)) {
-                            loadMessages(chatId);
-                        }
-                    });
-            });
+        await Promise.all([
+            chatRef.remove(),
+            Object.keys(updates).length ? messagesRef.update(updates) : Promise.resolve()
+        ]);
+
+        currentChatId = '';
+        currentChatData = null;
+        document.getElementById('chat-header').textContent = 'Select a chat';
+        document.getElementById('chat-subtitle').textContent = 'Negotiate price and note content';
+        document.getElementById('messages-container').innerHTML = '<div class="chat-empty-state"><p class="text-muted">This chat was deleted.</p></div>';
+        document.getElementById('chat-note-card').innerHTML = '';
+        document.getElementById('quick-actions').innerHTML = '';
+        document.getElementById('message-input').value = '';
+        loadConversations();
+    } catch (error) {
+        console.error('Error deleting chat:', error);
+        alert('Failed to delete chat. Please try again.');
+    }
+}
+
+function renderQuickActions(chat) {
+    const quickReplies = [
+        { label: 'Price?', text: 'Is the price negotiable for this note?' },
+        { label: 'More content', text: 'Can you share more of the content or pages for this note?' },
+        { label: 'Full note', text: 'Please send the full note content before I decide.' },
+        { label: 'Discuss price', text: 'I would like to discuss the price for this note.' }
+    ];
+
+    const container = document.getElementById('quick-actions');
+    container.innerHTML = quickReplies.map(reply => `
+        <button type="button" class="btn btn-outline-primary btn-sm" onclick="useQuickReply('${reply.text.replace(/'/g, "\\'")}')">${reply.label}</button>
+    `).join('');
+}
+
+function useQuickReply(text) {
+    const input = document.getElementById('message-input');
+    input.value = text;
+    input.focus();
+}
+
+async function loadMessages(chatId) {
+    const chatSnapshot = await firebase.database().ref('chats/' + chatId).once('value');
+    const chat = chatSnapshot.val();
+    if (!chat) {
+        alert('Chat not found');
+        return;
+    }
+
+    currentChatData = chat;
+    const header = document.getElementById('chat-header');
+    const subtitle = document.getElementById('chat-subtitle');
+    const avatar = document.getElementById('chat-avatar');
+    const noteCard = document.getElementById('chat-note-card');
+
+    const noteTitle = chat.note_title || chat.subject || 'Note discussion';
+    const notePrice = chat.note_price || 0;
+    const noteDescription = chat.note_description || 'Discuss the note content and negotiate the price here.';
+    const displayName = await getChatDisplayName(chat);
+
+    header.textContent = `${displayName}`;
+    subtitle.textContent = chat.note_title ? `${displayName} • ${noteTitle} • ₹${notePrice}` : `Chat with ${displayName}`;
+    avatar.textContent = (displayName.charAt(0) || 'N').toUpperCase();
+    noteCard.innerHTML = `
+        <div class="chat-note-card">
+            <div class="d-flex justify-content-between align-items-start gap-2">
+                <div>
+                    <h6 class="mb-1">${escapeHtml(noteTitle)}</h6>
+                    <p class="mb-0 text-muted">${escapeHtml(noteDescription)}</p>
+                </div>
+                <span class="badge bg-success">₹${notePrice}</span>
+            </div>
+        </div>
+    `;
+    renderQuickActions(chat);
+
+    await markMessagesAsViewed(chatId);
+
+    const messagesSnapshot = await firebase.database().ref('messages').orderByChild('chat_id').equalTo(chatId).once('value');
+    const container = document.getElementById('messages-container');
+    const messages = [];
+
+    messagesSnapshot.forEach(childSnapshot => {
+        messages.push(childSnapshot.val());
     });
+
+    messages.sort((a, b) => Number(a.timestamp || 0) - Number(b.timestamp || 0));
+
+    if (messages.length === 0) {
+        container.innerHTML = '<div class="chat-empty-state"><p class="text-muted">No messages yet. Start the conversation about the price or note content.</p></div>';
+        return;
+    }
+
+    let html = '';
+    messages.forEach(msg => {
+        const isSender = msg.sender_id === userId;
+        const timestamp = new Date(msg.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        const text = escapeHtml(msg.text || '').split('\n').join('<br>');
+        const isViewed = Boolean(msg.viewed);
+        const statusIcon = isSender ? `<span class="message-status"><span class="tick ${isViewed ? 'read' : 'pending'}">✓✓</span></span>` : '';
+        html += `
+            <div class="chat-message ${isSender ? 'text-end' : 'text-start'}">
+                <div class="chat-bubble ${isSender ? 'sent' : 'received'}">
+                    <div>${text}</div>
+                    <small>${timestamp}${statusIcon}</small>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+    container.scrollTop = container.scrollHeight;
 }
 
 document.getElementById('message-form').addEventListener('submit', function(e) {
@@ -300,11 +493,10 @@ function sendMessage() {
         sender_id: userId,
         sender_name: userName,
         text: messageText,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        viewed: false
     }).then(() => {
         document.getElementById('message-input').value = '';
-        
-        // Update chat's last message
         firebase.database().ref('chats/' + currentChatId).update({
             last_message: messageText,
             last_message_time: Date.now()
@@ -317,7 +509,7 @@ function sendMessage() {
     });
 }
 </script>
-<div id="app-footer">
+<div id="app-footer"></div>
 </body>
 </html>
 

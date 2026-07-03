@@ -8,6 +8,69 @@
     return d.innerHTML;
   }
 
+  let unreadBadgeListenerAttached = false;
+
+  function updateMessageBadges(count = 0) {
+    const badge = document.getElementById('nav-notification-badge');
+    const dashboardBadge = document.getElementById('dashboard-message-badge');
+    const total = Number(count || 0);
+
+    if (badge) {
+      badge.textContent = total;
+      badge.style.display = total > 0 ? 'inline-flex' : 'none';
+    }
+
+    if (dashboardBadge) {
+      dashboardBadge.textContent = total;
+      dashboardBadge.style.display = total > 0 ? 'inline-flex' : 'none';
+    }
+  }
+
+  async function refreshMessageBadges() {
+    try {
+      const uid = window.NoteShareAuth && typeof window.NoteShareAuth.getUserId === 'function'
+        ? window.NoteShareAuth.getUserId()
+        : '';
+
+      if (!uid || typeof firebase === 'undefined' || !firebase.database) {
+        updateMessageBadges(0);
+        return;
+      }
+
+      const snapshot = await firebase.database().ref('chats').once('value');
+      let total = 0;
+      snapshot.forEach(function (child) {
+        const chat = child.val() || {};
+        const isParticipant =
+          chat.buyer_id === uid ||
+          chat.seller_id === uid ||
+          chat.user1_id === uid ||
+          chat.user2_id === uid;
+
+        if (isParticipant) {
+          total += Number(chat.unread_count || 0);
+        }
+      });
+
+      updateMessageBadges(total);
+    } catch (err) {
+      console.warn('Could not refresh unread message badges:', err);
+      updateMessageBadges(0);
+    }
+  }
+
+  function attachUnreadBadgeListener() {
+    if (unreadBadgeListenerAttached || typeof firebase === 'undefined' || !firebase.database) return;
+
+    unreadBadgeListenerAttached = true;
+    firebase.database().ref('chats').on('value', function () {
+      refreshMessageBadges();
+    });
+  }
+
+  window.NoteShareUpdateMessageBadges = updateMessageBadges;
+  window.NoteShareRefreshMessageBadges = refreshMessageBadges;
+
   function renderHeader() {
     const loggedIn = window.NoteShareAuth && window.NoteShareAuth.isLoggedIn();
     const name = loggedIn ? window.NoteShareAuth.getUserName() : 'Profile';
@@ -19,7 +82,7 @@
         '<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="buy-notes.html">Notes</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="coins.html">Coins</a></li>' +
-        '<li class="nav-item"><a class="nav-link" href="messages.html">Messages</a></li>' +
+        '<li class="nav-item"><a class="nav-link position-relative" href="messages.html">Messages<span class="notification-badge" id="nav-notification-badge">0</span></a></li>' +
         (isAdmin
           ? '<li class="nav-item"><a class="nav-link text-warning" href="admin-dashboard.html"><i class="fas fa-tachometer-alt me-1"></i>Admin</a></li>'
           : '') +
@@ -255,6 +318,9 @@
 
     const footerEl = document.getElementById('app-footer');
     if (footerEl) footerEl.innerHTML = renderFooter();
+
+    attachUnreadBadgeListener();
+    refreshMessageBadges();
 
     document.getElementById('logout-link')?.addEventListener('click', function (e) {
       e.preventDefault();

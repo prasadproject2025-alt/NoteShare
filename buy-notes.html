@@ -170,6 +170,7 @@
 
 <script>
 let userId = '';
+const selectedNoteId = new URLSearchParams(window.location.search).get('note_id');
 
 // Load coin balance and available notes on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -307,6 +308,16 @@ function loadAllAvailableNotes() {
 
         if (notes.length === 0) {
             notesList.innerHTML = '<div class="alert alert-info">No notes available.</div>';
+            return;
+        }
+
+        if (selectedNoteId) {
+            const matchingNote = notes.find(note => note.id === selectedNoteId);
+            if (matchingNote) {
+                displayNotes([matchingNote]);
+            } else {
+                notesList.innerHTML = '<div class="alert alert-warning">The selected note ad could not be found.</div>';
+            }
             return;
         }
 
@@ -512,7 +523,10 @@ function testDisplay() {
 }
 
 function contactSeller(sellerId, noteId) {
-    // Check if user has coins using API
+    const currentUserId = (window.NoteShareAuth && typeof window.NoteShareAuth.getUserId === 'function')
+        ? window.NoteShareAuth.getUserId()
+        : userId;
+
     fetch('get_user_coins.html?t=' + Date.now(), {
         method: 'GET',
         headers: {
@@ -532,7 +546,6 @@ function contactSeller(sellerId, noteId) {
             return;
         }
 
-        // Deduct 1 coin from local storage via API
         fetch('update_user_coins.html', {
             method: 'POST',
             headers: {
@@ -551,19 +564,34 @@ function contactSeller(sellerId, noteId) {
                 return;
             }
 
-            // Create chat conversation
-            const chatRef = firebase.database().ref('chats').push();
-            chatRef.set({
-                buyer_id: userId,
-                seller_id: sellerId,
-                note_id: noteId,
-                created_at: Date.now(),
-                last_message: '',
-                last_message_time: Date.now()
-            }).then(() => {
-                window.location.href = 'messages.html?chat_id=' + chatRef.key;
+            firebase.database().ref('notes/' + noteId).once('value').then(noteSnap => {
+                const note = noteSnap.val() || {};
+                const buyerName = (window.NoteShareAuth && typeof window.NoteShareAuth.getUserName === 'function')
+                    ? window.NoteShareAuth.getUserName()
+                    : 'Buyer';
+
+                const chatRef = firebase.database().ref('chats').push();
+                chatRef.set({
+                    buyer_id: currentUserId,
+                    seller_id: sellerId,
+                    buyer_name: buyerName,
+                    seller_name: note.seller_name || 'Seller',
+                    note_id: noteId,
+                    note_title: note.subject_name || 'Note discussion',
+                    note_price: note.price || 0,
+                    note_description: note.description || 'Discuss the note content and price here.',
+                    subject: note.subject_name || 'Note discussion',
+                    created_at: Date.now(),
+                    last_message: '',
+                    last_message_time: Date.now()
+                }).then(() => {
+                    window.location.href = 'messages.html?chat_id=' + chatRef.key;
+                }).catch(error => {
+                    console.error('Error creating chat:', error);
+                    alert('Error creating conversation. Please try again.');
+                });
             }).catch(error => {
-                console.error('Error creating chat:', error);
+                console.error('Error fetching note details:', error);
                 alert('Error creating conversation. Please try again.');
             });
         })
