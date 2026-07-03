@@ -16,6 +16,7 @@
 ### 2. Buy Notes Module
 - ✅ **Search by Course Code** - Implemented in `buy_notes.php`
 - ✅ **Search by Slot (Morning/Afternoon)** - Implemented
+- ✅ **Search Results Display** - Search UI returns matching notes successfully
 - ✅ **View Note Details** - Shows:
   - Subject name ✅
   - Course code ✅
@@ -27,7 +28,7 @@
 - ✅ **Contact Seller** - 1 coin required, creates chat
 
 ### 3. Sell Notes Module
-- ✅ **Upload Note Images** - File upload working
+- ✅ **Upload Note Images** - File upload working through `sell-notes.html` and `upload-progress.html`
 - ✅ **Note Details Form** - All fields present:
   - Subject name ✅
   - Course code ✅
