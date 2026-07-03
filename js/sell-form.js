@@ -14,8 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
     uploadSpinner?.classList.remove('d-none');
 
     try {
-      const files = document.getElementById('note_images')?.files;
-      if (!files?.length) throw new Error('Please upload at least one image');
+      const fileInputs = Array.from(form.querySelectorAll('input[type="file"]')); 
+      const files = fileInputs.reduce((acc, input) => {
+        if (input.files && input.files[0]) acc.push(input.files[0]);
+        return acc;
+      }, []);
+      if (!files.length) throw new Error('Please upload at least one image');
 
       const images = [];
       let totalSize = 0;

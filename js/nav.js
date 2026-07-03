@@ -302,6 +302,26 @@
           container.innerHTML = '<div class="text-danger">Error loading notes</div>';
         }
       });
+
+      const headerDropdownMenu = document.querySelector('.nav-item.dropdown .dropdown-menu');
+      if (headerDropdownMenu) {
+        dropdownToggle.addEventListener('click', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          const isOpen = headerDropdownMenu.classList.contains('show');
+          headerDropdownMenu.classList.toggle('show', !isOpen);
+          dropdownToggle.classList.toggle('show', !isOpen);
+          dropdownToggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+
+        document.addEventListener('click', function (event) {
+          if (!dropdownToggle.contains(event.target) && !headerDropdownMenu.contains(event.target)) {
+            headerDropdownMenu.classList.remove('show');
+            dropdownToggle.classList.remove('show');
+            dropdownToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
     }
   });
 

@@ -93,29 +93,39 @@
 
 <script>
 let userId = '';
-const profileUserId = '';
-const isOwnProfile = ;
+let profileUserId = '';
+let isOwnProfile = false;
+
+function initProfilePage() {
+    userId = window.NoteShareAuth?.getUserId() || '';
+    const params = new URLSearchParams(window.location.search);
+    profileUserId = params.get('user_id') || userId;
+    isOwnProfile = userId && profileUserId === userId;
+
+    if (!profileUserId) {
+        document.getElementById('profile-section').innerHTML = '<div class="alert alert-danger">Unable to determine which profile to load.</div>';
+        return;
+    }
+
+    loadProfileDetails();
+    loadSellingNotes();
+    loadLikedNotes();
+    loadRentalNotes();
+    loadSharedNotes();
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Wait for NoteShare app to be ready
     if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
         window.NoteShareBoot.waitForApp().then(() => {
             console.log('NoteShare app ready, initializing profile page...');
-            loadProfileDetails();
-            loadSellingNotes();
-            loadLikedNotes();
-            loadRentalNotes();
-            loadSharedNotes();
+            initProfilePage();
         }).catch(error => {
             console.error('Failed to initialize:', error);
             document.getElementById('profile-section').innerHTML = '<div class="alert alert-danger">Error loading profile. Please refresh.</div>';
         });
     } else {
-        loadProfileDetails();
-        loadSellingNotes();
-        loadLikedNotes();
-        loadRentalNotes();
-        loadSharedNotes();
+        initProfilePage();
     }
 });
 
