@@ -36,3 +36,4 @@ Without SMTP, dev mode writes OTP to `logs/otp_log.txt` and the terminal.
 - `css/`, `js/` — assets
 - `api/` — serverless OTP & admin (Node.js)
 - `server/dev.js` — local dev server
+
