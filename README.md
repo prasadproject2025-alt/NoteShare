@@ -3,10 +3,10 @@
 VIT note-sharing platform — **HTML, CSS, and JavaScript**.
 
 
-
+About the project---
 https://www.loom.com/share/a6f6789430d743668abb22ed33cc7f67
 
-
+Website walkthro---
 https://www.loom.com/share/7da3877838394332b7561d6a6d7e4829
 
 
