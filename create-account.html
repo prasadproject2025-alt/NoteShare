@@ -1,141 +1,296 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteShare - VIT Note Sharing Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Create Account — NoteShare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    
     <script src="js/nav.js" defer></script>
     <script src="js/create-account-page.js" defer></script>
-    <!-- Firebase loaded by nav.js (v8 only) -->
 </head>
-<body>
-<div id="app-header"></div>
-<div class="container mt-5">
+<body class="login-body auth-modern-bg">
+
+<!-- Ambient Glowing Orbs -->
+<div class="ambient-orb orb-1"></div>
+<div class="ambient-orb orb-2"></div>
+<div class="ambient-orb orb-3"></div>
+
+<!-- Top Navigation -->
+<header class="auth-header">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="login.html" class="auth-brand text-decoration-none">
+            <div class="auth-logo-badge">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <div class="auth-brand-text">
+                <span class="brand-title">Note<span class="gradient-text">Share</span></span>
+                <span class="brand-badge">VIT Portal</span>
+            </div>
+        </a>
+        <div class="auth-header-nav">
+            <a href="login.html" class="nav-auth-btn">Student Login</a>
+            <a href="create-account.html" class="nav-auth-btn signup-btn active">Create Account</a>
+        </div>
+    </div>
+</header>
+
+<!-- Main Container -->
+<main class="auth-main-container container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h3><i class="fas fa-user-plus me-2"></i>Create Your Account</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Step Indicator -->
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between">
-                            <div class="step-indicator active" id="step-1">
-                                <div class="step-circle">1</div>
-                                <div class="step-text">Email</div>
-                            </div>
-                            <div class="step-indicator" id="step-2">
-                                <div class="step-circle">2</div>
-                                <div class="step-text">OTP & Password</div>
-                            </div>
+        <div class="col-lg-5 col-md-8 col-sm-11">
+            <div class="glass-auth-card">
+                <div class="card-glow-overlay"></div>
+                
+                <div class="auth-card-inner">
+                    <!-- Auth Header -->
+                    <div class="auth-card-header text-center mb-3">
+                        <div class="auth-avatar-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h2 class="auth-card-title">Join NoteShare</h2>
+                        <p class="auth-card-subtitle">Exclusively for VIT students with verified email</p>
+                    </div>
+
+                    <!-- Step Progress Indicator -->
+                    <div class="auth-step-wrapper mb-4">
+                        <div class="step-indicator active" id="step-1">
+                            <div class="step-circle"><i class="fas fa-envelope"></i></div>
+                            <span class="step-label">1. Email OTP</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="step-indicator" id="step-2">
+                            <div class="step-circle"><i class="fas fa-key"></i></div>
+                            <span class="step-label">2. Password</span>
                         </div>
                     </div>
 
-                    <!-- Email Input Section -->
+                    <!-- Step 1: Email Input Section -->
                     <div id="email-section">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">VIT Student Gmail</label>
-                            <input type="email" class="form-control form-control-lg" id="email"
-                                   placeholder="your.email@vitstudent.ac.in" required>
-                            <small class="text-muted">Must end with @vitstudent.ac.in</small>
+                        <div class="form-group mb-4">
+                            <label for="email" class="form-label">VIT Student Email</label>
+                            <div class="input-icon-wrapper">
+                                <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                                <input type="email" 
+                                       class="form-control modern-input" 
+                                       id="email" 
+                                       placeholder="your.name@vitstudent.ac.in" 
+                                       required 
+                                       autocomplete="email"
+                                       inputmode="email">
+                            </div>
+                            <small class="form-text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i>Must be your official <code>@vitstudent.ac.in</code> Gmail</small>
                         </div>
-                        <button type="button" class="btn btn-success btn-lg w-100" id="send-otp-btn" onclick="sendOTP()">
-                            Send OTP to Gmail
+                        
+                        <button type="button" class="btn btn-modern-primary w-100" id="send-otp-btn" onclick="sendOTP()">
+                            <span>Send Verification OTP</span>
+                            <i class="fas fa-paper-plane ms-2"></i>
                         </button>
                     </div>
 
-                    <!-- OTP & Password Section -->
+                    <!-- Step 2: OTP & Password Section -->
                     <div id="otp-password-section" style="display: none;">
-                        <div class="text-center mb-3">
-                            <h5>Verify Your Email & Create Password</h5>
-                            <p class="text-muted">Enter the OTP sent to your Gmail and create a secure password</p>
+                        <div class="otp-instruction-banner mb-3 text-center">
+                            <span class="badge bg-primary-subtle text-primary-emphasis mb-1">OTP Sent Successfully</span>
+                            <p class="small text-secondary mb-0">Check your VIT Gmail inbox & spam folder for the 6-digit code.</p>
                         </div>
 
                         <!-- OTP Input -->
-                        <div class="mb-4">
-                            <label for="otp" class="form-label">6-Digit OTP</label>
-                            <input type="text" class="form-control form-control-lg text-center" id="otp"
-                                   placeholder="000000" maxlength="6" required style="font-size: 24px; letter-spacing: 8px;">
-                            <small class="text-muted">Check your Gmail inbox and spam folder for the OTP</small>
+                        <div class="form-group mb-3 text-center">
+                            <label for="otp" class="form-label">6-Digit Verification Code</label>
+                            <input type="text" 
+                                   class="form-control modern-input otp-digit-input text-center" 
+                                   id="otp" 
+                                   placeholder="••••••" 
+                                   maxlength="6" 
+                                   inputmode="numeric"
+                                   pattern="[0-9]*"
+                                   required>
                         </div>
 
                         <!-- Password Creation -->
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control form-control-lg" id="password" required>
-                            <div class="password-requirements mt-2">
-                                <small id="req-length" class="text-muted"><i class="fas fa-times text-danger"></i> At least 8 characters</small><br>
-                                <small id="req-uppercase" class="text-muted"><i class="fas fa-times text-danger"></i> One uppercase letter</small><br>
-                                <small id="req-lowercase" class="text-muted"><i class="fas fa-times text-danger"></i> One lowercase letter</small><br>
-                                <small id="req-number" class="text-muted"><i class="fas fa-times text-danger"></i> One number</small><br>
-                                <small id="req-special" class="text-muted"><i class="fas fa-times text-danger"></i> One special character (!@#$%^&*)</small>
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Create Password</label>
+                            <div class="input-icon-wrapper">
+                                <span class="input-icon"><i class="fas fa-lock"></i></span>
+                                <input type="password" 
+                                       class="form-control modern-input" 
+                                       id="password" 
+                                       placeholder="Create a strong password" 
+                                       required>
+                                <button type="button" class="btn-password-toggle" onclick="togglePasswordVisibility('password', this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Password Strength Badges -->
+                            <div class="password-req-box mt-2 p-2 rounded-3">
+                                <div class="req-item" id="req-length"><i class="fas fa-circle-xmark text-danger me-1"></i>At least 8 characters</div>
+                                <div class="req-item" id="req-uppercase"><i class="fas fa-circle-xmark text-danger me-1"></i>One uppercase letter</div>
+                                <div class="req-item" id="req-lowercase"><i class="fas fa-circle-xmark text-danger me-1"></i>One lowercase letter</div>
+                                <div class="req-item" id="req-number"><i class="fas fa-circle-xmark text-danger me-1"></i>One number</div>
+                                <div class="req-item" id="req-special"><i class="fas fa-circle-xmark text-danger me-1"></i>One special character (!@#$%^&*)</div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="form-group mb-4">
                             <label for="confirm-password" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control form-control-lg" id="confirm-password" required>
-                            <small id="confirm-error" class="text-danger" style="display: none;">Passwords do not match</small>
+                            <div class="input-icon-wrapper">
+                                <span class="input-icon"><i class="fas fa-lock-open"></i></span>
+                                <input type="password" 
+                                       class="form-control modern-input" 
+                                       id="confirm-password" 
+                                       placeholder="Re-enter password" 
+                                       required>
+                                <button type="button" class="btn-password-toggle" onclick="togglePasswordVisibility('confirm-password', this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <small id="confirm-error" class="text-danger mt-1" style="display: none;"><i class="fas fa-triangle-exclamation me-1"></i>Passwords do not match</small>
                         </div>
 
-                        <button type="button" class="btn btn-success btn-lg w-100" id="create-account-btn" onclick="createAccount()" disabled>
-                            Create Account
+                        <button type="button" class="btn btn-modern-primary w-100" id="create-account-btn" onclick="createAccount()" disabled>
+                            <span>Complete Account Setup</span>
+                            <i class="fas fa-check ms-2"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="backToEmail()">
-                            Change Email
+                        
+                        <button type="button" class="btn btn-outline-light-custom w-100 mt-2" onclick="backToEmail()">
+                            <i class="fas fa-arrow-left me-1"></i> Change Email
                         </button>
+                    </div>
+
+                    <!-- Footer Switcher -->
+                    <div class="auth-card-footer text-center mt-4">
+                        <p class="switch-prompt mb-0">
+                            Already registered? 
+                            <a href="login.html" class="create-account-link">Sign In</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</main>
 
 <style>
-.step-indicator {
-    text-align: center;
-    flex: 1;
-}
-
-.step-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #e9ecef;
-    color: #6c757d;
+.auth-step-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin: 0 auto 8px;
-    font-weight: bold;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.5;
     transition: all 0.3s ease;
 }
 
+.step-indicator.active {
+    opacity: 1;
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
 .step-indicator.active .step-circle {
-    background-color: #198754;
-    color: white;
+    background: linear-gradient(135deg, #2563eb, #6366f1);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
-.step-text {
-    font-size: 12px;
-    color: #6c757d;
+.step-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #cbd5e1;
 }
 
-.step-indicator.active .step-text {
-    color: #198754;
-    font-weight: 500;
+.step-line {
+    flex: 1;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 0 0.75rem;
 }
 
-.password-requirements i {
-    width: 16px;
+.otp-digit-input {
+    font-size: 1.5rem !important;
+    letter-spacing: 6px;
+    font-weight: 700;
+}
+
+.password-req-box {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.76rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.req-item {
+    color: #94a3b8;
+}
+
+.form-text-muted {
+    font-size: 0.76rem;
+    color: #64748b;
+}
+
+.btn-outline-light-custom {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #94a3b8;
+    border-radius: 14px;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-light-custom:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
 }
 </style>
+
+<script>
+function togglePasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+    }
+}
+</script>
 
 <div id="app-footer"></div>
 </body>
 </html>
+
 
 
