@@ -13,7 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(`Server error (${res.status}): ${text.substring(0, 120)}`);
+      }
       if (!data.success) throw new Error(data.message || 'Login failed');
       window.NoteShareAuth.setAdmin(data.username);
       window.location.href = 'admin-dashboard.html';

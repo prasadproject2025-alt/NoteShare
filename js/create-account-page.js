@@ -44,7 +44,13 @@ async function sendOTP() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, name: email.split('@')[0] }),
     });
-    const data = await res.json();
+    const responseText = await res.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      throw new Error(`Server error (${res.status}): ${responseText.substring(0, 120)}`);
+    }
     if (!data.success) {
       const msg = [data.message, data.details, data.hint].filter(Boolean).join('\n\n');
       throw new Error(msg || 'Failed to send OTP');
@@ -123,7 +129,13 @@ async function createAccount() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: userEmail, otp }),
     });
-    const verifyData = await verifyRes.json();
+    const verifyText = await verifyRes.text();
+    let verifyData;
+    try {
+      verifyData = JSON.parse(verifyText);
+    } catch {
+      throw new Error(`Server error (${verifyRes.status}): ${verifyText.substring(0, 120)}`);
+    }
     if (!verifyData.success) throw new Error(verifyData.message || 'Invalid OTP');
 
     await waitForApp();
