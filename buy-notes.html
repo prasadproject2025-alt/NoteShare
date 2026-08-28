@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -141,7 +141,6 @@
                     </div>
                     <button class="btn btn-primary" onclick="searchNotes()">Search</button>
                     <button class="btn btn-secondary ms-2" onclick="loadAllAvailableNotes()">Refresh Notes</button>
-                    <button class="btn btn-info ms-2" onclick="testFirebaseConnection()">Test Connection</button>
                 </div>
             </div>
 
@@ -727,43 +726,6 @@ function handleModalKeydown(event) {
 // Store note images globally for modal access
 function storeNoteImages(noteId, images) {
     currentNoteImages[noteId] = images;
-}
-
-function testFirebaseConnection() {
-    console.log('Testing Firebase connection...');
-    
-    if (typeof firebase === 'undefined') {
-        alert('Firebase not loaded');
-        return;
-    }
-    
-    if (!firebase.apps || firebase.apps.length === 0) {
-        alert('Firebase not initialized');
-        return;
-    }
-    
-    // Test anonymous auth
-    firebase.auth().signInAnonymously().then(() => {
-        console.log('Anonymous auth successful');
-        
-        // Test database access
-        const notesRef = firebase.database().ref('notes');
-        notesRef.once('value').then(snapshot => {
-            const count = snapshot.numChildren();
-            const exists = snapshot.exists();
-            alert('Firebase connection successful!\nNotes found: ' + count + '\nData exists: ' + exists);
-            console.log('Connection test successful, notes count:', count, 'exists:', exists);
-            if (exists) {
-                console.log('Sample data:', snapshot.val());
-            }
-        }).catch(error => {
-            alert('Database access failed: ' + error.message);
-            console.error('Database access failed:', error);
-        });
-    }).catch(authError => {
-        alert('Anonymous auth failed: ' + authError.message);
-        console.error('Auth failed:', authError);
-    });
 }
 </script>
 <div id="app-footer">

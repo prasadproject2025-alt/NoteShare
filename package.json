@@ -6,10 +6,7 @@
   "scripts": {
     "build": "echo Static site build complete",
     "dev": "node server/dev.js",
-    "start": "node server/dev.js",
-    "test:email": "node scripts/test-smtp.js",
-    "test:email-config": "node scripts/test-email-config.js",
-    "test:vercel": "node scripts/test-email-config.js"
+    "start": "node server/dev.js"
   },
   "engines": {
     "node": ">=18"
