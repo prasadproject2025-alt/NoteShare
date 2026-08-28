@@ -1,22 +1,11 @@
-const fs = require('fs');
-const path = require('path');
 const { loadEnv } = require('../lib/env');
 const { isSmtpConfigured, sendOtpEmail } = require('../lib/mailer');
+const { saveOtp, logOtp } = require('../lib/otp-store');
 
 loadEnv();
 
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
-function logOtp(email, otp, emailSent) {
-  const logsDir = path.join(process.cwd(), 'logs');
-  if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-  const line = `${new Date().toISOString()} - OTP for ${email}: ${otp} - Email sent: ${emailSent ? 'YES' : 'NO'}\n`;
-  fs.appendFileSync(path.join(logsDir, 'otp_log.txt'), line, 'utf8');
-  if (!emailSent) {
-    console.log(`[NoteShare] OTP for ${email}: ${otp} (logged — email not sent)`);
-  }
 }
 
 module.exports = async function handler(req, res) {
@@ -41,27 +30,9 @@ module.exports = async function handler(req, res) {
     const displayName = name || email.split('@')[0];
     const expirationTime = Date.now() + 10 * 60 * 1000;
     const key = email.replace(/[.@]/g, '_');
-    const logsDir = path.join(process.cwd(), 'logs');
-    const otpFile = path.join(logsDir, 'otp_data.json');
 
-    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-
-    let otpData = {};
-    if (fs.existsSync(otpFile)) {
-      try {
-        otpData = JSON.parse(fs.readFileSync(otpFile, 'utf8') || '{}');
-      } catch {
-        otpData = {};
-      }
-    }
-
-    const now = Date.now();
-    for (const k of Object.keys(otpData)) {
-      if (otpData[k].expiresAt < now) delete otpData[k];
-    }
-
-    otpData[key] = { otp, email, name: displayName, createdAt: now, expiresAt: expirationTime };
-    fs.writeFileSync(otpFile, JSON.stringify(otpData, null, 2), 'utf8');
+    // Store OTP safely in os.tmpdir()
+    saveOtp(key, { otp, email, name: displayName, createdAt: Date.now(), expiresAt: expirationTime });
 
     if (!isSmtpConfigured()) {
       const allowDevLog = process.env.OTP_DEV_MODE === 'true';
@@ -71,14 +42,15 @@ module.exports = async function handler(req, res) {
           success: true,
           devMode: true,
           message:
-            'SMTP not configured. OTP saved to logs/otp_log.txt — add GMAIL_USERNAME and GMAIL_APP_PASSWORD to .env.local',
+            'SMTP not configured. OTP logged to temp file — add GMAIL_USERNAME and GMAIL_APP_PASSWORD to environment variables',
           email,
         });
       }
       return res.status(500).json({
         success: false,
-        message:
-          'Email not configured. Add GMAIL_USERNAME and GMAIL_APP_PASSWORD to .env.local (see .env.example), then restart the server.',
+        message: 'Email service is not configured on Vercel.',
+        details: 'Missing GMAIL_USERNAME or GMAIL_APP_PASSWORD environment variables in Vercel.',
+        hint: 'Go to Vercel Dashboard -> Project Settings -> Environment Variables, add GMAIL_USERNAME and GMAIL_APP_PASSWORD, then redeploy.',
       });
     }
 
@@ -95,9 +67,9 @@ module.exports = async function handler(req, res) {
       logOtp(email, otp, false);
       return res.status(500).json({
         success: false,
-        message: 'Failed to send OTP email.',
+        message: 'Failed to send OTP email via SMTP.',
         details: mailErr.message,
-        hint: 'Check Gmail App Password, enable 2FA, and ensure FROM_EMAIL matches GMAIL_USERNAME.',
+        hint: 'Check Gmail App Password (16 chars), enable 2-Step Verification in Google Account, and ensure GMAIL_USERNAME is set in Vercel environment variables.',
       });
     }
   } catch (error) {
@@ -109,3 +81,4 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+

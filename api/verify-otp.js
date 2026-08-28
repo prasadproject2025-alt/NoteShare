@@ -1,5 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+const { loadEnv } = require('../lib/env');
+const { getOtp, deleteOtp } = require('../lib/otp-store');
+
+loadEnv();
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -17,27 +19,14 @@ module.exports = async function handler(req, res) {
     }
 
     const key = email.replace(/[.@]/g, '_');
-    const otpFile = path.join(process.cwd(), 'logs', 'otp_data.json');
+    const stored = getOtp(key);
 
-    if (!fs.existsSync(otpFile)) {
-      return res.status(400).json({ success: false, message: 'No OTP found. Please request a new one.' });
-    }
-
-    let otpData = {};
-    try {
-      otpData = JSON.parse(fs.readFileSync(otpFile, 'utf8') || '{}');
-    } catch {
-      otpData = {};
-    }
-
-    const stored = otpData[key];
     if (!stored) {
       return res.status(400).json({ success: false, message: 'No OTP found. Please request a new one.' });
     }
 
     if (Date.now() > stored.expiresAt) {
-      delete otpData[key];
-      fs.writeFileSync(otpFile, JSON.stringify(otpData, null, 2), 'utf8');
+      deleteOtp(key);
       return res.status(400).json({ success: false, message: 'OTP has expired. Please request a new one.' });
     }
 
@@ -49,9 +38,7 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ success: false, message: 'Email mismatch' });
     }
 
-    delete otpData[key];
-    fs.writeFileSync(otpFile, JSON.stringify(otpData, null, 2), 'utf8');
-
+    deleteOtp(key);
     return res.status(200).json({ success: true, message: 'OTP verified successfully' });
   } catch (error) {
     console.error('OTP verification error:', error);
@@ -62,3 +49,4 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+
