@@ -1,137 +1,171 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteShare - VIT Note Sharing Platform</title>
+    <title>VIT Vellore - Sell Notes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/nav.js" defer></script>
     <script src="js/sell-form.js" defer></script>
 </head>
-<body>
+<body class="vtop-exact-body" style="min-height: 100vh; display: flex; flex-direction: column;">
 <div id="app-header"></div>
-<main class="container mt-5">
-    <div class="row">
-        <div class="col-md-8">
-            <h2>Sell Your Notes</h2>
 
-            <div class="alert alert-danger"></div>
-            <div class="alert alert-info" id="processing-alert">
-                    <i class="fas fa-spinner fa-spin me-2"></i></div>
-            <div id="upload-progress" class="alert alert-info d-none">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-spinner fa-spin me-2" id="progress-icon"></i>
-                    <span id="progress-text">Preparing upload...</span>
-                </div>
-                <div class="progress mt-3" style="height:10px;">
-                    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%"></div>
-                </div>
+<main class="container-fluid px-3 px-md-4 my-3 flex-grow-1">
+    <!-- Main VTOP Page Card -->
+    <div class="vtop-page-card">
+        <!-- Title Bar -->
+        <div class="vtop-page-title-bar d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <h2 class="mb-0">Sell &amp; Upload Academic Notes</h2>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1" style="font-size: 0.78rem;">FALL SEM 2026-27</span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fw-bold" style="font-size: 0.78rem;">
+                    <i class="fas fa-coins me-1"></i>Earn Coins on Sales
+                </span>
             </div>
-
-            <form method="POST" enctype="multipart/form-data" id="sell-notes-form">
-                <div class="mb-3">
-                    <label for="subject_name" class="form-label">Subject Name</label>
-                    <input type="text" class="form-control" id="subject_name" name="subject_name" required>
-                </div>
-                
-
-                <div class="mb-3">
-                    <label for="course_code" class="form-label">Course Code</label>
-                    <input type="text" class="form-control" id="course_code" name="course_code" 
-                           placeholder="e.g., CSE101" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="faculty_name" class="form-label">Faculty Name</label>
-                    <input type="text" class="form-control" id="faculty_name" name="faculty_name" required>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="slot" class="form-label">VIT Slot</label>
-                        <select class="form-control" id="slot" name="slot" required>
-                            <option value="">Select Your Slot</option>
-                            <option value="A1">A1 (Morning)</option>
-                            <option value="A2">A2 (Afternoon)</option>
-                            <option value="B1">B1 (Morning)</option>
-                            <option value="B2">B2 (Afternoon)</option>
-                            <option value="C1">C1 (Morning)</option>
-                            <option value="C2">C2 (Afternoon)</option>
-                            <option value="D1">D1 (Morning)</option>
-                            <option value="D2">D2 (Afternoon)</option>
-                            <option value="E1">E1 (Morning)</option>
-                            <option value="E2">E2 (Afternoon)</option>
-                            <option value="F1">F1 (Morning)</option>
-                            <option value="F2">F2 (Afternoon)</option>
-                            <option value="G1">G1 (Morning)</option>
-                            <option value="G2">G2 (Afternoon)</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label for="year" class="form-label">Year</label>
-                        <select class="form-control" id="year" name="year" required>
-                            <option value="">Select Year</option>
-                            <option value="1">1st Year</option>
-                            <option value="2">2nd Year</option>
-                            <option value="3">3rd Year</option>
-                            <option value="4">4th Year</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <label for="price" class="form-label">Price (â‚¹)</label>
-                    <input type="number" class="form-control" id="price" name="price" 
-                           step="0.01" min="0" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Upload Note Images (Maximum 5)</label>
-                    <div id="image-upload-container">
-                        <div class="image-upload-item mb-2">
-                            <div class="input-group">
-                                <input type="file" class="form-control" name="note_images[]" accept="image/*" required>
-                                <button type="button" class="btn btn-outline-danger remove-image" style="display: none;">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-outline-primary btn-sm" id="add-image-btn">
-                        <i class="fas fa-plus me-1"></i>Add Another Image
-                    </button>
-                    <small class="text-muted d-block mt-1">Upload clear, legible images of your notes (Max 5 images, 10MB each, Total 50MB)</small>
-                </div>
-
-                <button type="submit" class="btn btn-success" id="upload-btn">
-                    <span id="upload-text">Upload Notes</span>
-                    <span id="upload-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                </button>
-                <button type="button" id="add-another-btn" class="btn btn-outline-primary ms-2 d-none">Add Another Note</button>
-                <div id="upload-status" class="mt-2"></div>
-            </form>
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Selling Tips</h5>
+        <!-- Card Body -->
+        <div class="vtop-page-card-body">
+            <div class="row g-4">
+                <!-- Form Column -->
+                <div class="col-12 col-lg-8">
+                    <div id="upload-progress" class="alert alert-info d-none py-2 px-3 mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-spinner fa-spin me-2" id="progress-icon"></i>
+                            <span id="progress-text" class="small fw-semibold">Preparing upload...</span>
+                        </div>
+                        <div class="progress mt-2" style="height:6px;">
+                            <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width:0%"></div>
+                        </div>
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data" id="sell-notes-form">
+                        <div class="row g-3">
+                            <!-- Subject Name -->
+                            <div class="col-12 col-md-6">
+                                <label for="subject_name" class="form-label small fw-semibold text-secondary mb-1">Subject Name</label>
+                                <input type="text" class="form-control form-control-sm" id="subject_name" name="subject_name" placeholder="e.g., Data Structures &amp; Algorithms" required style="border-color: #ccd7e3;">
+                            </div>
+
+                            <!-- Course Code -->
+                            <div class="col-12 col-md-6">
+                                <label for="course_code" class="form-label small fw-semibold text-secondary mb-1">Course Code</label>
+                                <input type="text" class="form-control form-control-sm" id="course_code" name="course_code" placeholder="e.g., CSE1001" required style="border-color: #ccd7e3;">
+                            </div>
+
+                            <!-- Faculty Name -->
+                            <div class="col-12 col-md-6">
+                                <label for="faculty_name" class="form-label small fw-semibold text-secondary mb-1">Faculty Name</label>
+                                <input type="text" class="form-control form-control-sm" id="faculty_name" name="faculty_name" placeholder="e.g., Dr. Ramesh Kumar" required style="border-color: #ccd7e3;">
+                            </div>
+
+                            <!-- VIT Slot & Year -->
+                            <div class="col-12 col-md-3">
+                                <label for="slot" class="form-label small fw-semibold text-secondary mb-1">VIT Slot</label>
+                                <select class="form-select form-select-sm" id="slot" name="slot" required style="border-color: #ccd7e3;">
+                                    <option value="">Select Slot</option>
+                                    <option value="A1">A1 (Morning)</option>
+                                    <option value="A2">A2 (Afternoon)</option>
+                                    <option value="B1">B1 (Morning)</option>
+                                    <option value="B2">B2 (Afternoon)</option>
+                                    <option value="C1">C1 (Morning)</option>
+                                    <option value="C2">C2 (Afternoon)</option>
+                                    <option value="D1">D1 (Morning)</option>
+                                    <option value="D2">D2 (Afternoon)</option>
+                                    <option value="E1">E1 (Morning)</option>
+                                    <option value="E2">E2 (Afternoon)</option>
+                                    <option value="F1">F1 (Morning)</option>
+                                    <option value="F2">F2 (Afternoon)</option>
+                                    <option value="G1">G1 (Morning)</option>
+                                    <option value="G2">G2 (Afternoon)</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-3">
+                                <label for="year" class="form-label small fw-semibold text-secondary mb-1">Year</label>
+                                <select class="form-select form-select-sm" id="year" name="year" required style="border-color: #ccd7e3;">
+                                    <option value="">Select Year</option>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                </select>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-12">
+                                <label for="description" class="form-label small fw-semibold text-secondary mb-1">Description &amp; Syllabus Coverage</label>
+                                <textarea class="form-control form-control-sm" id="description" name="description" rows="3" placeholder="Describe module topics, handwritten notes quality, formulas included, etc." required style="border-color: #ccd7e3;"></textarea>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="col-12 col-md-6">
+                                <label for="price" class="form-label small fw-semibold text-secondary mb-1">Price (₹)</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text" style="background: #f8fafc; border-color: #ccd7e3;">₹</span>
+                                    <input type="number" class="form-control" id="price" name="price" step="1" min="0" placeholder="e.g., 20" required style="border-color: #ccd7e3;">
+                                </div>
+                                <small class="text-muted" style="font-size: 11px;">Buyers use 1 coin to contact you; payment happens mutually or in coins.</small>
+                            </div>
+
+                            <!-- Note Images Upload -->
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-secondary mb-1">Upload Note Images (Max 5 pages)</label>
+                                <div id="image-upload-container">
+                                    <div class="image-upload-item mb-2">
+                                        <div class="input-group input-group-sm">
+                                            <input type="file" class="form-control" name="note_images[]" accept="image/*" required style="border-color: #ccd7e3;">
+                                            <button type="button" class="btn btn-outline-danger remove-image" style="display: none;">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-outline-primary btn-sm py-1 px-3 mt-1" id="add-image-btn" style="font-size: 12px;">
+                                    <i class="fas fa-plus me-1"></i>Add Another Page
+                                </button>
+                                <small class="text-muted d-block mt-1" style="font-size: 11px;">Upload clear, legible photos/scans of your notes (PNG, JPG, JPEG).</small>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex align-items-center gap-2 mt-4 pt-3" style="border-top: 1px solid #edf2f7;">
+                            <button type="submit" class="btn btn-primary btn-sm px-4 fw-semibold" id="upload-btn" style="background: #007bff; border-color: #007bff;">
+                                <span id="upload-text"><i class="fas fa-upload me-1"></i>Upload Notes</span>
+                                <span id="upload-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                            <button type="button" id="add-another-btn" class="btn btn-outline-primary btn-sm d-none">Add Another Note</button>
+                        </div>
+                        <div id="upload-status" class="mt-2"></div>
+                    </form>
                 </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li>âœ“ Clear, legible note images</li>
-                        <li>âœ“ Detailed descriptions</li>
-                        <li>âœ“ Competitive pricing</li>
-                        <li>âœ“ Complete course materials</li>
-                        <li>âœ“ Respond quickly to buyers</li>
-                    </ul>
+
+                <!-- Guidelines / Tips Sidebar -->
+                <div class="col-12 col-lg-4">
+                    <div class="card border-0 shadow-sm p-3 mb-3" style="background: #f8fafc; border-top: 3px solid #1469b4 !important;">
+                        <h6 class="fw-bold text-dark mb-2">
+                            <i class="fas fa-lightbulb text-warning me-1"></i> Note Selling Best Practices
+                        </h6>
+                        <ul class="list-unstyled small text-muted mb-0" style="font-size: 12px; line-height: 1.8;">
+                            <li><i class="fas fa-check-circle text-success me-1"></i> <strong>Legible Handwriting:</strong> Ensure formulas, diagrams, and headings are clear.</li>
+                            <li><i class="fas fa-check-circle text-success me-1"></i> <strong>Course Codes:</strong> Always specify the exact VIT course code (e.g. CSE1001).</li>
+                            <li><i class="fas fa-check-circle text-success me-1"></i> <strong>Fair Pricing:</strong> Recommended prices range from ₹10 to ₹50.</li>
+                            <li><i class="fas fa-check-circle text-success me-1"></i> <strong>Responsive Chat:</strong> Check the <em>Messages</em> tab regularly to respond to buyers.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card border-0 shadow-sm p-3" style="background: #eff6ff; border-top: 3px solid #6366f1 !important;">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <i class="fas fa-shield-alt text-primary fa-lg"></i>
+                            <h6 class="fw-bold text-primary mb-0" style="font-size: 13px;">Verified VIT Account</h6>
+                        </div>
+                        <p class="small text-muted mb-0" style="font-size: 11.5px;">
+                            Your uploads are tied to your verified VIT Student email for security, authenticity, and student trust.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

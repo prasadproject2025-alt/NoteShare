@@ -3,75 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteShare - VIT Note Sharing Platform</title>
+    <title>VIT Vellore - Edit Student Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/nav.js" defer></script>
 </head>
-<body>
-<div id="app-header"></div>
-<main class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Edit Profile</h3>
+<body class="vtop-exact-body" style="min-height: 100vh; display: flex; flex-direction: column;">
+    <div id="app-header"></div>
+
+    <main class="container-fluid px-3 px-md-4 my-3 flex-grow-1">
+        <!-- Main VTOP Page Card -->
+        <div class="vtop-page-card">
+            <!-- Title Bar -->
+            <div class="vtop-page-title-bar d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h2 class="mb-0">Edit Student Profile &amp; Academic Details</h2>
+                    <p class="text-muted mb-0 small mt-1" style="font-size: 0.82rem;">
+                        <i class="fas fa-user-edit text-warning me-1"></i> Keep your student portfolio, department, and contact information up-to-date.
+                    </p>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-danger"></div>
-                    <div class="alert alert-success"></div>
-                    <form method="POST">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email (Cannot be changed)</label>
-                            <input type="email" class="form-control" value="" disabled>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1" style="font-size: 0.78rem;">FALL SEM 2026-27</span>
+                    <a href="profile.html" class="btn btn-sm btn-outline-secondary py-0 px-2 fw-semibold" style="font-size: 0.78rem;">
+                        <i class="fas fa-arrow-left me-1"></i> Back to Profile
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="vtop-page-card-body">
+                <div class="row g-4">
+                    <!-- Left: Profile Preview Card -->
+                    <div class="col-12 col-lg-4 col-xl-3">
+                        <div class="card border shadow-sm p-3 text-center mb-3" style="border-top: 3.5px solid #1e40af !important; border-radius: 4px;">
+                            <img id="profile-avatar-preview" src="https://ui-avatars.com/api/?name=STUDENT&background=1e40af&color=ffffff&bold=true&size=96" 
+                                 class="rounded-circle shadow-sm mx-auto mb-2" style="width: 80px; height: 80px; object-fit: cover;" alt="Avatar">
+                            <h6 class="fw-bold text-dark mb-0" id="preview-name">VIT Student</h6>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 mt-1 align-self-center" id="preview-regno" style="font-size: 11px;">22MIS0428</span>
+                            <div class="small text-muted mt-1" id="preview-email" style="font-size: 11.5px;">22mis0428@vitstudent.ac.in</div>
+
+                            <hr class="my-2">
+
+                            <div class="small text-start text-muted" style="line-height: 1.8;">
+                                <div><strong class="text-dark">Campus:</strong> Vellore Main Campus</div>
+                                <div><strong class="text-dark">School:</strong> <span id="preview-dept">SCOPE</span></div>
+                                <div><strong class="text-dark">Year:</strong> <span id="preview-year">3rd Year</span></div>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name" 
-                                   value="" required>
+                        <div class="alert alert-info py-2 px-3 small border" style="font-size: 11.5px; background: #f0f9ff; border-color: #bae6fd;">
+                            <i class="fas fa-shield-alt text-primary me-1"></i>
+                            Your official VIT student email is linked to your university identity and cannot be altered.
                         </div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="year" class="form-label">Year</label>
-                            <select class="form-control" id="year" name="year" required>
-                                <option value="">Select Year</option>
-                                <option value="1">1st Year</option>
-                                <option value="2">2nd Year</option>
-                                <option value="3">3rd Year</option>
-                                <option value="4">4th Year</option>
-                            </select>
+                    <!-- Right: Edit Form -->
+                    <div class="col-12 col-lg-8 col-xl-9">
+                        <div class="card border shadow-sm p-3 p-md-4" style="border-top: 3.5px solid #007bff !important; border-radius: 4px;">
+                            <div id="status-alert"></div>
+
+                            <form id="edit-profile-form" onsubmit="saveProfileChanges(event)">
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-6">
+                                        <label for="student-email" class="form-label small fw-semibold text-secondary mb-1">
+                                            VIT Student Email <span class="text-muted fw-normal">(Read-only)</span>
+                                        </label>
+                                        <input type="email" class="form-control form-control-sm bg-light" id="student-email" readonly style="border-color: #ccd7e3;">
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <label for="student-name" class="form-label small fw-semibold text-secondary mb-1">
+                                            Full Student Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control form-control-sm" id="student-name" required placeholder="e.g. Prasad" style="border-color: #ccd7e3;">
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <label for="student-year" class="form-label small fw-semibold text-secondary mb-1">
+                                            Academic Year <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select form-select-sm" id="student-year" required style="border-color: #ccd7e3;">
+                                            <option value="">-- Select Academic Year --</option>
+                                            <option value="1st Year">1st Year (Freshman)</option>
+                                            <option value="2nd Year">2nd Year (Sophomore)</option>
+                                            <option value="3rd Year" selected>3rd Year (Junior)</option>
+                                            <option value="4th Year">4th Year (Senior)</option>
+                                            <option value="Postgraduate / M.Tech">Postgraduate / M.Tech / MCA</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <label for="student-department" class="form-label small fw-semibold text-secondary mb-1">
+                                            School / Department <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select form-select-sm" id="student-department" required style="border-color: #ccd7e3;">
+                                            <option value="">-- Select Department --</option>
+                                            <option value="School of Computer Science & Engineering (SCOPE)" selected>SCOPE - Computer Science & Engineering</option>
+                                            <option value="School of Electronics Engineering (SENSE)">SENSE - Electronics Engineering</option>
+                                            <option value="School of Electrical Engineering (SELECT)">SELECT - Electrical Engineering</option>
+                                            <option value="School of Mechanical Engineering (SMEC)">SMEC - Mechanical Engineering</option>
+                                            <option value="School of Civil Engineering (SCE)">SCE - Civil Engineering</option>
+                                            <option value="School of Bio Sciences & Technology (SBST)">SBST - Bio Sciences & Technology</option>
+                                            <option value="School of Advanced Sciences (SAS)">SAS - Advanced Sciences</option>
+                                            <option value="VIT School of Design (V-SIGN)">V-SIGN - School of Design</option>
+                                            <option value="VIT Business School (VBS)">VBS - Business School</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="student-bio" class="form-label small fw-semibold text-secondary mb-1">
+                                            Academic Bio &amp; Subject Strengths <span class="text-muted fw-normal">(Optional)</span>
+                                        </label>
+                                        <textarea class="form-control form-control-sm" id="student-bio" rows="3" 
+                                                  placeholder="E.g., Specializing in Data Structures, OS, and Mathematics. Open to sharing FAT revision notes..." 
+                                                  style="border-color: #ccd7e3;"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between pt-3 mt-4 border-top">
+                                    <a href="profile.html" class="btn btn-outline-secondary btn-sm px-4 fw-semibold">
+                                        Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary btn-sm px-4 fw-semibold" id="save-btn" style="background: #007bff; border-color: #007bff;">
+                                        <i class="fas fa-save me-1"></i> Save Changes
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-
-                        <div class="mb-3">
-                            <label for="department" class="form-label">Department</label>
-                            <select class="form-control" id="department" name="department" required>
-                                <option value="">Select Department</option>
-                                <option value="CSE">Computer Science & Engineering</option>
-                                <option value="ECE">Electronics & Communication</option>
-                                <option value="ME">Mechanical Engineering</option>
-                                <option value="CE">Civil Engineering</option>
-                                <option value="EEE">Electrical & Electronics</option>
-                                <option value="BT">Biotechnology</option>
-                                <option value="BS">Biomedical Science</option>
-                                <option value="CSBS">Computer Science & Business Systems</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="bio" class="form-label">Bio (Optional)</label>
-                            <textarea class="form-control" id="bio" name="bio" rows="4" 
-                                      placeholder="Tell other students about yourself..."></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <a href="profile.html" class="btn btn-secondary">Cancel</a>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
-<div id="app-footer">
+    </main>
+
+    <div id="app-footer"></div>
+
+    <script>
+        let currentUserId = '';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
+                window.NoteShareBoot.waitForApp().then(() => {
+                    initEditProfile();
+                }).catch(() => {
+                    initEditProfile();
+                });
+            } else {
+                initEditProfile();
+            }
+        });
+
+        function initEditProfile() {
+            currentUserId = window.NoteShareAuth?.getUserId() || '';
+            const session = window.NoteShareAuth?.getSession() || {};
+
+            const name = session.user_name || 'Prasad';
+            const email = session.user_email || '22mis0428@vitstudent.ac.in';
+            const regNo = email ? email.split('@')[0].toUpperCase() : '22MIS0428';
+
+            document.getElementById('student-email').value = email;
+            document.getElementById('student-name').value = name;
+            document.getElementById('preview-name').textContent = name;
+            document.getElementById('preview-email').textContent = email;
+            document.getElementById('preview-regno').textContent = regNo;
+            document.getElementById('profile-avatar-preview').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e40af&color=ffffff&bold=true&size=96`;
+
+            // If Firebase user doc exists, populate
+            if (typeof firebase !== 'undefined' && firebase.database && currentUserId) {
+                firebase.database().ref('users/' + currentUserId).once('value').then(snapshot => {
+                    const data = snapshot.val();
+                    if (data) {
+                        if (data.name) {
+                            document.getElementById('student-name').value = data.name;
+                            document.getElementById('preview-name').textContent = data.name;
+                        }
+                        if (data.year) {
+                            document.getElementById('student-year').value = data.year;
+                            document.getElementById('preview-year').textContent = data.year;
+                        }
+                        if (data.department) {
+                            document.getElementById('student-department').value = data.department;
+                            document.getElementById('preview-dept').textContent = data.department.split(' - ')[0] || data.department;
+                        }
+                        if (data.bio) {
+                            document.getElementById('student-bio').value = data.bio;
+                        }
+                    }
+                }).catch(() => {});
+            }
+
+            // Sync live name input with avatar preview
+            document.getElementById('student-name').addEventListener('input', function(e) {
+                const val = e.target.value.trim() || 'Student';
+                document.getElementById('preview-name').textContent = val;
+                document.getElementById('profile-avatar-preview').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(val)}&background=1e40af&color=ffffff&bold=true&size=96`;
+            });
+        }
+
+        async function saveProfileChanges(e) {
+            e.preventDefault();
+            const saveBtn = document.getElementById('save-btn');
+            const alertBox = document.getElementById('status-alert');
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+
+            const name = document.getElementById('student-name').value.trim();
+            const year = document.getElementById('student-year').value;
+            const department = document.getElementById('student-department').value;
+            const bio = document.getElementById('student-bio').value.trim();
+
+            try {
+                // Update local session
+                if (window.NoteShareAuth && typeof window.NoteShareAuth.getSession === 'function') {
+                    const sess = window.NoteShareAuth.getSession() || {};
+                    sess.user_name = name;
+                    try { localStorage.setItem('noteshare_session', JSON.stringify(sess)); } catch (_) {}
+                }
+
+                // Update Firebase database if connected
+                if (typeof firebase !== 'undefined' && firebase.database && currentUserId) {
+                    await firebase.database().ref('users/' + currentUserId).update({
+                        name: name,
+                        year: year,
+                        department: department,
+                        bio: bio,
+                        updated_at: Date.now()
+                    });
+                }
+
+                alertBox.innerHTML = `
+                    <div class="alert alert-success py-2 px-3 small d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle fa-lg me-2"></i>
+                        <div><strong>Profile Updated Successfully!</strong> Redirecting to profile...</div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    window.location.href = 'profile.html';
+                }, 1200);
+            } catch (err) {
+                console.error('Profile update error:', err);
+                alertBox.innerHTML = `
+                    <div class="alert alert-danger py-2 px-3 small d-flex align-items-center mb-3">
+                        <i class="fas fa-exclamation-triangle fa-lg me-2"></i>
+                        <div>Failed to update profile. Please try again.</div>
+                    </div>
+                `;
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save me-1"></i> Save Changes';
+            }
+        }
+    </script>
 </body>
 </html>

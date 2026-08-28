@@ -12,7 +12,7 @@
     { "src": "/api/verify-otp", "dest": "/api/verify-otp.js" },
     { "src": "/api/admin-login", "dest": "/api/admin-login.js" },
     { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/", "dest": "/login.html" },
+    { "src": "/", "dest": "/index.html" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }

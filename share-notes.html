@@ -1,157 +1,153 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteShare - VIT Note Sharing Platform</title>
+    <title>VIT Vellore - Share Notes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/nav.js" defer></script>
 </head>
-<body>
+<body class="vtop-exact-body" style="min-height: 100vh; display: flex; flex-direction: column;">
 <div id="app-header"></div>
-<main class="container mt-5">
-    <div class="row">
-        <div class="col-md-8">
-            <h2>Share Notes</h2>
-            <p class="text-muted">Share notes with your batch mates (VIT Slot System: A1-G2)</p>
 
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5>Select Your VIT Slot</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="slot-select" class="form-label">Choose Your Slot</label>
-                            <select class="form-control" id="slot-select">
-                                <option value="">Select Your Slot</option>
-                                <option value="A1">A1 (Morning)</option>
-                                <option value="A2">A2 (Afternoon)</option>
-                                <option value="B1">B1 (Morning)</option>
-                                <option value="B2">B2 (Afternoon)</option>
-                                <option value="C1">C1 (Morning)</option>
-                                <option value="C2">C2 (Afternoon)</option>
-                                <option value="D1">D1 (Morning)</option>
-                                <option value="D2">D2 (Afternoon)</option>
-                                <option value="E1">E1 (Morning)</option>
-                                <option value="E2">E2 (Afternoon)</option>
-                                <option value="F1">F1 (Morning)</option>
-                                <option value="F2">F2 (Afternoon)</option>
-                                <option value="G1">G1 (Morning)</option>
-                                <option value="G2">G2 (Afternoon)</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 d-flex align-items-end">
-                            <button class="btn btn-primary w-100" onclick="loadSlotNotes()">
-                                Load Notes for This Slot
-                            </button>
-                        </div>
-                    </div>
-                </div>
+<main class="container-fluid px-3 px-md-4 my-3 flex-grow-1">
+    <!-- Main VTOP Page Card -->
+    <div class="vtop-page-card">
+        <!-- Title Bar -->
+        <div class="vtop-page-title-bar d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <h2 class="mb-0">Share Notes &amp; Batch Collaboration</h2>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1" style="font-size: 0.78rem;">FALL SEM 2026-27</span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fw-bold" style="font-size: 0.78rem;">
+                    <i class="fas fa-share-alt me-1"></i>Batch Sharing Hub
+                </span>
             </div>
-
-            <div id="batch-notes">
-                <!-- Batch notes will be loaded here -->
-            </div>
-
-            <hr>
-
-            <h3>Share Your Notes</h3>
-
-            <form id="share-form" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="share_subject" class="form-label">Subject Name</label>
-                    <input type="text" class="form-control" id="share_subject" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="share_course" class="form-label">Course Code</label>
-                    <input type="text" class="form-control" id="share_course" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="share_faculty" class="form-label">Faculty Name</label>
-                    <input type="text" class="form-control" id="share_faculty" required>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="share_year" class="form-label">Year</label>
-                        <select class="form-control" id="share_year" required>
-                            <option value="">Select Year</option>
-                            <option value="1">1st Year</option>
-                            <option value="2">2nd Year</option>
-                            <option value="3">3rd Year</option>
-                            <option value="4">4th Year</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label for="share_batch" class="form-label">VIT Slot</label>
-                        <select class="form-control" id="share_batch" required>
-                            <option value="">Select Your Slot</option>
-                            <option value="A1">A1 (Morning)</option>
-                            <option value="A2">A2 (Afternoon)</option>
-                            <option value="B1">B1 (Morning)</option>
-                            <option value="B2">B2 (Afternoon)</option>
-                            <option value="C1">C1 (Morning)</option>
-                            <option value="C2">C2 (Afternoon)</option>
-                            <option value="D1">D1 (Morning)</option>
-                            <option value="D2">D2 (Afternoon)</option>
-                            <option value="E1">E1 (Morning)</option>
-                            <option value="E2">E2 (Afternoon)</option>
-                            <option value="F1">F1 (Morning)</option>
-                            <option value="F2">F2 (Afternoon)</option>
-                            <option value="G1">G1 (Morning)</option>
-                            <option value="G2">G2 (Afternoon)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="share_description" class="form-label">Description</label>
-                    <textarea class="form-control" id="share_description" rows="3" required></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <label for="share_image" class="form-label">Upload Note Image</label>
-                    <input type="file" class="form-control" id="share_image" accept="image/*" required>
-                </div>
-
-                <button type="submit" class="btn btn-info">Share Notes</button>
-            </form>
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Sharing Guidelines</h5>
+        <!-- Card Body -->
+        <div class="vtop-page-card-body">
+            <!-- VTOP Filter & Search Row -->
+            <div class="row g-2 align-items-center mb-4 pb-3" style="border-bottom: 1px solid #edf2f7;">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <label class="fw-semibold text-secondary small mb-1" for="slot-select">Filter by VIT Slot</label>
+                    <select class="form-select form-select-sm" id="slot-select" style="border-color: #ccd7e3;">
+                        <option value="">-- Choose Your Slot (A1 - G2) --</option>
+                        <option value="A1">A1 (Morning)</option>
+                        <option value="A2">A2 (Afternoon)</option>
+                        <option value="B1">B1 (Morning)</option>
+                        <option value="B2">B2 (Afternoon)</option>
+                        <option value="C1">C1 (Morning)</option>
+                        <option value="C2">C2 (Afternoon)</option>
+                        <option value="D1">D1 (Morning)</option>
+                        <option value="D2">D2 (Afternoon)</option>
+                        <option value="E1">E1 (Morning)</option>
+                        <option value="E2">E2 (Afternoon)</option>
+                        <option value="F1">F1 (Morning)</option>
+                        <option value="F2">F2 (Afternoon)</option>
+                        <option value="G1">G1 (Morning)</option>
+                        <option value="G2">G2 (Afternoon)</option>
+                    </select>
                 </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li>âœ“ Share with batch mates only</li>
-                        <li>âœ“ No sharing is free</li>
-                        <li>âœ“ Good quality images</li>
-                        <li>âœ“ Help each other learn</li>
-                        <li>âœ“ Report inappropriate content</li>
-                    </ul>
+                <div class="col-12 col-md-4 col-lg-3 d-flex align-items-end gap-2 pt-2 pt-md-3">
+                    <button class="btn btn-primary btn-sm px-3 fw-semibold" onclick="loadSlotNotes()" style="background: #007bff; border-color: #007bff;">
+                        <i class="fas fa-filter me-1"></i> Load Slot Notes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Batch Notes (4-column grid) -->
+            <div id="batch-notes" class="mb-5">
+                <p class="text-muted small">Select your slot above to view shared materials.</p>
+            </div>
+
+            <!-- Share Your Notes Form -->
+            <div class="pt-3" style="border-top: 2px dashed #e2e8f0;">
+                <h5 class="fw-bold text-dark mb-3"><i class="fas fa-share-alt me-2 text-success"></i>Share Notes With Your Batch</h5>
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
+                        <form id="share-form" enctype="multipart/form-data">
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <label for="share_subject" class="form-label small fw-semibold text-secondary mb-1">Subject Name</label>
+                                    <input type="text" class="form-control form-control-sm" id="share_subject" placeholder="e.g., Computer Networks" required style="border-color: #ccd7e3;">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="share_course" class="form-label small fw-semibold text-secondary mb-1">Course Code</label>
+                                    <input type="text" class="form-control form-control-sm" id="share_course" placeholder="e.g., CSE3002" required style="border-color: #ccd7e3;">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="share_faculty" class="form-label small fw-semibold text-secondary mb-1">Faculty Name</label>
+                                    <input type="text" class="form-control form-control-sm" id="share_faculty" placeholder="e.g., Prof. Rajesh" required style="border-color: #ccd7e3;">
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <label for="share_batch" class="form-label small fw-semibold text-secondary mb-1">VIT Slot</label>
+                                    <select class="form-select form-select-sm" id="share_batch" required style="border-color: #ccd7e3;">
+                                        <option value="">Select Slot</option>
+                                        <option value="A1">A1</option>
+                                        <option value="A2">A2</option>
+                                        <option value="B1">B1</option>
+                                        <option value="B2">B2</option>
+                                        <option value="C1">C1</option>
+                                        <option value="C2">C2</option>
+                                        <option value="D1">D1</option>
+                                        <option value="D2">D2</option>
+                                        <option value="E1">E1</option>
+                                        <option value="E2">E2</option>
+                                        <option value="F1">F1</option>
+                                        <option value="F2">F2</option>
+                                        <option value="G1">G1</option>
+                                        <option value="G2">G2</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <label for="share_year" class="form-label small fw-semibold text-secondary mb-1">Year</label>
+                                    <select class="form-select form-select-sm" id="share_year" required style="border-color: #ccd7e3;">
+                                        <option value="">Select Year</option>
+                                        <option value="1">1st Year</option>
+                                        <option value="2">2nd Year</option>
+                                        <option value="3">3rd Year</option>
+                                        <option value="4">4th Year</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="share_description" class="form-label small fw-semibold text-secondary mb-1">Description &amp; Topics</label>
+                                    <textarea class="form-control form-control-sm" id="share_description" rows="2" placeholder="List module units, formula sheets, or question bank solutions..." required style="border-color: #ccd7e3;"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label for="share_image" class="form-label small fw-semibold text-secondary mb-1">Upload Note Image / Page</label>
+                                    <input type="file" class="form-control form-control-sm" id="share_image" accept="image/*" required style="border-color: #ccd7e3;">
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-success btn-sm px-4 fw-semibold" style="background: #16a34a; border-color: #15803d;">
+                                    <i class="fas fa-share-alt me-1"></i>Share Notes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Info -->
+                    <div class="col-12 col-lg-4">
+                        <div class="card border-0 shadow-sm p-3" style="background: #f0fdf4; border-top: 3px solid #16a34a !important;">
+                            <h6 class="fw-bold text-dark mb-2"><i class="fas fa-check-circle text-success me-1"></i> Sharing Guidelines</h6>
+                            <ul class="small text-muted ps-3 mb-0" style="font-size: 12px; line-height: 1.8;">
+                                <li>Share genuine study resources with your batchmates.</li>
+                                <li>Include accurate faculty and slot tags.</li>
+                                <li>High quality photos ensure easier reading.</li>
+                                <li>Earn bonus reputation &amp; rewards in NoteShare.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
 
-<!-- Firebase SDK v8 (compat mode for legacy code) -->
-
-
 <script>
 let userId = '';
-
-// Load slot notes when page loads or slot changes
-document.addEventListener('DOMContentLoaded', function() {
-    // Don't auto-load, wait for user to select slot
-});
 
 function loadSlotNotes() {
     const selectedSlot = document.getElementById('slot-select').value;
@@ -173,31 +169,51 @@ function loadSlotNotes() {
             });
 
             if (notes.length === 0) {
-                notesDiv.innerHTML = '<p class="text-muted">No shared notes for slot ' + selectedSlot + ' yet.</p>';
+                notesDiv.innerHTML = '<div class="alert alert-info py-2 small"><i class="fas fa-info-circle me-1"></i>No shared notes found for slot ' + selectedSlot + ' yet. Be the first to share!</div>';
                 return;
             }
 
-            let html = '<h5>Shared Notes in Slot ' + selectedSlot + '</h5>';
+            let html = `<div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-secondary mb-0"><i class="fas fa-th-large me-2 text-primary"></i>Shared Notes in Slot ${selectedSlot} (${notes.length})</h6>
+                <small class="text-muted">Showing 4 notes per row</small>
+            </div>`;
+
+            html += '<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">';
             notes.forEach(note => {
                 html += `
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">${note.subject_name}</h5>
-                            <p class="card-text">
-                                <strong>Course Code:</strong> ${note.course_code}<br>
-                                <strong>Faculty:</strong> ${note.faculty_name}<br>
-                                <strong>Year:</strong> ${note.year}<br>
-                                <strong>Slot:</strong> ${note.batch}<br>
-                                <strong>Shared by:</strong> ${note.sharer_name}
-                            </p>
-                            <p class="card-text"><small class="text-muted">${note.description}</small></p>
-                            <button class="btn btn-info btn-sm" onclick="messageSharer('${note.sharer_id}')">
-                                <i class="fas fa-envelope me-1"></i>Message Sharer (1 coin)
-                            </button>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border" style="border-top: 3px solid #16a34a !important; border-radius: 4px; overflow: hidden;">
+                            <div class="d-flex align-items-center justify-content-center bg-light text-muted" style="height: 120px;">
+                                <i class="fas fa-file-alt fa-2x text-success opacity-50"></i>
+                            </div>
+                            <div class="card-body p-3 d-flex flex-column">
+                                <div class="d-flex align-items-center gap-1 mb-2 flex-wrap">
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 10.5px;">${note.course_code || 'N/A'}</span>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 10.5px;">Slot ${note.batch || selectedSlot}</span>
+                                    ${note.year ? `<span class="badge bg-info-subtle text-info border border-info-subtle" style="font-size: 10.5px;">Yr ${note.year}</span>` : ''}
+                                </div>
+                                
+                                <h6 class="fw-bold text-dark text-truncate mb-1" title="${note.subject_name || 'No Title'}" style="font-size: 0.92rem;">
+                                    ${note.subject_name || 'No Title'}
+                                </h6>
+                                
+                                <div class="text-muted small text-truncate mb-2" style="font-size: 11.5px;">
+                                    <i class="fas fa-user-tie me-1 text-secondary"></i>${note.faculty_name || 'Faculty N/A'}
+                                </div>
+
+                                ${note.description ? `<p class="text-muted small text-truncate mb-2" style="font-size: 11px;" title="${note.description}">${note.description}</p>` : ''}
+
+                                <div class="mt-auto pt-2 border-top">
+                                    <button class="btn btn-success text-white btn-sm w-100 fw-semibold" onclick="messageSharer('${note.sharer_id}')" style="font-size: 12px; background: #16a34a; border-color: #15803d;">
+                                        <i class="fas fa-envelope me-1"></i>Message (1 coin)
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
             });
+            html += '</div>';
             notesDiv.innerHTML = html;
         });
 }

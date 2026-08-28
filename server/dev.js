@@ -78,7 +78,7 @@ async function handleApi(req, res, pathname) {
 }
 
 function serveStatic(req, res, pathname) {
-  let filePath = pathname === '/' ? '/login.html' : pathname;
+  let filePath = pathname === '/' ? '/index.html' : pathname;
   filePath = path.join(ROOT, filePath.replace(/\//g, path.sep));
 
   if (!filePath.startsWith(ROOT)) {

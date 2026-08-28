@@ -1,58 +1,77 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteShare - VIT Note Sharing Platform</title>
+    <title>VIT Vellore - Messages & Chat</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/nav.js" defer></script>
 </head>
-<body>
+<body class="vtop-exact-body" style="min-height: 100vh; display: flex; flex-direction: column;">
 <div id="app-header"></div>
-<main class="container py-4">
-    <div class="chat-shell">
-        <aside class="chat-sidebar">
-            <div class="chat-sidebar-header">
-                <h5 class="mb-0">Chats</h5>
-                <small class="text-muted">Discuss price and note details</small>
-            </div>
-            <div class="chat-sidebar-list" id="conversations-list">
-                <p class="text-muted">Loading conversations...</p>
-            </div>
-        </aside>
 
-        <section class="chat-main">
-            <div class="chat-header">
-                <div class="d-flex align-items-center justify-content-between gap-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="conversation-avatar" id="chat-avatar">N</div>
-                        <div>
-                            <h5 class="mb-0" id="chat-header">Select a chat</h5>
-                            <small class="text-muted" id="chat-subtitle">Negotiate price and note content</small>
+<main class="container-fluid px-3 px-md-4 my-3 flex-grow-1">
+    <!-- Main VTOP Page Card -->
+    <div class="vtop-page-card">
+        <!-- Title Bar -->
+        <div class="vtop-page-title-bar d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <h2 class="mb-0">Messages &amp; Student Inquiries</h2>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1" style="font-size: 0.78rem;">FALL SEM 2026-27</span>
+                <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1 fw-bold" style="font-size: 0.78rem;">
+                    <i class="fas fa-comments me-1"></i>Direct Peer Chat
+                </span>
+            </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="vtop-page-card-body p-0">
+            <div class="chat-shell" style="border: none; box-shadow: none; min-height: 600px;">
+                <aside class="chat-sidebar">
+                    <div class="chat-sidebar-header py-3 px-3">
+                        <h6 class="mb-0 fw-bold"><i class="fas fa-inbox me-2 text-primary"></i>Conversations</h6>
+                        <small class="text-muted" style="font-size: 11px;">Discuss syllabus, questions &amp; notes</small>
+                    </div>
+                    <div class="chat-sidebar-list" id="conversations-list">
+                        <p class="text-muted small p-3">Loading conversations...</p>
+                    </div>
+                </aside>
+
+                <section class="chat-main">
+                    <div class="chat-header py-2 px-3">
+                        <div class="d-flex align-items-center justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="conversation-avatar" id="chat-avatar">N</div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold" id="chat-header">Select a conversation</h6>
+                                    <small class="text-muted" id="chat-subtitle" style="font-size: 11px;">Discuss note contents with buyer or seller</small>
+                                </div>
+                            </div>
+                            <div class="chat-header-actions">
+                                <button class="btn btn-outline-primary btn-sm py-1 px-2" style="font-size: 12px;" type="button" onclick="viewNoteAd()">View Note Ad</button>
+                                <button class="btn btn-outline-danger btn-sm py-1 px-2" style="font-size: 12px;" type="button" onclick="deleteCurrentChat()">Delete</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="chat-header-actions">
-                        <button class="btn btn-outline-primary btn-sm" type="button" onclick="viewNoteAd()">View Note Ad</button>
-                        <button class="btn btn-outline-danger btn-sm" type="button" onclick="deleteCurrentChat()">Delete</button>
+
+                    <div class="chat-body" id="messages-container">
+                        <div class="chat-empty-state">
+                            <p class="text-muted">Choose a conversation on the left to start chatting.</p>
+                        </div>
                     </div>
-                </div>
+
+                    <div id="chat-note-card"></div>
+                    <div class="quick-actions" id="quick-actions"></div>
+
+                    <form id="message-form" class="chat-footer py-2 px-3">
+                        <input type="text" class="form-control form-control-sm chat-input" id="message-input" placeholder="Type your message about the note..." style="border-color: #ccd7e3;">
+                        <button class="btn btn-primary btn-sm px-3 fw-semibold" type="submit" style="background: #007bff; border-color: #007bff;">Send</button>
+                    </form>
+                </section>
             </div>
-
-            <div class="chat-body" id="messages-container">
-                <div class="chat-empty-state">
-                    <p class="text-muted">Choose a conversation to see the note discussion thread.</p>
-                </div>
-            </div>
-
-            <div id="chat-note-card"></div>
-            <div class="quick-actions" id="quick-actions"></div>
-
-            <form id="message-form" class="chat-footer">
-                <input type="text" class="form-control chat-input" id="message-input" placeholder="Type your message about the price or content...">
-                <button class="btn btn-primary" type="submit">Send</button>
-            </form>
-        </section>
+        </div>
     </div>
 </main>
 

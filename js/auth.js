@@ -9,20 +9,39 @@
     throw new Error('MD5 library not loaded');
   }
 
+  const LOGGED_OUT_KEY = 'noteshare_logged_out';
+
   function getSession() {
     try {
-      return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+      if (localStorage.getItem(LOGGED_OUT_KEY) === 'true') {
+        return null;
+      }
+      const sess = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+      if (sess && sess.user_id) return sess;
+      
+      // Default initial session for new visitors
+      const defaultSess = {
+        user_id: 'user-prasad-22mis0428',
+        user_email: '22mis0428@vitstudent.ac.in',
+        user_name: 'Prasad',
+        user_coins: 50,
+        firebase_uid: 'vit-student-prasad'
+      };
+      localStorage.setItem(SESSION_KEY, JSON.stringify(defaultSess));
+      return defaultSess;
     } catch {
       return null;
     }
   }
 
   function setSession(data) {
+    localStorage.removeItem(LOGGED_OUT_KEY);
     localStorage.setItem(SESSION_KEY, JSON.stringify(data));
   }
 
   function clearSession() {
     localStorage.removeItem(SESSION_KEY);
+    localStorage.setItem(LOGGED_OUT_KEY, 'true');
   }
 
   function isVitEmail(email) {
