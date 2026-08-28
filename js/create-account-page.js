@@ -1,4 +1,5 @@
 let userEmail = '';
+let currentOtpToken = '';
 
 async function waitForApp() {
   if (window.NoteShareBoot && window.NoteShareBoot.waitForApp) {
@@ -61,6 +62,10 @@ async function sendOTP() {
     if (!data.success) {
       const msg = [data.message, data.details, data.hint].filter(Boolean).join('\n\n');
       throw new Error(msg || 'Failed to send OTP');
+    }
+
+    if (data.otpToken) {
+      currentOtpToken = data.otpToken;
     }
 
     document.getElementById('email-section').style.display = 'none';
@@ -134,13 +139,13 @@ async function createAccount() {
     let verifyRes = await fetch('/api/verify-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: userEmail, otp }),
+      body: JSON.stringify({ email: userEmail, otp, otpToken: currentOtpToken }),
     });
     if (verifyRes.status === 404) {
       verifyRes = await fetch('/api/verify-otp.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userEmail, otp }),
+        body: JSON.stringify({ email: userEmail, otp, otpToken: currentOtpToken }),
       });
     }
     const verifyText = await verifyRes.text();

@@ -1,11 +1,20 @@
+const crypto = require('crypto');
 const { loadEnv } = require('../lib/env');
 const { isSmtpConfigured, sendOtpEmail } = require('../lib/mailer');
 const { saveOtp, logOtp } = require('../lib/otp-store');
 
 loadEnv();
 
+const OTP_SECRET = process.env.OTP_SECRET || process.env.GMAIL_APP_PASSWORD || 'noteshare_otp_secure_secret_2026';
+
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function generateOtpToken(email, otp, expiresAt) {
+  const payload = `${email.toLowerCase().trim()}:${otp.trim()}:${expiresAt}`;
+  const hash = crypto.createHmac('sha256', OTP_SECRET).update(payload).digest('hex');
+  return `${hash}.${expiresAt}`;
 }
 
 module.exports = async function handler(req, res) {
@@ -30,8 +39,9 @@ module.exports = async function handler(req, res) {
     const displayName = name || email.split('@')[0];
     const expirationTime = Date.now() + 10 * 60 * 1000;
     const key = email.replace(/[.@]/g, '_');
+    const otpToken = generateOtpToken(email, otp, expirationTime);
 
-    // Store OTP safely in os.tmpdir()
+    // Save fallback to temp file
     saveOtp(key, { otp, email, name: displayName, createdAt: Date.now(), expiresAt: expirationTime });
 
     if (!isSmtpConfigured()) {
@@ -44,6 +54,7 @@ module.exports = async function handler(req, res) {
           message:
             'SMTP not configured. OTP logged to temp file — add GMAIL_USERNAME and GMAIL_APP_PASSWORD to environment variables',
           email,
+          otpToken,
         });
       }
       return res.status(500).json({
@@ -61,6 +72,7 @@ module.exports = async function handler(req, res) {
         success: true,
         message: 'OTP sent to your email successfully! Check inbox and spam folder.',
         email,
+        otpToken,
       });
     } catch (mailErr) {
       console.error('SMTP send failed:', mailErr);
@@ -81,4 +93,5 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+
 
