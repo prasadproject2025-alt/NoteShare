@@ -35,22 +35,20 @@
     <main class="vtop-main">
         <section class="vtop-intro container">
             <p class="vtop-kicker">NoteShare student portal</p>
-            <h1>VTOP translates to &quot;VIT on TOP&quot;</h1>
-            <p>A digital initiative for students to access notes, manage uploads, and connect with classmates on one common platform.</p>
+            <h1>NoteShare translates to &quot;Notes + Share&quot;</h1>
+            <p>A platform built around sharing knowledge, notes, and academic resources among students.</p>
         </section>
 
         <section class="container login-entry">
             <div id="student-login" class="student-login-panel">
                 <div class="student-login-heading">
-                    <span class="panel-label">Student App</span>
-                    <h2>Sign in to NoteShare</h2>
-                    <p>Use your @vitstudent.ac.in email and password.</p>
+                    <h2>Sign into NoteShare</h2>
                 </div>
                 <div id="login-error" class="alert alert-danger d-none" role="alert"></div>
                 <form id="login-form" onsubmit="event.preventDefault(); loginUser();">
                     <label class="visually-hidden" for="login-email">Username</label>
                     <div class="login-input-group username-field">
-                        <input type="email" id="login-email" placeholder="Username" required>
+                        <input type="email" id="login-email" placeholder="Use your @vitstudent.ac.in email" required>
                         <span class="input-icon" aria-hidden="true"><i class="fas fa-user"></i></span>
                     </div>
                     <label class="visually-hidden" for="login-password">Password</label>
@@ -60,13 +58,15 @@
                     </div>
                     <button type="submit">Login</button>
                 </form>
-                <p class="new-account">New here? <a href="create-account.html">Create an account</a></p>
+                <div>
+                    <p class="new-account">New here? <a href="create-account.html">Create an account</a></p>
+                </div>
             </div>
 
         </section>
     </main>
 
-    <footer class="vtop-footer">Copyright &copy; 2026 NoteShare, VIT Vellore.</footer>
+    <footer class="vtop-footer">Copyright &copy; 2026 NoteShare, VIT Vellore-632 014.</footer>
     <div id="app-footer"></div>
         <script>
             function togglePasswordVisibility() {
