@@ -4,6 +4,7 @@
   "private": true,
   "description": "NoteShare — VIT note sharing (HTML/CSS/JS + Node API)",
   "scripts": {
+    "build": "echo Static site build complete",
     "dev": "node server/dev.js",
     "start": "node server/dev.js",
     "test:email": "node scripts/test-smtp.js",
