@@ -1414,3 +1414,271 @@ body.login-body #app-footer {
     background-color: #cce5ff;
     color: #004085;
 }
+
+/* ==========================================================================
+   Exact VTOP Login Page Styles (Pixel Perfect to Official VTOP)
+   ========================================================================== */
+
+body.vtop-exact-body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333333;
+}
+
+.vtop-exact-header {
+    background: linear-gradient(90deg, #13428d 0%, #175aa8 55%, #188bb5 100%);
+    color: #ffffff;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    position: relative;
+    z-index: 10;
+}
+
+.vtop-header-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.vtop-brand-group {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.vtop-seal-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.vtop-vit-wordmark {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.vtop-campus-text {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 400;
+    margin-left: 0.2rem;
+}
+
+.vtop-exact-main {
+    flex: 1 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    background: #ffffff;
+}
+
+.vtop-card-container {
+    width: 100%;
+    max-width: 440px;
+}
+
+.vtop-login-card {
+    background: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    border-top: 3.5px solid #489fc9;
+    overflow: hidden;
+}
+
+.vtop-card-header {
+    padding: 1.1rem 1.5rem 0.8rem;
+    background: #ffffff;
+}
+
+.vtop-card-header h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+}
+
+.vtop-card-body {
+    padding: 1.5rem 1.5rem 1rem;
+}
+
+.vtop-input-group {
+    display: flex;
+    width: 100%;
+}
+
+.vtop-input {
+    border: 1px solid #ccd7e3 !important;
+    border-right: none !important;
+    border-radius: 4px 0 0 4px !important;
+    padding: 0.45rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    color: #333333 !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    height: 38px !important;
+}
+
+.vtop-input:focus {
+    border-color: #3182ce !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px #3182ce !important;
+}
+
+.vtop-input-addon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #ccd7e3;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.875rem;
+}
+
+.user-addon {
+    background: #f0f6ff;
+    color: #1e70bf;
+}
+
+.eye-addon {
+    background: #ffffff;
+    color: #e53e3e;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+.eye-addon:hover {
+    background: #fff5f5;
+}
+
+.vtop-submit-btn {
+    background: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 0.35rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+    min-height: 34px;
+}
+
+.vtop-submit-btn:hover,
+.vtop-submit-btn:focus {
+    background: #0056b3;
+    color: #ffffff;
+}
+
+.vtop-card-footer {
+    padding: 1rem 1.5rem;
+    background: #f8fafc;
+    border-top: 1px solid #edf2f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 0.8rem;
+}
+
+.vtop-footer-links-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.vtop-link {
+    color: #0d6efd;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.vtop-link:hover {
+    text-decoration: underline;
+    color: #0a58ca;
+}
+
+.vtop-home-link {
+    color: #2e7d32;
+    text-decoration: none;
+    font-size: 0.82rem;
+}
+
+.vtop-home-link:hover {
+    text-decoration: underline;
+    color: #1b5e20;
+}
+
+.vtop-exact-footer {
+    background: linear-gradient(90deg, #13428d 0%, #175aa8 55%, #188bb5 100%);
+    color: #ffffff;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+/* Mobile Responsiveness for VTOP Login */
+@media (max-width: 575.98px) {
+    .vtop-exact-header {
+        height: 48px;
+        padding: 0 0.85rem;
+    }
+
+    .vtop-vit-wordmark {
+        font-size: 1.45rem;
+    }
+
+    .vtop-campus-text {
+        font-size: 0.8rem;
+    }
+
+    .vtop-seal-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .vtop-exact-main {
+        padding: 1.75rem 0.85rem;
+    }
+
+    .vtop-card-header {
+        padding: 1rem 1.15rem 0.6rem;
+    }
+
+    .vtop-card-body {
+        padding: 1.15rem 1.15rem 0.85rem;
+    }
+
+    .vtop-card-footer {
+        padding: 0.85rem 1.15rem;
+    }
+
+    .vtop-exact-footer {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.75rem;
+    }
+}
