@@ -4,149 +4,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteShare - VIT Note Sharing Platform</title>
+    <title>VIT Vellore - VTOP NoteShare Registration</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/nav.js" defer></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js" defer></script>
+    <script src="js/firebase-config.js" defer></script>
+    <script src="js/config.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/page-init.js" defer></script>
     <script src="js/create-account-page.js" defer></script>
-    <!-- Firebase loaded by nav.js (v8 only) -->
 </head>
 
-<body>
-    <div id="app-header"></div>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header bg-success text-white">
-                        <h3><i class="fas fa-user-plus me-2"></i>Create Your Account</h3>
+<body class="login-body vtop-exact-body">
+
+    <!-- VTOP Header Bar -->
+    <header class="vtop-exact-header">
+        <div class="vtop-header-container">
+            <div class="vtop-brand-group">
+                <img class="vtop-logo" src="https://vtop.vit.ac.in/vtop/assets/img/VITLogoEmblem.png" alt="VIT emblem"
+                    style="width:32px; height:32px; object-fit:contain;"
+                    onerror="this.style.display='none'; document.getElementById('fallback-seal').style.display='flex';">
+                <div id="fallback-seal" class="vtop-seal-icon" style="display:none;">
+                    <i class="fas fa-university"></i>
+                </div>
+                <span class="vtop-vit-wordmark">VIT</span>
+                <span class="vtop-campus-text">(Vellore Campus)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="vtop-exact-main d-flex flex-column">
+        <section class="vtop-intro container">
+            <p class="vtop-kicker">NoteShare student portal</p>
+            <h1>NoteShare translates to &quot;Notes + Share&quot;</h1>
+            <p>A platform built around sharing knowledge, notes, and academic resources among students.</p>
+        </section>
+
+        <div class="vtop-card-container" style="max-width: 440px;">
+            <div class="vtop-login-card">
+                <!-- Header -->
+                <div class="vtop-card-header">
+                    <h2>NoteShare Registration</h2>
+                </div>
+
+                <!-- Body -->
+                <div class="vtop-card-body">
+                    <!-- Step Indicator -->
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2" style="border-bottom: 1px solid #edf2f7;">
+                        <div class="d-flex align-items-center gap-2 step-indicator active" id="step-1" style="font-size: 13px; font-weight: 600;">
+                            <span class="step-circle" style="width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">1</span>
+                            <span class="step-text">Email OTP</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-muted small"></i>
+                        <div class="d-flex align-items-center gap-2 step-indicator" id="step-2" style="font-size: 13px; font-weight: 600;">
+                            <span class="step-circle" style="width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">2</span>
+                            <span class="step-text">Password</span>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <!-- Step Indicator -->
-                        <div class="mb-4">
-                            <div class="d-flex justify-content-between">
-                                <div class="step-indicator active" id="step-1">
-                                    <div class="step-circle">1</div>
-                                    <div class="step-text">Email</div>
-                                </div>
-                                <div class="step-indicator" id="step-2">
-                                    <div class="step-circle">2</div>
-                                    <div class="step-text">OTP & Password</div>
-                                </div>
+
+                    <!-- Email Input Section -->
+                    <div id="email-section">
+                        <div class="mb-3">
+                            <label for="email" class="form-label small text-muted mb-1">VIT Student Gmail</label>
+                            <div class="vtop-input-group">
+                                <input type="email" class="form-control vtop-input" id="email"
+                                    placeholder="your.email@vitstudent.ac.in" required autocomplete="email">
+                                <span class="vtop-input-addon user-addon">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
                             </div>
+                            <small class="text-muted" style="font-size: 11.5px;">Must end with @vitstudent.ac.in</small>
                         </div>
 
-                        <!-- Email Input Section -->
-                        <div id="email-section">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">VIT Student Gmail</label>
-                                <input type="email" class="form-control form-control-lg" id="email"
-                                    placeholder="your.email@vitstudent.ac.in" required>
-                                <small class="text-muted">Must end with @vitstudent.ac.in</small>
-                            </div>
-                            <button type="button" class="btn btn-success btn-lg w-100" id="send-otp-btn"
-                                onclick="sendOTP()">
+                        <div class="d-flex justify-content-end mt-3 mb-1">
+                            <button type="button" class="btn vtop-submit-btn" id="send-otp-btn" onclick="sendOTP()">
                                 Send OTP to Gmail
                             </button>
                         </div>
+                    </div>
 
-                        <!-- OTP & Password Section -->
-                        <div id="otp-password-section" style="display: none;">
-                            <div class="text-center mb-3">
-                                <h5>Verify Your Email & Create Password</h5>
-                                <p class="text-muted">Enter the OTP sent to your Gmail and create a secure password</p>
-                            </div>
+                    <!-- OTP & Password Section -->
+                    <div id="otp-password-section" style="display: none;">
+                        <div class="text-center mb-3">
+                            <p class="text-muted small mb-0">Enter the OTP sent to your Gmail and create a password</p>
+                        </div>
 
-                            <!-- OTP Input -->
-                            <div class="mb-4">
-                                <label for="otp" class="form-label">6-Digit OTP</label>
-                                <input type="text" class="form-control form-control-lg text-center" id="otp"
+                        <!-- OTP Input -->
+                        <div class="mb-3">
+                            <label for="otp" class="form-label small text-muted mb-1">6-Digit OTP</label>
+                            <div class="vtop-input-group">
+                                <input type="text" class="form-control vtop-input text-center fw-bold" id="otp"
                                     placeholder="000000" maxlength="6" required
-                                    style="font-size: 24px; letter-spacing: 8px;">
-                                <small class="text-muted">Check your Gmail inbox and spam folder for the OTP</small>
+                                    style="font-size: 18px !important; letter-spacing: 4px;">
+                                <span class="vtop-input-addon user-addon">
+                                    <i class="fas fa-key"></i>
+                                </span>
                             </div>
+                            <small class="text-muted" style="font-size: 11.5px;">Check your Gmail inbox and spam folder for the OTP</small>
+                        </div>
 
-                            <!-- Password Creation -->
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control form-control-lg" id="password" required>
-                                <div class="password-requirements mt-2">
-                                    <small id="req-length" class="text-muted"><i class="fas fa-times text-danger"></i>
-                                        At least 8 characters</small><br>
-                                    <small id="req-uppercase" class="text-muted"><i
-                                            class="fas fa-times text-danger"></i> One uppercase letter</small><br>
-                                    <small id="req-lowercase" class="text-muted"><i
-                                            class="fas fa-times text-danger"></i> One lowercase letter</small><br>
-                                    <small id="req-number" class="text-muted"><i class="fas fa-times text-danger"></i>
-                                        One number</small><br>
-                                    <small id="req-special" class="text-muted"><i class="fas fa-times text-danger"></i>
-                                        One special character (!@#$%^&*)</small>
-                                </div>
+                        <!-- Password Creation -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label small text-muted mb-1">Password</label>
+                            <div class="vtop-input-group">
+                                <input type="password" class="form-control vtop-input" id="password"
+                                    placeholder="Create password" required autocomplete="new-password">
+                                <button type="button" class="vtop-input-addon eye-addon" id="password-toggle-1"
+                                    onclick="togglePasswordVisibility('password', this)" title="Show/Hide Password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="confirm-password" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control form-control-lg" id="confirm-password"
-                                    required>
-                                <small id="confirm-error" class="text-danger" style="display: none;">Passwords do not
-                                    match</small>
+                            
+                            <div class="password-requirements mt-2 small" style="font-size: 11.5px;">
+                                <div id="req-length" class="text-muted"><i class="fas fa-times text-danger me-1"></i>At least 8 characters</div>
+                                <div id="req-uppercase" class="text-muted"><i class="fas fa-times text-danger me-1"></i>One uppercase letter</div>
+                                <div id="req-lowercase" class="text-muted"><i class="fas fa-times text-danger me-1"></i>One lowercase letter</div>
+                                <div id="req-number" class="text-muted"><i class="fas fa-times text-danger me-1"></i>One number</div>
+                                <div id="req-special" class="text-muted"><i class="fas fa-times text-danger me-1"></i>One special character (!@#$%^&*)</div>
                             </div>
+                        </div>
 
-                            <button type="button" class="btn btn-success btn-lg w-100" id="create-account-btn"
-                                onclick="createAccount()" disabled>
-                                Create Account
+                        <!-- Confirm Password -->
+                        <div class="mb-3">
+                            <label for="confirm-password" class="form-label small text-muted mb-1">Confirm Password</label>
+                            <div class="vtop-input-group">
+                                <input type="password" class="form-control vtop-input" id="confirm-password"
+                                    placeholder="Confirm password" required autocomplete="new-password">
+                                <button type="button" class="vtop-input-addon eye-addon" id="password-toggle-2"
+                                    onclick="togglePasswordVisibility('confirm-password', this)" title="Show/Hide Password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <small id="confirm-error" class="text-danger" style="display: none; font-size: 11.5px;">Passwords do not match</small>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
+                            <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" onclick="backToEmail()" style="font-size: 12.5px; color: #718096;">
+                                <i class="fas fa-arrow-left me-1"></i>Change Email
                             </button>
-                            <button type="button" class="btn btn-outline-secondary w-100 mt-2" onclick="backToEmail()">
-                                Change Email
+                            <button type="button" class="btn vtop-submit-btn" id="create-account-btn" onclick="createAccount()" disabled>
+                                Create Account
                             </button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Footer Links -->
+                <div class="vtop-card-footer">
+                    <div class="vtop-footer-links-left">
+                        <a href="login.html" class="vtop-link">Already registered? Sign In</a>
+                    </div>
+                    <div class="vtop-footer-links-right">
+                        <a href="login.html" class="vtop-home-link"><em>Go to Home Page</em></a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <!-- VTOP Bottom Footer -->
+    <footer class="vtop-exact-footer">
+        Copyright &copy; 2026 Software Development Cell, VIT, Vellore-632 014.
+    </footer>
 
     <style>
         .step-indicator {
-            text-align: center;
-            flex: 1;
+            color: #718096;
+            transition: all 0.2s ease;
         }
 
-        .step-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #e9ecef;
-            color: #6c757d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 8px;
-            font-weight: bold;
-            transition: all 0.3s ease;
+        .step-indicator .step-circle {
+            background-color: #e2e8f0;
+            color: #718096;
+        }
+
+        .step-indicator.active {
+            color: #1469ed !important;
         }
 
         .step-indicator.active .step-circle {
-            background-color: #198754;
-            color: white;
-        }
-
-        .step-text {
-            font-size: 12px;
-            color: #6c757d;
-        }
-
-        .step-indicator.active .step-text {
-            color: #198754;
-            font-weight: 500;
+            background-color: #1469ed !important;
+            color: #ffffff !important;
         }
 
         .password-requirements i {
-            width: 16px;
+            width: 14px;
         }
     </style>
 
     <div id="app-footer"></div>
+
+    <script>
+        function togglePasswordVisibility(inputId, btn) {
+            const passwordInput = document.getElementById(inputId);
+            const icon = btn ? btn.querySelector('i') : null;
+            if (!passwordInput) return;
+
+            const isHidden = passwordInput.type === 'password';
+            passwordInput.type = isHidden ? 'text' : 'password';
+            if (icon) {
+                icon.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+            }
+        }
+    </script>
 </body>
 
 </html>
