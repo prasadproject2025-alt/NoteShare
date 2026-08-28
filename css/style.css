@@ -16,7 +16,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     background: radial-gradient(circle at top, rgba(37, 99, 235, 0.08), transparent 36%), #f1f5fb;
     color: var(--dark-color);
 }
@@ -173,8 +173,28 @@ body {
 }
 
 @media (max-width: 767.98px) {
+    .ns-main {
+        margin-top: 1rem !important;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .dashboard-panel {
+        border-radius: 0.85rem;
+    }
+
     .dashboard-header {
         padding: 1.5rem 1.25rem 1rem;
+    }
+
+    .dashboard-title {
+        font-size: 1.65rem;
+        line-height: 1.2;
+    }
+
+    .dashboard-intro {
+        font-size: 0.95rem;
+        line-height: 1.5;
     }
 
     .tile-grid {
@@ -190,6 +210,58 @@ body {
     .dashboard-actions a {
         width: 100%;
         max-width: 100%;
+        margin-right: 0 !important;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tile-grid {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+        padding: 1rem;
+    }
+
+    .tile {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.8rem;
+        min-height: 0;
+        padding: 0.9rem;
+        border-radius: 0.8rem;
+    }
+
+    .tile .icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        font-size: 1rem;
+    }
+
+    .tile h5 {
+        margin-bottom: 0.2rem;
+        font-size: 0.98rem;
+    }
+
+    .tile p {
+        font-size: 0.82rem;
+        line-height: 1.35;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .tile .actions span {
+        min-width: 0;
+        padding: 0.5rem 0.65rem;
+        font-size: 0.8rem;
+    }
+
+    .tile:hover {
+        transform: none;
     }
 }
 
@@ -263,6 +335,364 @@ body.login-body #app-footer {
     display: none !important;
 }
 
+/* VTOP-inspired student portal */
+.vtop-login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f4f7fb;
+}
+
+.vtop-header {
+    color: #fff;
+    background: linear-gradient(110deg, #173f92, #147da8);
+    box-shadow: 0 4px 16px rgba(15, 48, 100, 0.2);
+}
+
+.vtop-header-inner {
+    width: 100%;
+    max-width: none;
+    min-height: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.vtop-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+.vtop-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.vtop-wordmark {
+    font-family: Times, 'Times New Roman', serif;
+    font-size: 1.95rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+}
+
+.vtop-campus {
+    margin-left: 0.25rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.vtop-header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.vtop-header-actions a {
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+.vtop-header-actions a.active,
+.vtop-header-actions a:hover {
+    color: #17438f;
+    background: #fff;
+}
+
+.vtop-main {
+    flex: 1 0 auto;
+    padding: 1.25rem 0 2rem;
+}
+
+.vtop-intro {
+    text-align: center;
+}
+
+.vtop-kicker {
+    margin: 0 0 0.25rem;
+    color: #c17400;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.vtop-intro h1 {
+    margin: 0;
+    color: #1469b4;
+    font-family: Georgia, serif;
+    font-size: 2rem;
+}
+
+.vtop-intro > p:last-child {
+    max-width: 780px;
+    margin: 0.5rem auto 1.2rem;
+    color: #26384d;
+    font-weight: 600;
+}
+
+.vtop-roles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.vtop-role {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.8rem;
+    min-height: 78px;
+    padding: 0.8rem 1rem;
+    color: #1f3349;
+    background: #fff;
+    border-top: 3px solid #2d86c4;
+    border-radius: 0.25rem;
+    box-shadow: 0 8px 18px rgba(28, 52, 80, 0.12);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vtop-role:hover {
+    color: #1469b4;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(28, 52, 80, 0.18);
+}
+
+.vtop-role.employee { border-top-color: #d5a500; }
+.vtop-role.parent { border-top-color: #15a04a; }
+.vtop-role.alumni { border-top-color: #24a9d1; }
+
+.role-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: #fff;
+    background: #236fe5;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.employee .role-icon { background: #d5a500; }
+.parent .role-icon { background: #15934a; }
+.alumni .role-icon { background: #20a9d1; }
+.vtop-role strong { font-size: 1.1rem; }
+.role-arrow { font-size: 1.4rem; font-weight: 700; }
+
+.vtop-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.9fr 0.75fr;
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: 1.1rem;
+}
+
+.login-entry {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.25rem;
+}
+
+.login-entry .student-login-panel {
+    width: min(100%, 460px);
+}
+
+.spotlight-panel,
+.student-login-panel,
+.app-links {
+    background: #fff;
+    border-radius: 0.25rem;
+    box-shadow: 0 8px 18px rgba(28, 52, 80, 0.1);
+}
+
+.spotlight-panel { border-top: 3px solid #7d310c; }
+.spotlight-heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem 0.9rem;
+    color: #9b123f;
+    border-bottom: 1px solid #e3e8ee;
+}
+.spotlight-heading a { color: #c01857; text-decoration: none; }
+.spotlight-panel ul { margin: 0; padding: 0 0.9rem; list-style: none; }
+.spotlight-panel li {
+    display: flex;
+    gap: 0.7rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #e3e8ee;
+    font-size: 0.85rem;
+}
+.spotlight-panel li:last-child { border-bottom: 0; }
+.spotlight-panel li > span { color: #b40b57; }
+.spotlight-panel a { color: #1e2b3c; text-decoration: underline; }
+
+.student-login-panel {
+    padding: 1.25rem;
+    border-top: 3px solid #1469b4;
+}
+.student-login-heading { text-align: center; }
+.panel-label {
+    color: #1469b4;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.student-login-heading h2 { margin: 0.25rem 0; font-size: 1.4rem; }
+.student-login-heading p,
+.new-account,
+.app-links p { color: #71839a; font-size: 0.82rem; }
+.student-login-panel label {
+    display: block;
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.student-login-panel label.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.student-login-panel input {
+    width: 100%;
+    height: 40px;
+    min-height: 40px;
+    box-sizing: border-box;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #ccd7e3;
+    border-radius: 0.25rem;
+}
+
+.login-input-group {
+    display: flex;
+    width: 100%;
+}
+
+.login-input-group input {
+    min-width: 0;
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.input-icon,
+.password-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    min-width: 38px;
+    height: 40px;
+    min-height: 40px;
+    border: 1px solid #ccd7e3;
+    border-left: 0;
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.input-icon {
+    color: #1469ed;
+    background: #f0f5fb;
+}
+
+.username-field {
+    margin-bottom: 20px;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 0.75rem;
+}
+
+.password-toggle {
+    padding: 0;
+    color: #ee3155;
+    background: #f7f8fa;
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    color: #d91f43;
+    background: #f7f8fa;
+    box-shadow: none;
+}
+.student-login-panel button[type="submit"] {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 1rem;
+    color: #fff;
+    background: #1676ed;
+    border: 0;
+    border-radius: 0.25rem;
+    font-weight: 700;
+}
+.new-account { margin: 1rem 0 0; text-align: center; }
+.new-account a { font-weight: 700; }
+
+.app-links {
+    padding: 1.25rem;
+    text-align: center;
+    border-top: 3px solid #1b9a76;
+}
+.app-links h2 { margin: 0; color: #147da8; font-size: 1.1rem; }
+.store-buttons { display: grid; gap: 0.5rem; margin-top: 1rem; }
+.store-buttons span {
+    padding: 0.65rem;
+    color: #fff;
+    background: #13171d;
+    border-radius: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.vtop-footer {
+    padding: 0.45rem;
+    color: #fff;
+    background: linear-gradient(90deg, #2453a0, #2086ac);
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+@media (max-width: 767.98px) {
+    .vtop-header-inner {
+        align-items: center;
+        flex-direction: row;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .vtop-wordmark { font-size: 1.55rem; }
+    .vtop-campus { font-size: 0.75rem; }
+    .vtop-logo { width: 30px; height: 30px; }
+    .vtop-header-actions { display: grid; grid-template-columns: 1fr 1fr; }
+    .vtop-header-actions a { text-align: center; }
+    .vtop-main { padding-top: 1rem; }
+    .vtop-intro h1 { font-size: 1.55rem; }
+    .vtop-intro > p:last-child { font-size: 0.86rem; line-height: 1.4; }
+    .login-entry { margin-top: 1rem; }
+}
+
 .login-hero {
     background: rgba(248, 250, 255, 0.92);
     border-radius: 28px;
@@ -318,6 +748,117 @@ body.login-body #app-footer {
 
 .login-page .text-muted {
     color: #7d90a4 !important;
+}
+
+@media (max-width: 575.98px) {
+    .login-header {
+        padding: 1rem 0 !important;
+    }
+
+    .login-header .container {
+        align-items: stretch !important;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .login-brand {
+        gap: 0.75rem;
+    }
+
+    .login-brand-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        font-size: 1.15rem;
+        flex-shrink: 0;
+    }
+
+    .login-brand-title {
+        font-size: 0.95rem;
+    }
+
+    .login-brand-subtitle {
+        font-size: 0.78rem;
+        line-height: 1.3;
+    }
+
+    .login-header-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+    }
+
+    .login-header-actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        margin: 0 !important;
+    }
+
+    .login-page {
+        padding: 1.25rem 1rem 2.5rem;
+    }
+
+    .login-page .row {
+        --bs-gutter-y: 1rem;
+    }
+
+    .login-hero {
+        min-height: 0;
+        padding: 1.35rem;
+        border-radius: 1.25rem;
+    }
+
+    .login-hero-title {
+        font-size: 1.65rem;
+        line-height: 1.2;
+    }
+
+    .login-hero-text {
+        font-size: 0.92rem;
+        line-height: 1.55;
+        margin-top: 0.75rem;
+    }
+
+    .login-hero .d-flex {
+        gap: 0.6rem !important;
+        margin-top: 1.25rem !important;
+    }
+
+    .login-feature-card {
+        flex-basis: 100%;
+        min-width: 0;
+        padding: 0.75rem 0.85rem;
+        border-radius: 0.8rem;
+    }
+
+    .login-feature-card p {
+        margin: 0.25rem 0 0;
+        font-size: 0.82rem;
+        line-height: 1.35;
+    }
+
+    .login-card {
+        border-radius: 1.25rem;
+    }
+
+    .login-card .card-body {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .login-card h3 {
+        font-size: 1.35rem;
+    }
+
+    .login-card .form-control {
+        min-height: 48px;
+        font-size: 1rem;
+    }
+
+    .login-card .btn {
+        min-height: 48px;
+    }
 }
 
 .card-header {
@@ -702,6 +1243,84 @@ body.login-body #app-footer {
 
     .card {
         margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .buy-page {
+        margin-top: 1.5rem !important;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .buy-page h2 {
+        font-size: 1.65rem;
+        margin-bottom: 1rem;
+    }
+
+    .buy-page .card-header {
+        padding: 0.85rem 1rem;
+    }
+
+    .buy-page .card-header h5 {
+        margin-bottom: 0;
+        font-size: 1rem;
+    }
+
+    .buy-page .card-body {
+        padding: 1rem;
+    }
+
+    .search-actions {
+        display: grid;
+        gap: 0.65rem;
+    }
+
+    .search-actions .btn {
+        width: 100%;
+        margin: 0;
+        min-height: 44px;
+    }
+
+    .coin-summary {
+        margin-top: 1rem;
+    }
+
+    .coin-summary h3 {
+        font-size: 1.5rem;
+    }
+
+    .note-card:hover,
+    .buy-page .card:hover {
+        transform: none;
+    }
+
+    .note-card .card-body {
+        padding: 1rem;
+    }
+
+    .note-card .card-title {
+        font-size: 1.1rem;
+        overflow-wrap: anywhere;
+    }
+
+    .note-card .row {
+        --bs-gutter-y: 1rem;
+    }
+
+    .note-card .text-end {
+        text-align: left !important;
+        border-top: 1px solid #edf1f7;
+        padding-top: 1rem;
+    }
+
+    .note-card .text-end .btn {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .note-card .badge {
+        margin-bottom: 0.35rem;
     }
 }
 

@@ -102,7 +102,7 @@
 }
 </style>
 
-<main class="container mt-5">
+<main class="container buy-page mt-5">
     <div class="row">
         <div class="col-md-8">
             <h2>Buy Notes</h2>
@@ -139,8 +139,10 @@
                             </select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="searchNotes()">Search</button>
-                    <button class="btn btn-secondary ms-2" onclick="loadAllAvailableNotes()">Refresh Notes</button>
+                    <div class="search-actions">
+                        <button class="btn btn-primary" onclick="searchNotes()">Search</button>
+                        <button class="btn btn-secondary" onclick="loadAllAvailableNotes()">Refresh Notes</button>
+                    </div>
                 </div>
             </div>
 
@@ -151,7 +153,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card">
+            <div class="card coin-summary">
                 <div class="card-header">
                     <h5>Your Coins</h5>
                 </div>

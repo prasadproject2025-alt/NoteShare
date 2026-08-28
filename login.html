@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - NoteShare</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
@@ -19,76 +21,68 @@
     <script src="js/login-page.js" defer></script>
 </head>
 
-<body class="login-body">
-    <div class="login-header py-3">
-        <div class="container d-flex align-items-center justify-content-between">
-            <div class="login-brand">
-                <div class="login-brand-logo">VIT</div>
-                <div>
-                    <div class="login-brand-title">Vellore Institute of Technology</div>
-                    <div class="login-brand-subtitle">VIT on TOP — Student access portal</div>
-                </div>
-            </div>
-            <div class="login-header-actions">
-                <a href="login.html" class="btn btn-light btn-sm">Student Login</a>
-                <a href="create-account.html" class="btn btn-outline-light btn-sm">Create Account</a>
-            </div>
+<body class="login-body vtop-login-page">
+    <header class="vtop-header">
+        <div class="container vtop-header-inner">
+            <a class="vtop-brand" href="login.html" aria-label="NoteShare home">
+                <img class="vtop-logo" src="https://vtop.vit.ac.in/vtop/assets/img/VITLogoEmblem.png" alt="VIT emblem">
+                <strong class="vtop-wordmark">VIT</strong>
+                <span class="vtop-campus">(Vellore Campus)</span>
+            </a>
         </div>
-    </div>
-    <div class="container login-page">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4">
-                <div class="login-hero p-5 rounded-4 shadow-sm">
-                    <h1 class="login-hero-title">Welcome back to NoteShare</h1>
-                    <p class="login-hero-text">Securely login with your VIT student account, manage your notes, search
-                        available uploads, and chat with fellow students.</p>
-                    <div class="d-flex flex-wrap gap-3 mt-4">
-                        <div class="login-feature-card">
-                            <strong>Notes Search</strong>
-                            <p>Find notes by course, slot, and semester fast.</p>
-                        </div>
-                        <div class="login-feature-card">
-                            <strong>Upload & Manage</strong>
-                            <p>Upload your notes and edit them anytime.</p>
-                        </div>
-                        <div class="login-feature-card">
-                            <strong>Secure Chat</strong>
-                            <p>Message sellers with just one coin.</p>
-                        </div>
-                    </div>
+    </header>
+
+    <main class="vtop-main">
+        <section class="vtop-intro container">
+            <p class="vtop-kicker">NoteShare student portal</p>
+            <h1>VTOP translates to &quot;VIT on TOP&quot;</h1>
+            <p>A digital initiative for students to access notes, manage uploads, and connect with classmates on one common platform.</p>
+        </section>
+
+        <section class="container login-entry">
+            <div id="student-login" class="student-login-panel">
+                <div class="student-login-heading">
+                    <span class="panel-label">Student App</span>
+                    <h2>Sign in to NoteShare</h2>
+                    <p>Use your @vitstudent.ac.in email and password.</p>
                 </div>
-            </div>
-            <div class="col-lg-5 ms-lg-auto">
-                <div class="card login-card shadow-lg rounded-4 overflow-hidden">
-                    <div class="card-body p-5">
-                        <div class="mb-4 text-center">
-                            <h3 class="mb-1">Sign in to NoteShare</h3>
-                            <p class="text-muted mb-0">Use your @vitstudent.ac.in email and password.</p>
-                        </div>
-                        <div id="login-error" class="alert alert-danger d-none" role="alert"></div>
-                        <form id="login-form" onsubmit="event.preventDefault(); loginUser();">
-                            <div class="mb-3">
-                                <label for="login-email" class="form-label">VIT Student Email</label>
-                                <input type="email" class="form-control" id="login-email"
-                                    placeholder="your.name@vitstudent.ac.in" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="login-password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="login-password"
-                                    placeholder="Enter your password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-lg w-100">Login</button>
-                        </form>
-                        <div class="mt-4 text-center">
-                            <span class="text-muted">New here?</span>
-                            <a href="create-account.html" class="fw-semibold">Create an account</a>
-                        </div>
+                <div id="login-error" class="alert alert-danger d-none" role="alert"></div>
+                <form id="login-form" onsubmit="event.preventDefault(); loginUser();">
+                    <label class="visually-hidden" for="login-email">Username</label>
+                    <div class="login-input-group username-field">
+                        <input type="email" id="login-email" placeholder="Username" required>
+                        <span class="input-icon" aria-hidden="true"><i class="fas fa-user"></i></span>
                     </div>
-                </div>
+                    <label class="visually-hidden" for="login-password">Password</label>
+                    <div class="login-input-group password-field">
+                        <input type="password" id="login-password" placeholder="Password" required>
+                        <button type="button" class="password-toggle" id="password-toggle" aria-label="Show password" title="Show password" onclick="togglePasswordVisibility()"><i class="fas fa-eye"></i></button>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <p class="new-account">New here? <a href="create-account.html">Create an account</a></p>
             </div>
-        </div>
-    </div>
+
+        </section>
+    </main>
+
+    <footer class="vtop-footer">Copyright &copy; 2026 NoteShare, VIT Vellore.</footer>
     <div id="app-footer"></div>
+        <script>
+            function togglePasswordVisibility() {
+                const passwordInput = document.getElementById('login-password');
+                const toggleButton = document.getElementById('password-toggle');
+                if (!passwordInput || !toggleButton) return;
+
+                const isHidden = passwordInput.type === 'password';
+                passwordInput.type = isHidden ? 'text' : 'password';
+                toggleButton.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+                toggleButton.setAttribute('title', isHidden ? 'Hide password' : 'Show password');
+                toggleButton.innerHTML = isHidden
+                    ? '<i class="fas fa-eye-slash" aria-hidden="true"></i>'
+                    : '<i class="fas fa-eye" aria-hidden="true"></i>';
+            }
+        </script>
 </body>
 
 </html>
