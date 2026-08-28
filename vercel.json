@@ -1,8 +1,21 @@
 {
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/", "destination": "/login.html" }
+  "version": 2,
+  "builds": [
+    { "src": "api/*.js", "use": "@vercel/node" },
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "css/**", "use": "@vercel/static" },
+    { "src": "js/**", "use": "@vercel/static" },
+    { "src": "data/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/send-otp", "dest": "/api/send-otp.js" },
+    { "src": "/api/verify-otp", "dest": "/api/verify-otp.js" },
+    { "src": "/api/admin-login", "dest": "/api/admin-login.js" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/", "dest": "/login.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
+
 
 

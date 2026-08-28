@@ -3,7 +3,6 @@
   "version": "2.0.0",
   "private": true,
   "description": "NoteShare — VIT note sharing (HTML/CSS/JS + Node API)",
-  "main": "index.js",
   "scripts": {
     "build": "echo Static site build complete",
     "dev": "node server/dev.js",
