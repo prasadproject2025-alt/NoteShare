@@ -25,7 +25,9 @@ const MIME = {
 };
 
 async function handleApi(req, res, pathname) {
-  const apiFile = path.join(ROOT, 'api', path.basename(pathname) + '.js');
+  let endpoint = path.basename(pathname);
+  if (endpoint.endsWith('.js')) endpoint = endpoint.slice(0, -3);
+  const apiFile = path.join(ROOT, 'api', endpoint + '.js');
   if (!fs.existsSync(apiFile)) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ success: false, message: 'API not found' }));

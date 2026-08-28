@@ -8,11 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const password = document.getElementById('password').value;
 
     try {
-      const res = await fetch('/api/admin-login', {
+      let res = await fetch('/api/admin-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
+      if (res.status === 404) {
+        res = await fetch('/api/admin-login.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+      }
       const text = await res.text();
       let data;
       try {

@@ -39,11 +39,18 @@ async function sendOTP() {
   btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending OTP...';
 
   try {
-    const res = await fetch('/api/send-otp', {
+    let res = await fetch('/api/send-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, name: email.split('@')[0] }),
     });
+    if (res.status === 404) {
+      res = await fetch('/api/send-otp.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name: email.split('@')[0] }),
+      });
+    }
     const responseText = await res.text();
     let data;
     try {
@@ -124,11 +131,18 @@ async function createAccount() {
   createBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
 
   try {
-    const verifyRes = await fetch('/api/verify-otp', {
+    let verifyRes = await fetch('/api/verify-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: userEmail, otp }),
     });
+    if (verifyRes.status === 404) {
+      verifyRes = await fetch('/api/verify-otp.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: userEmail, otp }),
+      });
+    }
     const verifyText = await verifyRes.text();
     let verifyData;
     try {
