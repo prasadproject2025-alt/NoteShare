@@ -735,11 +735,15 @@ function handleAddNewUser() {
     return;
   }
 
-  const userId = 'usr_' + Date.now();
+  const userMd5 = window.NoteShareAuth?.md5?.(email) || '';
+  const userId = userMd5 || ('usr_' + Date.now());
   const newUser = { id: userId, email, name, coins: isNaN(coins) ? 50 : coins, created_at: new Date().toISOString(), status: 'active', blocked: false, requests_count: 0, failed_logins: 0, risk: 'normal', actions: [] };
 
   if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length && typeof firebase.database === 'function') {
     firebase.database().ref('users/' + userId).set(newUser).catch(() => {});
+    if (userMd5 && userMd5 !== userId) {
+      firebase.database().ref('users/' + userMd5).set(newUser).catch(() => {});
+    }
   }
 
   const users = getStoredUsers();
@@ -876,28 +880,91 @@ async function toggleBlockUser(userId, shouldBlock, email) {
 }
 
 async function promptAddCoins(userId) {
-  const amount = parseInt(prompt('Enter number of coins to add to student balance:'), 10);
-  if (isNaN(amount) || amount <= 0) return;
+  const amountStr = prompt('Enter number of coins to add to student balance:');
+  if (amountStr === null) return;
+  const amount = parseInt(amountStr, 10);
+  if (isNaN(amount) || amount <= 0) {
+    alert('Please enter a valid positive number of coins.');
+    return;
+  }
+
+  const allUsers = await fetchAppUsers();
+  const user = allUsers.find(u => u.id === userId) || FALLBACK_USERS.find(u => u.id === userId) || { id: userId, coins: 50 };
+  const email = (user.email || '').toLowerCase().trim();
+  const userMd5 = email ? (window.NoteShareAuth?.md5?.(email) || '') : '';
+  const currentCoins = typeof user.coins === 'number' ? user.coins : 50;
+  const newCoins = currentCoins + amount;
+
+  // 1. Firebase RTDB update across all matching paths
   try {
     if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length && typeof firebase.database === 'function') {
-      const snap = await firebase.database().ref('users/' + userId + '/coins').once('value').catch(() => null);
-      const current = (snap && snap.exists()) ? (snap.val() || 0) : 50;
-      await firebase.database().ref('users/' + userId + '/coins').set(current + amount).catch(() => {});
+      const db = firebase.database();
+      
+      if (userId) {
+        await db.ref('users/' + userId).update({ coins: newCoins }).catch(() => {});
+      }
+      
+      if (userMd5 && userMd5 !== userId) {
+        await db.ref('users/' + userMd5).update({ coins: newCoins }).catch(() => {});
+      }
+
+      if (email) {
+        const snap = await db.ref('users').once('value').catch(() => null);
+        if (snap && snap.exists()) {
+          snap.forEach(child => {
+            const val = child.val();
+            if (val && val.email && val.email.toLowerCase().trim() === email) {
+              db.ref('users/' + child.key).update({ coins: newCoins }).catch(() => {});
+            }
+          });
+        }
+      }
+
+      db.ref('coin_transactions').push({
+        user_id: userId,
+        email: email,
+        action: 'add',
+        coins: amount,
+        description: 'Coins added by Admin',
+        timestamp: Date.now()
+      }).catch(() => {});
+    }
+  } catch (e) {
+    console.warn('Firebase coin update warning:', e);
+  }
+
+  // 2. Update active session in localStorage if logged in
+  try {
+    const session = JSON.parse(localStorage.getItem('noteshare_session') || 'null');
+    if (session && session.user_email && session.user_email.toLowerCase().trim() === email) {
+      session.user_coins = newCoins;
+      localStorage.setItem('noteshare_session', JSON.stringify(session));
     }
   } catch (e) {}
-  const adminUsers = getStoredUsers();
-  const idx = adminUsers.findIndex(u => u.id === userId);
-  if (idx >= 0) {
-    adminUsers[idx].coins = (adminUsers[idx].coins || 50) + amount;
-  } else {
-    const fb = FALLBACK_USERS.find(u => u.id === userId);
-    if (fb) {
-      fb.coins = (fb.coins || 50) + amount;
-      adminUsers.push({ ...fb });
+
+  // 3. Update registered users map in localStorage
+  try {
+    const regUsers = JSON.parse(localStorage.getItem('noteshare_registered_users') || '{}');
+    if (email && regUsers[email]) {
+      regUsers[email].coins = newCoins;
+      localStorage.setItem('noteshare_registered_users', JSON.stringify(regUsers));
     }
+  } catch (e) {}
+
+  // 4. Update stored admin users
+  const adminUsers = getStoredUsers();
+  const idx = adminUsers.findIndex(u => u.id === userId || (u.email && u.email.toLowerCase().trim() === email));
+  if (idx >= 0) {
+    adminUsers[idx].coins = newCoins;
+  } else {
+    adminUsers.push({ id: userId, email: email, name: user.name || email, coins: newCoins });
   }
   saveStoredUsers(adminUsers);
-  alert(`Added ${amount} coins successfully!`);
+
+  // Update in-memory user object
+  user.coins = newCoins;
+
+  alert(`Successfully added ${amount} coins to ${user.name || email}! New balance: ${newCoins} coins.`);
   await loadUsers();
 }
 
