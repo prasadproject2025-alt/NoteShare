@@ -112,17 +112,7 @@
       }
       const sess = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
       if (sess && sess.user_id) return sess;
-
-      // Default initial session for new visitors
-      const defaultSess = {
-        user_id: 'user-prasad-22mis0428',
-        user_email: '22mis0428@vitstudent.ac.in',
-        user_name: 'Prasad',
-        user_coins: 50,
-        firebase_uid: 'vit-student-prasad'
-      };
-      localStorage.setItem(SESSION_KEY, JSON.stringify(defaultSess));
-      return defaultSess;
+      return null;
     } catch {
       return null;
     }

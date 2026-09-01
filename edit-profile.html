@@ -167,9 +167,9 @@
             currentUserId = window.NoteShareAuth?.getUserId() || '';
             const session = window.NoteShareAuth?.getSession() || {};
 
-            const name = session.user_name || 'Prasad';
-            const email = session.user_email || '22mis0428@vitstudent.ac.in';
-            const regNo = email ? email.split('@')[0].toUpperCase() : '22MIS0428';
+            const name = session.user_name || 'Student';
+            const email = session.user_email || '';
+            const regNo = email ? email.split('@')[0].toUpperCase() : '';
 
             document.getElementById('student-email').value = email;
             document.getElementById('student-name').value = name;

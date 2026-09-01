@@ -165,12 +165,13 @@
         });
 
         function loadProfileDetails() {
+            const sess = window.NoteShareAuth?.getSession();
             const defaultUser = {
-                name: 'Prasad',
-                email: '22mis0428@vitstudent.ac.in',
+                name: sess?.user_name || 'Student',
+                email: sess?.user_email || '',
                 department: 'School of Computer Science & Engineering (SCOPE)',
                 year: '3rd Year',
-                coins: 50,
+                coins: sess?.user_coins ?? 10,
                 rating: 4.9,
                 created_at: Date.now() - 3600000 * 24 * 60
             };

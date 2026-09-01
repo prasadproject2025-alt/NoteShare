@@ -15,6 +15,7 @@
     <script src="js/firebase-config.js" defer></script>
     <script src="js/config.js" defer></script>
     <script src="js/auth.js" defer></script>
+    <script src="js/coins.js" defer></script>
     <script src="js/nav.js" defer></script>
     <script src="js/page-init.js" defer></script>
 </head>
@@ -268,28 +269,51 @@ function shareNotes() {
     reader.readAsDataURL(file);
 }
 
-function messageSharer(sharerId) {
-    // Similar to contactSeller in buy-notes.html
-    const coinsRef = firebase.database().ref('users/' + userId + '/coins');
-    coinsRef.once('value').then(snapshot => {
-        const coins = snapshot.val() || 0;
+async function messageSharer(sharerId) {
+    const currentUserId = window.NoteShareAuth?.getUserId() || userId;
+    if (!currentUserId) {
+        alert('Please log in to message.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    if (currentUserId === sharerId) {
+        alert('This is your own shared note listing.');
+        return;
+    }
+
+    try {
+        const coins = window.NoteShareCoins ? await window.NoteShareCoins.getBalance(currentUserId) : 10;
         if (coins < 1) {
-            alert('You need at least 1 coin to message');
+            alert('You need at least 1 coin to send a message inquiry.');
             return;
         }
 
-        coinsRef.set(coins - 1);
+        if (window.NoteShareCoins) {
+            const updateRes = await window.NoteShareCoins.updateCoins('deduct', 1, 'Message sent for shared note');
+            if (!updateRes.success) {
+                alert('Insufficient coins to send message.');
+                return;
+            }
+        }
 
         const chatRef = firebase.database().ref('chats').push();
-        chatRef.set({
-            user1_id: userId,
+        await chatRef.set({
+            user1_id: currentUserId,
             user2_id: sharerId,
+            buyer_id: currentUserId,
+            seller_id: sharerId,
             type: 'share_inquiry',
-            created_at: Date.now()
-        }).then(() => {
-            window.location.href = 'messages.html?chat_id=' + chatRef.key;
+            created_at: Date.now(),
+            last_message: '',
+            last_message_time: Date.now()
         });
-    });
+
+        window.location.href = 'messages.html?chat_id=' + chatRef.key;
+    } catch (e) {
+        console.error('Error messaging sharer:', e);
+        alert('Failed to start conversation. Please try again.');
+    }
 }
 </script>
 <div id="app-footer">

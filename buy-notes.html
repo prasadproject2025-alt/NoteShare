@@ -15,6 +15,8 @@
     <script src="js/firebase-config.js" defer></script>
     <script src="js/config.js" defer></script>
     <script src="js/auth.js" defer></script>
+    <script src="js/coins.js" defer></script>
+    <script src="js/coins-shim.js" defer></script>
     <script src="js/nav.js" defer></script>
     <script src="js/page-init.js" defer></script>
 </head>
@@ -520,88 +522,91 @@ function testDisplay() {
     displayNotes(testNotes);
 }
 
-function contactSeller(sellerId, noteId) {
+async function contactSeller(sellerId, noteId) {
     const currentUserId = (window.NoteShareAuth && typeof window.NoteShareAuth.getUserId === 'function')
         ? window.NoteShareAuth.getUserId()
         : userId;
 
-    fetch('get_user_coins.html?t=' + Date.now(), {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (!data.success) {
-            alert('Error checking coin balance. Please try again.');
+    if (!currentUserId) {
+        alert('Please log in to message the seller.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    if (currentUserId === sellerId) {
+        alert('This is your own note listing!');
+        return;
+    }
+
+    try {
+        // Check if an existing chat already exists for this user and note/seller
+        const existingSnap = await firebase.database().ref('chats').once('value');
+        let existingChatKey = null;
+        existingSnap.forEach(child => {
+            const c = child.val() || {};
+            const isParticipant = (c.buyer_id === currentUserId && c.seller_id === sellerId) ||
+                                  (c.user1_id === currentUserId && c.user2_id === sellerId);
+            if (isParticipant && (c.note_id === noteId || !c.note_id)) {
+                existingChatKey = child.key;
+            }
+        });
+
+        if (existingChatKey) {
+            window.location.href = 'messages.html?chat_id=' + existingChatKey;
             return;
         }
 
-        const coins = data.coins;
+        // Check coin balance before starting a new chat
+        const coins = window.NoteShareCoins
+            ? await window.NoteShareCoins.getBalance(currentUserId)
+            : 10;
+
         if (coins < 1) {
             alert('You need at least 1 coin to message the seller.');
             return;
         }
 
-        fetch('update_user_coins.html', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                action: 'deduct',
-                coins: 1,
-                description: 'Message sent to seller for note ' + noteId
-            })
-        })
-        .then(response => response.json())
-        .then(updateData => {
-            if (!updateData.success) {
-                alert('Error deducting coins. Please try again.');
+        // Deduct 1 coin
+        if (window.NoteShareCoins) {
+            const updateRes = await window.NoteShareCoins.updateCoins('deduct', 1, 'Started chat with seller for note ' + noteId);
+            if (!updateRes.success) {
+                alert('Insufficient coins to message the seller.');
                 return;
             }
+        }
 
-            firebase.database().ref('notes/' + noteId).once('value').then(noteSnap => {
-                const note = noteSnap.val() || {};
-                const buyerName = (window.NoteShareAuth && typeof window.NoteShareAuth.getUserName === 'function')
-                    ? window.NoteShareAuth.getUserName()
-                    : 'Buyer';
+        // Fetch note info
+        let note = {};
+        if (noteId) {
+            const noteSnap = await firebase.database().ref('notes/' + noteId).once('value');
+            note = noteSnap.val() || {};
+        }
 
-                const chatRef = firebase.database().ref('chats').push();
-                chatRef.set({
-                    buyer_id: currentUserId,
-                    seller_id: sellerId,
-                    buyer_name: buyerName,
-                    seller_name: note.seller_name || 'Seller',
-                    note_id: noteId,
-                    note_title: note.subject_name || 'Note discussion',
-                    note_price: note.price || 0,
-                    note_description: note.description || 'Discuss the note content and price here.',
-                    subject: note.subject_name || 'Note discussion',
-                    created_at: Date.now(),
-                    last_message: '',
-                    last_message_time: Date.now()
-                }).then(() => {
-                    window.location.href = 'messages.html?chat_id=' + chatRef.key;
-                }).catch(error => {
-                    console.error('Error creating chat:', error);
-                    alert('Error creating conversation. Please try again.');
-                });
-            }).catch(error => {
-                console.error('Error fetching note details:', error);
-                alert('Error creating conversation. Please try again.');
-            });
-        })
-        .catch(error => {
-            console.error('Error deducting coins:', error);
-            alert('Error deducting coins. Please try again.');
+        const buyerName = (window.NoteShareAuth && typeof window.NoteShareAuth.getUserName === 'function')
+            ? window.NoteShareAuth.getUserName()
+            : 'Buyer';
+
+        const chatRef = firebase.database().ref('chats').push();
+        await chatRef.set({
+            buyer_id: currentUserId,
+            seller_id: sellerId,
+            buyer_name: buyerName,
+            seller_name: note.seller_name || 'Seller',
+            note_id: noteId || '',
+            note_title: note.subject_name || 'Note discussion',
+            note_price: note.price || 0,
+            note_description: note.description || 'Discuss note content and price here.',
+            subject: note.subject_name || 'Note discussion',
+            created_at: Date.now(),
+            last_message: '',
+            last_message_time: Date.now()
         });
-    })
-    .catch(error => {
-        console.error('Error checking coins:', error);
-        alert('Error checking coin balance. Please try again.');
-    });
+
+        window.location.href = 'messages.html?chat_id=' + chatRef.key;
+    } catch (error) {
+        console.error('Error starting conversation:', error);
+        alert('Error starting conversation: ' + (error.message || 'Please try again.'));
+    }
 }
 
 // Global variable to store current note images for modal
