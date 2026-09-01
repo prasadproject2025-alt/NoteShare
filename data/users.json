@@ -184,5 +184,88 @@
     ],
     "last_active": 1788286521018,
     "risk": "suspicious"
+  },
+  "durga.prasad2023@vitstudent.ac.in": {
+    "email": "durga.prasad2023@vitstudent.ac.in",
+    "name": "durga.prasad2023",
+    "coins": 10,
+    "created_at": "2026-09-01T18:17:55.991Z",
+    "status": "active",
+    "requests_count": 3,
+    "failed_logins": 0,
+    "actions": [
+      {
+        "timestamp": "11:47:56 PM",
+        "date": "9/1/2026",
+        "type": "Page Visit",
+        "detail": "Visited Page 3 (Study Materials)",
+        "time_ms": 1788286676003
+      },
+      {
+        "timestamp": "11:47:55 PM",
+        "date": "9/1/2026",
+        "type": "Page Visit",
+        "detail": "Visited Page 2 (Study Materials)",
+        "time_ms": 1788286675995
+      },
+      {
+        "timestamp": "11:47:55 PM",
+        "date": "9/1/2026",
+        "type": "Page Visit",
+        "detail": "Visited Page 1 (Study Materials)",
+        "time_ms": 1788286675991
+      }
+    ],
+    "last_active": 1788286676002,
+    "risk": "normal"
+  },
+  "suspected_hacker2026@vitstudent.ac.in": {
+    "email": "suspected_hacker2026@vitstudent.ac.in",
+    "name": "suspected_hacker2026",
+    "coins": 10,
+    "created_at": "2026-09-01T18:17:56.007Z",
+    "status": "blocked",
+    "requests_count": 5,
+    "failed_logins": 5,
+    "actions": [
+      {
+        "timestamp": "11:47:56 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password guess 5 failed",
+        "time_ms": 1788286676027
+      },
+      {
+        "timestamp": "11:47:56 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password guess 4 failed",
+        "time_ms": 1788286676022
+      },
+      {
+        "timestamp": "11:47:56 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password guess 3 failed",
+        "time_ms": 1788286676018
+      },
+      {
+        "timestamp": "11:47:56 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password guess 2 failed",
+        "time_ms": 1788286676012
+      },
+      {
+        "timestamp": "11:47:56 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password guess 1 failed",
+        "time_ms": 1788286676008
+      }
+    ],
+    "last_active": 1788286676027,
+    "risk": "suspicious",
+    "blocked": true
   }
 }
