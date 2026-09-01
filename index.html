@@ -176,22 +176,66 @@
 </main>
 
 <script>
-function loadCoinBalance() {
+async function loadCoinBalance() {
   const el = document.getElementById('coins-balance');
-  if (!el || !window.NoteShareAuth) return;
-  const uid = window.NoteShareAuth.getUserId();
-  if (!uid) { el.textContent = '0 Coins'; return; }
-  firebase.database().ref('users/' + uid + '/coins').once('value').then(function(s) {
-    el.textContent = (s.val() || 0) + ' Coins';
-  }).catch(function() {
-    el.textContent = '— Coins';
-  });
+  if (!el) return;
+
+  // 1. Instant display from session to eliminate "Loading coins..." immediately
+  try {
+    const session = JSON.parse(localStorage.getItem('noteshare_session') || 'null');
+    if (session && typeof session.user_coins === 'number') {
+      el.textContent = session.user_coins + ' Coins';
+    } else {
+      el.textContent = '10 Coins';
+    }
+  } catch (e) {
+    el.textContent = '10 Coins';
+  }
+
+  // 2. Wait for NoteShare app initialization if in progress
+  if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
+    try { await window.NoteShareBoot.waitForApp(); } catch (e) {}
+  }
+
+  // 3. Fetch live coin balance via NoteShareCoins
+  const uid = (window.NoteShareAuth && typeof window.NoteShareAuth.getUserId === 'function')
+    ? window.NoteShareAuth.getUserId()
+    : null;
+
+  if (window.NoteShareCoins && typeof window.NoteShareCoins.getBalance === 'function') {
+    try {
+      const liveCoins = await window.NoteShareCoins.getBalance(uid);
+      el.textContent = liveCoins + ' Coins';
+    } catch (e) {}
+  } else if (uid && typeof firebase !== 'undefined' && firebase.database) {
+    try {
+      const snap = await firebase.database().ref('users/' + uid + '/coins').once('value');
+      if (snap.exists() && typeof snap.val() === 'number') {
+        el.textContent = snap.val() + ' Coins';
+      }
+    } catch (e) {}
+  }
+
+  // 4. Attach live realtime listener so admin coin grants update instantly
+  if (uid && typeof firebase !== 'undefined' && firebase.database) {
+    try {
+      firebase.database().ref('users/' + uid + '/coins').on('value', function(snap) {
+        if (snap.exists() && typeof snap.val() === 'number') {
+          el.textContent = snap.val() + ' Coins';
+          const session = JSON.parse(localStorage.getItem('noteshare_session') || 'null');
+          if (session) {
+            session.user_coins = snap.val();
+            localStorage.setItem('noteshare_session', JSON.stringify(session));
+          }
+        }
+      });
+    } catch (e) {}
+  }
 }
 
+document.addEventListener('DOMContentLoaded', loadCoinBalance);
 window.addEventListener('noteshare-ready', loadCoinBalance);
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.NoteShareReady) loadCoinBalance();
-});
+window.addEventListener('load', loadCoinBalance);
 </script>
 
 <div id="app-footer"></div>

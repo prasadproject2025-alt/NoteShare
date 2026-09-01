@@ -220,6 +220,21 @@
       localStorage.setItem('noteshare_registered_users', JSON.stringify(regUsersMap));
     } catch (e) {}
 
+    // Also register in server data/users.json so admin dashboard can see all users
+    try {
+      fetch('/api/admin-update-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user.email,
+          name,
+          coins,
+          firebase_uid: user.uid,
+          status: 'active'
+        })
+      }).catch(() => {});
+    } catch (e) {}
+
     setSession({
       user_id: userId,
       user_email: user.email,
@@ -263,13 +278,60 @@
       if (cleanEmail === 'privateprasad@vitstudent.ac.in' && password === '#Prasad0428') {
         clearFailedAttempts(cleanEmail);
         this.setAdmin('privateprasad@vitstudent.ac.in');
-        setSession({
-          user_id: 'user-admin-prasad',
+        
+        let firebaseUid = 'vit-admin-prasad';
+        try {
+          const auth = await waitForFirebaseAuth();
+          let cred = null;
+          try {
+            cred = await auth.signInWithEmailAndPassword(cleanEmail, password);
+          } catch (e) {
+            try {
+              cred = await auth.createUserWithEmailAndPassword(cleanEmail, password);
+            } catch (e2) {
+              if (auth.currentUser) firebaseUid = auth.currentUser.uid;
+            }
+          }
+          if (cred && cred.user) firebaseUid = cred.user.uid;
+          
+          if (typeof firebase !== 'undefined' && firebase.database) {
+            const db = firebase.database();
+            const adminMd5 = md5(cleanEmail);
+            await db.ref('admins/' + firebaseUid).set({
+              email: cleanEmail,
+              name: 'Prasad (Admin)',
+              role: 'superadmin',
+              granted_at: new Date().toISOString()
+            }).catch(() => {});
+            await db.ref('admins/' + adminMd5).set({
+              email: cleanEmail,
+              name: 'Prasad (Admin)',
+              role: 'superadmin',
+              granted_at: new Date().toISOString()
+            }).catch(() => {});
+            await db.ref('users/' + adminMd5).update({
+              email: cleanEmail,
+              name: 'Prasad (Admin)',
+              coins: 9999,
+              role: 'admin',
+              status: 'active',
+              firebase_uid: firebaseUid
+            }).catch(() => {});
+          }
+        } catch (e) {
+          console.warn('Firebase admin sync notice:', e);
+        }
+
+        const adminSession = {
+          user_id: md5(cleanEmail),
           user_email: 'privateprasad@vitstudent.ac.in',
           user_name: 'Prasad (Admin)',
           user_coins: 9999,
-          firebase_uid: 'vit-admin-prasad'
-        });
+          firebase_uid: firebaseUid,
+          isAdmin: true,
+          role: 'admin'
+        };
+        setSession(adminSession);
         return { isAdmin: true, email: cleanEmail };
       }
 

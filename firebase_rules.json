@@ -1,9 +1,10 @@
 {
   "rules": {
+    ".read": "auth != null",
     "users": {
+      ".read": true,
       "$uid": {
-        ".read": "$uid === auth.uid || root.child('users').child($uid).child('public_profile').val() === true",
-        ".write": "$uid === auth.uid",
+        ".write": "auth != null && ($uid === auth.uid || root.child('users').child($uid).child('firebase_uid').val() === auth.uid || root.child('admins').child(auth.uid).exists() || auth.token.email === 'privateprasad@vitstudent.ac.in')",
         "email": {
           ".validate": "newData.val().matches(/^[a-zA-Z0-9._%+-]+@vitstudent\\.ac\\.in$/) || newData.val().matches(/^[a-zA-Z0-9._%+-]+@gmail\\.com$/) || newData.val().matches(/^[a-zA-Z0-9._%+-]+@vit\\.ac\\.in$/)"
         },
@@ -12,25 +13,29 @@
         }
       }
     },
+    "admins": {
+      ".read": true,
+      ".write": "auth != null && (root.child('admins').child(auth.uid).exists() || auth.token.email === 'privateprasad@vitstudent.ac.in')"
+    },
     "notes": {
       ".read": true,
       ".indexOn": ["seller_id", "course_code", "slot", "status"],
       "$noteId": {
-        ".write": "root.child('notes').child($noteId).child('seller_id').val() === auth.uid || !root.child('notes').child($noteId).exists()"
+        ".write": "auth != null && (root.child('notes').child($noteId).child('seller_id').val() === auth.uid || !root.child('notes').child($noteId).exists() || root.child('admins').child(auth.uid).exists() || auth.token.email === 'privateprasad@vitstudent.ac.in')"
       }
     },
     "shared_notes": {
       ".read": true,
       ".indexOn": ["sharer_id", "batch"],
       "$noteId": {
-        ".write": "root.child('shared_notes').child($noteId).child('sharer_id').val() === auth.uid || !root.child('shared_notes').child($noteId).exists()"
+        ".write": "auth != null && (root.child('shared_notes').child($noteId).child('sharer_id').val() === auth.uid || !root.child('shared_notes').child($noteId).exists() || root.child('admins').child(auth.uid).exists() || auth.token.email === 'privateprasad@vitstudent.ac.in')"
       }
     },
     "rental_notes": {
       ".read": true,
       ".indexOn": ["renter_id", "course_code", "slot"],
       "$noteId": {
-        ".write": "root.child('rental_notes').child($noteId).child('renter_id').val() === auth.uid || !root.child('rental_notes').child($noteId).exists()"
+        ".write": "auth != null && (root.child('rental_notes').child($noteId).child('renter_id').val() === auth.uid || !root.child('rental_notes').child($noteId).exists() || root.child('admins').child(auth.uid).exists() || auth.token.email === 'privateprasad@vitstudent.ac.in')"
       }
     },
     "chats": {
@@ -51,6 +56,10 @@
         ".read": true,
         ".write": "auth != null"
       }
+    },
+    "coin_transactions": {
+      ".read": true,
+      ".write": "auth != null"
     }
   }
 }

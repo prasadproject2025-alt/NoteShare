@@ -30,9 +30,10 @@ document.addEventListener('DOMContentLoaded', async function () {
       return;
     }
 
-    // ensure ownership
+    // ensure ownership or admin privilege
     const userId = window.NoteShareAuth.getUserId();
-    if (note.seller_id !== userId) {
+    const isAdmin = window.NoteShareAuth?.isAdmin?.();
+    if (note.seller_id !== userId && !isAdmin) {
       container.innerHTML = '<div class="alert alert-danger">You are not the owner of this note.</div>';
       return;
     }
