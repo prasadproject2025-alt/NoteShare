@@ -440,7 +440,7 @@
       if (typeof firebase !== 'undefined' && firebase.auth) {
         try { await firebase.auth().signOut(); } catch (_) {}
       }
-      window.location.href = 'login.html';
+      window.location.replace('login.html');
     }
   };
 

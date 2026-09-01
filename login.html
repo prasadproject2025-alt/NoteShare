@@ -17,6 +17,7 @@
     <script src="js/firebase-config.js" defer></script>
     <script src="js/config.js" defer></script>
     <script src="js/auth.js" defer></script>
+    <script src="js/nav.js" defer></script>
     <script src="js/page-init.js" defer></script>
     <script src="js/login-page.js" defer></script>
 </head>
@@ -81,6 +82,11 @@
                             </div>
                         </div>
 
+                        <!-- Red Error Paragraph -->
+                        <p id="login-error-msg" class="text-danger small mt-2 mb-1 d-none" style="font-weight: 600;">
+                            <i class="fas fa-exclamation-circle me-1"></i><span id="login-error-text">Incorrect password or invalid user.</span>
+                        </p>
+
                         <!-- Submit Button -->
                         <div class="d-flex justify-content-end mt-3 mb-1">
                             <button type="submit" id="login-submit-btn" class="btn vtop-submit-btn">
@@ -91,9 +97,10 @@
                 </div>
 
                 <!-- Footer Links -->
-                <div class="vtop-card-footer">
-                    <div class="vtop-footer-links-left">
+                <div class="vtop-card-footer d-flex justify-content-between align-items-center">
+                    <div class="vtop-footer-links-left d-flex align-items-center gap-3">
                         <a href="create-account.html" class="vtop-link">Create Account</a>
+                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" class="vtop-link text-decoration-none">Forgot Password?</a>
                     </div>
                     <div class="vtop-footer-links-right">
                         <a href="index.html" class="vtop-home-link"><em>Go to Home Page</em></a>
@@ -102,6 +109,43 @@
             </div>
         </div>
     </main>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 8px; overflow: hidden;">
+                <div class="modal-header text-white" style="background: linear-gradient(90deg, #13428d 0%, #175aa8 55%, #188bb5 100%);">
+                    <h5 class="modal-title fw-bold" id="forgotPasswordModalLabel">
+                        <i class="fas fa-key me-2"></i>Reset Your Password
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-muted small mb-3">
+                        Enter your registered VIT student email address (<code>@vitstudent.ac.in</code>). We will send you a password reset link.
+                    </p>
+                    <div id="forgot-password-alert" class="alert d-none py-2 px-3 small" role="alert"></div>
+                    <form id="forgot-password-form" onsubmit="event.preventDefault(); handleForgotPassword();">
+                        <div class="mb-3">
+                            <label for="reset-email" class="form-label small fw-bold text-dark">VIT Email Address</label>
+                            <div class="vtop-input-group">
+                                <input type="email" class="form-control vtop-input" id="reset-email" placeholder="e.g. 22mis0428@vitstudent.ac.in" required>
+                                <span class="vtop-input-addon user-addon">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" id="reset-submit-btn" class="btn btn-sm btn-primary px-3 fw-bold">
+                                Send Reset Link
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- VTOP Bottom Footer -->
     <footer class="vtop-exact-footer">

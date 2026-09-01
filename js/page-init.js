@@ -2,6 +2,20 @@
  * Page Initializer & Navigation Setup
  */
 (function () {
+  function runAuthGuard() {
+    if (window.NoteShareAuth && typeof window.NoteShareAuth.checkAuthGuard === 'function') {
+      window.NoteShareAuth.checkAuthGuard();
+    }
+  }
+
+  // Check auth guard immediately
+  runAuthGuard();
+
+  // Listen for back/forward navigation (bfcache restoration)
+  window.addEventListener('pageshow', function () {
+    runAuthGuard();
+  });
+
   function whenReady(fn) {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', fn);
@@ -20,6 +34,7 @@
   }
 
   whenReady(async function () {
+    runAuthGuard();
     await waitForAuth();
 
     if (window.NoteShareAuth) {

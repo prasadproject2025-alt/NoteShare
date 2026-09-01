@@ -1,44 +1,49 @@
 {
-
-
-    
-    "durgaprasad.s2022a@vitstudent.ac.in": {
-        "email": "durgaprasad.s2022a@vitstudent.ac.in",
-        "password": "$2y$12$JpIPBBxzGiFO3tY\/G.3fAOK74TjmJ5sQklCMpzrb0P00jJ2oHlNLS",
-        "name": "durgaprasad.s2022a",
-        "coins": 1042,
-        "created_at": "2025-12-26T08:07:52+00:00",
-        "status": "active"
-    },
-    "durgaprasad.s2022@vitstudent.ac.in": {
-        "email": "durgaprasad.s2022@vitstudent.ac.in",
-        "password": "$2y$12$es9J08owqfxm2Pg.62pzAuseJTfIHks\/Tf9qhGYpiSq6SkaeSB52q",
-        "name": "durgaprasad.s2022",
-        "coins": 999,
-        "created_at": "2025-12-26T16:34:54+00:00",
-        "status": "active"
-    },
-    "abc@vitstudent.ac.in": {
-        "email": "abc@vitstudent.ac.in",
-        "password": "$2y$12$8WlyHId11QsOX9AjQ0F5A.azTUqo8gjXZEC2MB2XScXQyenBDPxAi",
-        "name": "abc",
-        "coins": 96,
-        "created_at": "2025-12-30T15:07:11+00:00",
-        "status": "active"
-    },
-    "subbulakshmi.v2022@vitstudent.ac.in": {
-        "email": "subbulakshmi.v2022@vitstudent.ac.in",
-        "password": "$2y$12$Oo0YjrN\/qB3CYyUcGFNaUu7iYx4oceCTUI.R.iKCxTvMAqy3hA2W6",
-        "name": "subbulakshmi.v2022",
-        "coins": 9,
-        "created_at": "2026-01-10T11:21:04+00:00",
-        "status": "active"
-        
-    }
-    
+  "sahna.r2022@vitstudent.ac.in": {
+    "email": "sahna.r2022@vitstudent.ac.in",
+    "name": "Sahna R",
+    "coins": 50,
+    "created_at": "2026-08-31T12:00:00.000Z",
+    "firebase_uid": "uZnSLw2nqAXVHakvt8vT2krIE...",
+    "status": "active"
+  },
+  "durgaprasad.s2022a@vitstudent.ac.in": {
+    "email": "durgaprasad.s2022a@vitstudent.ac.in",
+    "name": "Durgaprasad S",
+    "coins": 1042,
+    "created_at": "2026-08-28T08:07:52.000Z",
+    "firebase_uid": "ai7Dlkumpwaiy5pXYOEbLpa6...",
+    "status": "active"
+  },
+  "a@vitstudent.ac.in": {
+    "email": "a@vitstudent.ac.in",
+    "name": "A Student",
+    "coins": 50,
+    "created_at": "2026-08-05T15:00:00.000Z",
+    "firebase_uid": "kKPFJQcOrNey5vLGHYtdOuM...",
+    "status": "active"
+  },
+  "tester@vitstudent.ac.in": {
+    "email": "tester@vitstudent.ac.in",
+    "name": "Tester User",
+    "coins": 100,
+    "created_at": "2026-07-14T10:00:00.000Z",
+    "firebase_uid": "6EQ8sdpSm7gvpY7IBfBiZNW...",
+    "status": "active"
+  },
+  "hi@vitstudent.ac.in": {
+    "email": "hi@vitstudent.ac.in",
+    "name": "Hi Student",
+    "coins": 25,
+    "created_at": "2026-07-14T11:00:00.000Z",
+    "firebase_uid": "v72yiZ5epKXcdoA5OPZtZMS6...",
+    "status": "active"
+  },
+  "privateprasad@vitstudent.ac.in": {
+    "email": "privateprasad@vitstudent.ac.in",
+    "name": "Prasad (Admin)",
+    "coins": 9999,
+    "created_at": "2026-01-01T00:00:00.000Z",
+    "status": "active"
+  }
 }
-
-
-
-
-
