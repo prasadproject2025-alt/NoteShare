@@ -28,6 +28,7 @@
   }
 
   const ACTIVITY_KEY = 'noteshare_user_activity';
+  const recentTimestampsMap = {};
 
   function getActivityMap() {
     try {
@@ -43,36 +44,122 @@
     } catch {}
   }
 
-  function recordUserActivity(email, actionType, detail) {
+  function recordUserActivity(email, actionType, detail, extra) {
     if (!email) return;
-    const key = email.toLowerCase().trim();
+    const cleanEmail = email.toLowerCase().trim();
+    let md5Key = '';
+    try {
+      md5Key = md5(cleanEmail);
+    } catch (e) {
+      md5Key = cleanEmail.replace(/[^a-zA-Z0-9]/g, '_');
+    }
+
     const map = getActivityMap();
-    const current = map[key] || { requests_count: 0, actions: [], last_active: Date.now() };
+    const current = map[cleanEmail] || { requests_count: 0, actions: [], last_active: Date.now(), failed_logins: 0 };
 
     current.requests_count = (current.requests_count || 0) + 1;
     current.last_active = Date.now();
-    if (!current.actions) current.actions = [];
 
-    current.actions.unshift({
-      timestamp: new Date().toLocaleTimeString(),
-      date: new Date().toLocaleDateString(),
-      type: actionType || 'API Request',
-      detail: detail || 'Page interaction'
-    });
+    // Calculate real-time request rate (requests in the last 60 seconds)
+    if (!recentTimestampsMap[cleanEmail]) recentTimestampsMap[cleanEmail] = [];
+    const now = Date.now();
+    recentTimestampsMap[cleanEmail].push(now);
+    recentTimestampsMap[cleanEmail] = recentTimestampsMap[cleanEmail].filter(t => now - t <= 60000);
+    const requestsPerMin = recentTimestampsMap[cleanEmail].length;
+    current.requests_per_min = requestsPerMin;
 
-    if (current.actions.length > 20) {
-      current.actions = current.actions.slice(0, 20);
+    if (extra && extra.isFailedLogin) {
+      current.failed_logins = (current.failed_logins || 0) + 1;
     }
 
-    map[key] = current;
+    // Determine live threat level
+    let threatLevel = 'normal';
+    if (current.failed_logins >= 4) {
+      threatLevel = 'brute_force';
+    } else if (requestsPerMin >= 30) {
+      threatLevel = 'rate_flooding';
+    } else if (current.requests_count > 400 || requestsPerMin >= 15) {
+      threatLevel = 'suspicious';
+    } else if (current.requests_count > 200) {
+      threatLevel = 'moderate';
+    }
+    current.risk = threatLevel;
+
+    if (!current.actions) current.actions = [];
+    const newAction = {
+      timestamp: new Date().toLocaleTimeString(),
+      date: new Date().toLocaleDateString(),
+      time_ms: now,
+      type: actionType || 'API Request',
+      detail: detail || (window.location.pathname.split('/').pop() || 'Page Interaction'),
+      rate_per_min: requestsPerMin,
+      threat: threatLevel
+    };
+
+    current.actions.unshift(newAction);
+    if (current.actions.length > 30) {
+      current.actions = current.actions.slice(0, 30);
+    }
+
+    map[cleanEmail] = current;
     saveActivityMap(map);
+
+    // 1. Synchronize to Firebase Realtime Database in REAL TIME
+    try {
+      if (typeof firebase !== 'undefined' && firebase.database) {
+        const db = firebase.database();
+        const payload = {
+          email: cleanEmail,
+          requests_count: current.requests_count,
+          requests_per_min: requestsPerMin,
+          last_active: now,
+          failed_logins: current.failed_logins || 0,
+          risk: threatLevel,
+          latest_action: newAction
+        };
+
+        db.ref('user_activity/' + md5Key).update(payload).catch(() => {});
+        db.ref('users/' + md5Key).update({
+          requests_count: current.requests_count,
+          last_active: now,
+          risk: threatLevel
+        }).catch(() => {});
+
+        // If high risk or brute force attack, record in global security logs
+        if (threatLevel === 'brute_force' || threatLevel === 'rate_flooding' || threatLevel === 'suspicious') {
+          db.ref('security_logs').push({
+            email: cleanEmail,
+            threat: threatLevel,
+            action: newAction,
+            timestamp: now
+          }).catch(() => {});
+        }
+      }
+    } catch (e) {}
+
+    // 2. Post to server background traffic API
+    try {
+      fetch('/api/record-traffic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: cleanEmail,
+          actionType: actionType || 'API Request',
+          detail: detail || window.location.pathname,
+          isFailedLogin: !!(extra && extra.isFailedLogin),
+          path: window.location.pathname
+        })
+      }).catch(() => {});
+    } catch (e) {}
+
+    return current;
   }
 
   function getUserActivity(email) {
-    if (!email) return { requests_count: 0, actions: [] };
+    if (!email) return { requests_count: 0, actions: [], requests_per_min: 0, risk: 'normal' };
     const key = email.toLowerCase().trim();
     const map = getActivityMap();
-    return map[key] || { requests_count: 0, actions: [] };
+    return map[key] || { requests_count: 0, actions: [], requests_per_min: 0, risk: 'normal' };
   }
 
   function isAccountLocked(email) {
@@ -94,6 +181,10 @@
     current.last_failed = Date.now();
     map[key] = current;
     saveAttemptsMap(map);
+
+    // Also trigger live activity & security telemetry
+    recordUserActivity(key, 'Failed Login Attempt', `Attempt ${current.count} of ${MAX_FAILED_ATTEMPTS}`, { isFailedLogin: true });
+
     return current;
   }
 
@@ -103,6 +194,21 @@
     const map = getAttemptsMap();
     delete map[key];
     saveAttemptsMap(map);
+
+    // Clear failed logins in live activity map as well
+    const actMap = getActivityMap();
+    if (actMap[key]) {
+      actMap[key].failed_logins = 0;
+      actMap[key].risk = 'normal';
+      saveActivityMap(actMap);
+    }
+    try {
+      if (typeof firebase !== 'undefined' && firebase.database) {
+        const md5Key = md5(key);
+        firebase.database().ref('user_activity/' + md5Key).update({ failed_logins: 0, risk: 'normal' }).catch(() => {});
+        firebase.database().ref('users/' + md5Key).update({ failed_logins: 0, risk: 'normal', blocked: false }).catch(() => {});
+      }
+    } catch (e) {}
   }
 
   function getSession() {

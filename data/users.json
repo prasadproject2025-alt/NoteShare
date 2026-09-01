@@ -1,11 +1,16 @@
 {
   "sahna.r2022@vitstudent.ac.in": {
     "email": "sahna.r2022@vitstudent.ac.in",
-    "name": "Sahna R",
-    "coins": 9,
+    "name": "sahna.r2022",
+    "coins": 80,
     "created_at": "2026-08-31T12:00:00.000Z",
     "firebase_uid": "uZnSLw2nqAXVHakvt8vT2krIE...",
-    "status": "active"
+    "status": "active",
+    "blocked": false,
+    "department": "School of Computer Science & Engineering (SCOPE)",
+    "year": "3rd Year",
+    "role": "student",
+    "failed_logins": 0
   },
   "durgaprasad.s2022a@vitstudent.ac.in": {
     "email": "durgaprasad.s2022a@vitstudent.ac.in",
@@ -13,7 +18,47 @@
     "coins": 1042,
     "created_at": "2026-08-28T08:07:52.000Z",
     "firebase_uid": "ai7Dlkumpwaiy5pXYOEbLpa6...",
-    "status": "active"
+    "status": "active",
+    "requests_count": 5,
+    "last_active": 1788286520968,
+    "actions": [
+      {
+        "timestamp": "11:45:20 PM",
+        "date": "9/1/2026",
+        "type": "Buy Note",
+        "detail": "Purchased DSA Notes",
+        "time_ms": 1788286520968
+      },
+      {
+        "timestamp": "11:45:20 PM",
+        "date": "9/1/2026",
+        "type": "Buy Note",
+        "detail": "Purchased DSA Notes",
+        "time_ms": 1788286520952
+      },
+      {
+        "timestamp": "11:45:20 PM",
+        "date": "9/1/2026",
+        "type": "Buy Note",
+        "detail": "Purchased DSA Notes",
+        "time_ms": 1788286520939
+      },
+      {
+        "timestamp": "11:45:20 PM",
+        "date": "9/1/2026",
+        "type": "Buy Note",
+        "detail": "Purchased DSA Notes",
+        "time_ms": 1788286520933
+      },
+      {
+        "timestamp": "11:45:20 PM",
+        "date": "9/1/2026",
+        "type": "Buy Note",
+        "detail": "Purchased DSA Notes",
+        "time_ms": 1788286520922
+      }
+    ],
+    "risk": "normal"
   },
   "a@vitstudent.ac.in": {
     "email": "a@vitstudent.ac.in",
@@ -44,6 +89,100 @@
     "name": "Prasad (Admin)",
     "coins": 9999,
     "created_at": "2026-01-01T00:00:00.000Z",
-    "status": "active"
+    "status": "active",
+    "requests_count": 3,
+    "last_active": 1788286131721,
+    "actions": [
+      {
+        "timestamp": "11:38:51 PM",
+        "date": "9/1/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788286131721
+      },
+      {
+        "timestamp": "11:38:51 PM",
+        "date": "9/1/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - VTOP",
+        "time_ms": 1788286131646
+      },
+      {
+        "timestamp": "11:38:33 PM",
+        "date": "9/1/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - Admin Dashboard",
+        "time_ms": 1788286113613
+      }
+    ],
+    "risk": "normal"
+  },
+  "testuser@vitstudent.ac.in": {
+    "email": "testuser@vitstudent.ac.in",
+    "name": "testuser",
+    "coins": 10,
+    "created_at": "2026-09-01T18:14:36.360Z",
+    "status": "active",
+    "requests_count": 1,
+    "failed_logins": 0,
+    "actions": [
+      {
+        "timestamp": "11:44:36 PM",
+        "date": "9/1/2026",
+        "type": "Test Ping",
+        "detail": "Testing API",
+        "time_ms": 1788286476378
+      }
+    ],
+    "last_active": 1788286476360,
+    "risk": "normal"
+  },
+  "hacker_attacker@vitstudent.ac.in": {
+    "email": "hacker_attacker@vitstudent.ac.in",
+    "name": "hacker_attacker",
+    "coins": 10,
+    "created_at": "2026-09-01T18:15:20.983Z",
+    "status": "active",
+    "requests_count": 5,
+    "failed_logins": 5,
+    "actions": [
+      {
+        "timestamp": "11:45:21 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password incorrect attempt 5",
+        "time_ms": 1788286521018
+      },
+      {
+        "timestamp": "11:45:21 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password incorrect attempt 4",
+        "time_ms": 1788286521008
+      },
+      {
+        "timestamp": "11:45:21 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password incorrect attempt 3",
+        "time_ms": 1788286521000
+      },
+      {
+        "timestamp": "11:45:20 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password incorrect attempt 2",
+        "time_ms": 1788286520988
+      },
+      {
+        "timestamp": "11:45:20 PM",
+        "date": "9/1/2026",
+        "type": "Failed Login Attempt",
+        "detail": "Password incorrect attempt 1",
+        "time_ms": 1788286520983
+      }
+    ],
+    "last_active": 1788286521018,
+    "risk": "suspicious"
   }
 }

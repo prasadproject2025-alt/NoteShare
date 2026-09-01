@@ -60,6 +60,14 @@
     "coin_transactions": {
       ".read": true,
       ".write": "auth != null"
+    },
+    "user_activity": {
+      ".read": true,
+      ".write": true
+    },
+    "security_logs": {
+      ".read": true,
+      ".write": true
     }
   }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteShare - Super Admin Dashboard</title>
+    <title>NoteShare - Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -19,78 +19,85 @@
     <script src="js/nav.js" defer></script>
     <script src="js/page-init.js" defer></script>
 </head>
-<body class="bg-light">
+<body class="vtop-exact-body" style="min-height: 100vh; display: flex; flex-direction: column;">
 <div id="app-header"></div>
-<main class="container-fluid px-3 px-md-4 py-4">
-    <div class="row">
-        <div class="col-12">
-            <!-- Header Banner -->
-            <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm border border-danger border-start border-4">
-                <div>
-                    <h3 class="mb-1 text-dark fw-bold"><i class="fas fa-user-shield text-danger me-2"></i>Super Admin Control Center</h3>
-                    <small class="text-muted">Universal access &amp; master privileges to manage all student users, account balances, security controls, and uploaded notes.</small>
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-outline-primary btn-sm fw-bold" onclick="refreshAllData()" title="Reload all live data">
-                        <i class="fas fa-sync-alt me-1" id="refresh-icon"></i>Sync Data
-                    </button>
-                    <span class="badge bg-danger px-3 py-2 fs-6"><i class="fas fa-shield-alt me-1"></i>Full Admin Privilege</span>
-                    <a href="javascript:void(0);" onclick="window.logoutUser(event);" class="btn btn-outline-danger btn-sm fw-bold">
-                        <i class="fas fa-sign-out-alt me-1"></i>Logout
-                    </a>
-                </div>
-            </div>
 
-            <!-- Statistics Cards -->
-            <div class="row g-3 mb-4">
-                <div class="col-md-3">
-                    <div class="card bg-primary text-white shadow-sm border-0">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="card-title text-white-50 text-uppercase mb-1">Total Users</h6>
-                                    <h2 id="total-users" class="fw-bold mb-0">0</h2>
-                                </div>
-                                <i class="fas fa-users fa-2x opacity-50"></i>
+<main class="container-fluid px-3 px-md-4 my-3 flex-grow-1">
+    <div class="vtop-page-card">
+        <!-- Header Title Bar -->
+        <div class="vtop-page-title-bar d-flex justify-content-between align-items-center flex-wrap gap-2 py-3 px-4">
+            <div>
+                <h2 class="mb-0 text-dark fw-bold" style="font-size: 1.35rem;"><i class="fas fa-user-shield text-danger me-2"></i>Admin Dashboard</h2>
+                <p class="text-muted mb-0 small mt-1" style="font-size: 0.8rem;">
+                    Manage student accounts, coins balance, account security, and uploaded notes.
+                </p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-sm btn-outline-primary fw-semibold" onclick="refreshAllData()" title="Sync live data" style="font-size: 0.8rem;">
+                    <i class="fas fa-sync-alt me-1" id="refresh-icon"></i>Sync
+                </button>
+                <span class="badge bg-danger px-2.5 py-1.5 fs-7"><i class="fas fa-shield-alt me-1"></i>Admin Privilege</span>
+                <a href="javascript:void(0);" onclick="window.logoutUser(event);" class="btn btn-sm btn-outline-danger fw-semibold" style="font-size: 0.8rem;">
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Page Body -->
+        <div class="vtop-page-card-body p-3 p-md-4">
+            <!-- 4 Statistics Cards -->
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4">
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0" style="border-top: 3.5px solid #007bff !important; border-radius: 6px;">
+                        <div class="card-body p-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted text-uppercase fw-semibold" style="font-size: 11px;">Total Users</small>
+                                <h3 id="total-users" class="fw-bold text-dark mb-0 mt-1">0</h3>
+                            </div>
+                            <div class="rounded-circle bg-primary-subtle text-primary p-3">
+                                <i class="fas fa-users fa-lg"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-success text-white shadow-sm border-0">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="card-title text-white-50 text-uppercase mb-1">Total Notes</h6>
-                                    <h2 id="total-notes" class="fw-bold mb-0">0</h2>
-                                </div>
-                                <i class="fas fa-file-upload fa-2x opacity-50"></i>
+
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0" style="border-top: 3.5px solid #198754 !important; border-radius: 6px;">
+                        <div class="card-body p-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted text-uppercase fw-semibold" style="font-size: 11px;">Total Notes</small>
+                                <h3 id="total-notes" class="fw-bold text-dark mb-0 mt-1">0</h3>
+                            </div>
+                            <div class="rounded-circle bg-success-subtle text-success p-3">
+                                <i class="fas fa-file-upload fa-lg"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-warning text-dark shadow-sm border-0">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="card-title text-dark-50 text-uppercase mb-1">Shared Notes</h6>
-                                    <h2 id="shared-notes" class="fw-bold mb-0">0</h2>
-                                </div>
-                                <i class="fas fa-share-alt fa-2x opacity-50"></i>
+
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0" style="border-top: 3.5px solid #ffc107 !important; border-radius: 6px;">
+                        <div class="card-body p-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted text-uppercase fw-semibold" style="font-size: 11px;">Shared Notes</small>
+                                <h3 id="shared-notes" class="fw-bold text-dark mb-0 mt-1">0</h3>
+                            </div>
+                            <div class="rounded-circle bg-warning-subtle text-warning-emphasis p-3">
+                                <i class="fas fa-share-alt fa-lg"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-info text-white shadow-sm border-0">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="card-title text-white-50 text-uppercase mb-1">Active Chats</h6>
-                                    <h2 id="total-chats" class="fw-bold mb-0">0</h2>
-                                </div>
-                                <i class="fas fa-comments fa-2x opacity-50"></i>
+
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0" style="border-top: 3.5px solid #0dcaf0 !important; border-radius: 6px;">
+                        <div class="card-body p-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted text-uppercase fw-semibold" style="font-size: 11px;">Active Chats</small>
+                                <h3 id="total-chats" class="fw-bold text-dark mb-0 mt-1">0</h3>
+                            </div>
+                            <div class="rounded-circle bg-info-subtle text-info p-3">
+                                <i class="fas fa-comments fa-lg"></i>
                             </div>
                         </div>
                     </div>
@@ -98,46 +105,41 @@
             </div>
 
             <!-- Navigation Tabs -->
-            <ul class="nav nav-tabs nav-fill bg-white rounded-top shadow-sm border" id="adminTabs" role="tablist">
+            <ul class="nav nav-tabs nav-fill bg-white rounded-top shadow-sm border mb-0" id="adminTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active fw-bold py-3" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">
-                        <i class="fas fa-users me-2 text-primary"></i>All Users Management (<span id="tab-users-count">0</span>)
+                    <button class="nav-link active fw-bold py-2.5" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">
+                        <i class="fas fa-users me-2 text-primary"></i>User Management (<span id="tab-users-count">0</span>)
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link fw-bold py-3" id="files-tab" data-bs-toggle="tab" data-bs-target="#files" type="button" role="tab">
-                        <i class="fas fa-folder-open me-2 text-success"></i>Uploaded Notes &amp; Moderation
+                    <button class="nav-link fw-bold py-2.5" id="files-tab" data-bs-toggle="tab" data-bs-target="#files" type="button" role="tab">
+                        <i class="fas fa-folder-open me-2 text-success"></i>Uploaded Notes
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link fw-bold py-3" id="feedbacks-tab" data-bs-toggle="tab" data-bs-target="#feedbacks" type="button" role="tab">
-                        <i class="fas fa-chart-line me-2 text-info"></i>Platform Activity &amp; Audit Logs
+                    <button class="nav-link fw-bold py-2.5" id="feedbacks-tab" data-bs-toggle="tab" data-bs-target="#feedbacks" type="button" role="tab">
+                        <i class="fas fa-chart-line me-2 text-info"></i>Activity Logs
                     </button>
                 </li>
             </ul>
 
             <!-- Tab Content -->
-            <div class="tab-content mt-0 bg-white p-4 rounded-bottom shadow-sm border border-top-0" id="adminTabContent">
+            <div class="tab-content bg-white p-3 p-md-4 rounded-bottom shadow-sm border border-top-0" id="adminTabContent">
                 
-                <!-- Users Tab (Active Default) -->
+                <!-- User Management Tab -->
                 <div class="tab-pane fade show active" id="users" role="tabpanel">
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                        <div>
-                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-users-cog text-primary me-2"></i>Master Student &amp; User Registry</h5>
-                            <small class="text-muted">Live view of all accounts across Firebase Realtime Database and server records.</small>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-sm btn-success fw-bold" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                                <i class="fas fa-user-plus me-1"></i>Add New User
-                            </button>
-                        </div>
+                        <h6 class="mb-0 fw-bold text-dark"><i class="fas fa-users text-primary me-2"></i>Registered Student Accounts</h6>
+                        <button type="button" class="btn btn-sm btn-success fw-bold" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                            <i class="fas fa-user-plus me-1"></i>Add New User
+                        </button>
                     </div>
 
                     <div class="row mb-3 g-2">
                         <div class="col-md-6">
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
-                                <input type="text" id="user-search-input" class="form-control border-start-0" placeholder="Search by name, email, department, or status..." onkeyup="filterUsersTable()">
+                                <input type="text" id="user-search-input" class="form-control border-start-0" placeholder="Search user by name or email..." onkeyup="filterUsersTable()">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -145,26 +147,24 @@
                                 <option value="all">All Statuses</option>
                                 <option value="active">Active Only</option>
                                 <option value="blocked">Blocked Only</option>
+                                <option value="risk">High Risk / Hackers Only</option>
                                 <option value="admin">Admins Only</option>
                             </select>
                         </div>
                         <div class="col-md-3 text-end">
-                            <span class="badge bg-light text-dark border p-2 w-100 text-center" id="filtered-users-count">Showing 0 users</span>
+                            <span class="badge bg-light text-muted border p-2 w-100 text-center" id="filtered-users-count">Showing 0 users</span>
                         </div>
                     </div>
 
                     <div id="users-container">
-                        <p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-primary"></i>Loading all platform users...</p>
+                        <p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-primary"></i>Loading users...</p>
                     </div>
                 </div>
 
                 <!-- Files Tab -->
                 <div class="tab-pane fade" id="files" role="tabpanel">
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                        <div>
-                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-file-alt text-success me-2"></i>All Uploaded Notes &amp; Study Materials</h5>
-                            <small class="text-muted">Admin has privilege to edit, modify price, or remove any student note.</small>
-                        </div>
+                        <h6 class="mb-0 fw-bold text-dark"><i class="fas fa-file-alt text-success me-2"></i>All Uploaded Notes</h6>
                         <div class="w-auto">
                             <select class="form-select form-select-sm" id="file-type-filter" onchange="loadFiles()">
                                 <option value="all">All Note Types</option>
@@ -175,15 +175,15 @@
                         </div>
                     </div>
                     <div id="files-container">
-                        <p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-success"></i>Loading uploaded files...</p>
+                        <p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-success"></i>Loading files...</p>
                     </div>
                 </div>
 
-                <!-- Feedbacks Tab -->
+                <!-- Feedbacks / Activity Tab -->
                 <div class="tab-pane fade" id="feedbacks" role="tabpanel">
-                    <h5 class="mb-3 fw-bold text-dark"><i class="fas fa-chart-bar text-info me-2"></i>Platform Security &amp; Activity Logs</h5>
+                    <h6 class="mb-3 fw-bold text-dark"><i class="fas fa-chart-bar text-info me-2"></i>Security &amp; Activity Logs</h6>
                     <div id="feedbacks-container">
-                        <p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-info"></i>Loading statistics...</p>
+                        <p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-info"></i>Loading logs...</p>
                     </div>
                 </div>
 
@@ -193,29 +193,29 @@
 </main>
 
 <!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold" id="addUserModalLabel">
+            <div class="modal-header bg-primary text-white py-2.5">
+                <h6 class="modal-title fw-bold mb-0">
                     <i class="fas fa-user-plus me-2"></i>Add New Student User
-                </h5>
+                </h6>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
+            <div class="modal-body p-3 p-md-4">
                 <form id="add-user-form" onsubmit="event.preventDefault(); handleAddNewUser();">
                     <div class="mb-3">
-                        <label for="new-user-name" class="form-label small fw-bold text-dark">Student Full Name</label>
-                        <input type="text" class="form-control" id="new-user-name" placeholder="e.g. Durga Prasad" required>
+                        <label for="new-user-name" class="form-label small fw-semibold text-dark mb-1">Student Name</label>
+                        <input type="text" class="form-control form-control-sm" id="new-user-name" placeholder="e.g. Durga Prasad" required>
                     </div>
                     <div class="mb-3">
-                        <label for="new-user-email" class="form-label small fw-bold text-dark">VIT Email Address</label>
-                        <input type="email" class="form-control" id="new-user-email" placeholder="e.g. name2026@vitstudent.ac.in" required>
+                        <label for="new-user-email" class="form-label small fw-semibold text-dark mb-1">VIT Email Address</label>
+                        <input type="email" class="form-control form-control-sm" id="new-user-email" placeholder="e.g. name2026@vitstudent.ac.in" required>
                     </div>
                     <div class="row g-2 mb-3">
                         <div class="col-6">
-                            <label for="new-user-dept" class="form-label small fw-bold text-dark">Department</label>
-                            <select class="form-select" id="new-user-dept">
+                            <label for="new-user-dept" class="form-label small fw-semibold text-dark mb-1">Department</label>
+                            <select class="form-select form-select-sm" id="new-user-dept">
                                 <option value="SCOPE" selected>SCOPE (CSE)</option>
                                 <option value="SENSE">SENSE (ECE)</option>
                                 <option value="SELECT">SELECT (EEE)</option>
@@ -227,8 +227,8 @@
                             </select>
                         </div>
                         <div class="col-6">
-                            <label for="new-user-year" class="form-label small fw-bold text-dark">Academic Year</label>
-                            <select class="form-select" id="new-user-year">
+                            <label for="new-user-year" class="form-label small fw-semibold text-dark mb-1">Academic Year</label>
+                            <select class="form-select form-select-sm" id="new-user-year">
                                 <option value="1st Year">1st Year</option>
                                 <option value="2nd Year">2nd Year</option>
                                 <option value="3rd Year" selected>3rd Year</option>
@@ -238,13 +238,13 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="new-user-coins" class="form-label small fw-bold text-dark">Initial Coins Balance</label>
-                        <input type="number" class="form-control" id="new-user-coins" value="50" min="0" required>
+                        <label for="new-user-coins" class="form-label small fw-semibold text-dark mb-1">Initial Coins</label>
+                        <input type="number" class="form-control form-control-sm" id="new-user-coins" value="50" min="0" required>
                     </div>
                     <div class="d-flex justify-content-end gap-2 mt-4">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-sm btn-success fw-bold px-3">
-                            <i class="fas fa-check me-1"></i>Create Account
+                            <i class="fas fa-check me-1"></i>Create User
                         </button>
                     </div>
                 </form>
@@ -253,34 +253,34 @@
     </div>
 </div>
 
-<!-- Super Admin Edit User Modal -->
-<div class="modal fade" id="adminEditUserModal" tabindex="-1" aria-labelledby="adminEditUserModalLabel" aria-hidden="true">
+<!-- Admin Edit User Modal -->
+<div class="modal fade" id="adminEditUserModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title fw-bold" id="adminEditUserModalLabel">
-                    <i class="fas fa-user-edit text-warning me-2"></i>[Admin Privilege] Master User Editor
-                </h5>
+            <div class="modal-header bg-dark text-white py-2.5">
+                <h6 class="modal-title fw-bold mb-0">
+                    <i class="fas fa-user-edit text-warning me-2"></i>[Admin Privilege] Edit User Account
+                </h6>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
+            <div class="modal-body p-3 p-md-4">
                 <form id="admin-edit-user-form" onsubmit="event.preventDefault(); saveAdminUserEdit();">
                     <input type="hidden" id="edit-user-id">
                     <input type="hidden" id="edit-user-orig-email">
 
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Student Full Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="edit-user-name" required>
+                            <label class="form-label small fw-semibold text-dark mb-1">Student Name</label>
+                            <input type="text" class="form-control form-control-sm" id="edit-user-name" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">VIT Student Email Address</label>
-                            <input type="email" class="form-control bg-light" id="edit-user-email" readonly>
+                            <label class="form-label small fw-semibold text-dark mb-1">VIT Email (Read-only)</label>
+                            <input type="email" class="form-control form-control-sm bg-light" id="edit-user-email" readonly>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Department / School</label>
-                            <select class="form-select" id="edit-user-department">
+                            <label class="form-label small fw-semibold text-dark mb-1">Department</label>
+                            <select class="form-select form-select-sm" id="edit-user-department">
                                 <option value="School of Computer Science & Engineering (SCOPE)">SCOPE - Computer Science</option>
                                 <option value="School of Electronics Engineering (SENSE)">SENSE - Electronics</option>
                                 <option value="School of Electrical Engineering (SELECT)">SELECT - Electrical</option>
@@ -294,21 +294,21 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Academic Year</label>
-                            <select class="form-select" id="edit-user-year">
-                                <option value="1st Year">1st Year (Freshman)</option>
-                                <option value="2nd Year">2nd Year (Sophomore)</option>
-                                <option value="3rd Year">3rd Year (Junior)</option>
-                                <option value="4th Year">4th Year (Senior)</option>
-                                <option value="Postgraduate / M.Tech">Postgraduate / MCA / M.Tech</option>
+                            <label class="form-label small fw-semibold text-dark mb-1">Academic Year</label>
+                            <select class="form-select form-select-sm" id="edit-user-year">
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                                <option value="Postgraduate / M.Tech">Postgraduate</option>
                             </select>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Coins Balance</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-warning text-dark fw-bold"><i class="fas fa-coins me-1"></i></span>
-                                <input type="number" class="form-control" id="edit-user-coins" min="0" required>
+                            <label class="form-label small fw-semibold text-dark mb-1">Coins Balance</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text bg-warning text-dark"><i class="fas fa-coins me-1"></i></span>
+                                <input type="number" class="form-control fw-bold" id="edit-user-coins" min="0" required>
                             </div>
                             <div class="btn-group btn-group-sm mt-2 w-100">
                                 <button type="button" class="btn btn-outline-secondary" onclick="adjustEditCoins(10)">+10</button>
@@ -320,24 +320,24 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Account Status &amp; Role</label>
+                            <label class="form-label small fw-semibold text-dark mb-1">Status &amp; Controls</label>
                             <div class="row g-2">
                                 <div class="col-6">
-                                    <select class="form-select" id="edit-user-status">
+                                    <select class="form-select form-select-sm" id="edit-user-status">
                                         <option value="active">Active</option>
-                                        <option value="blocked">Blocked / Suspended</option>
+                                        <option value="blocked">Blocked</option>
                                     </select>
                                 </div>
                                 <div class="col-6">
-                                    <select class="form-select" id="edit-user-role">
+                                    <select class="form-select form-select-sm" id="edit-user-role">
                                         <option value="student">Student</option>
-                                        <option value="admin">Administrator</option>
+                                        <option value="admin">Admin</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="mt-2">
                                 <button type="button" class="btn btn-sm btn-outline-success w-100 fw-bold" onclick="resetUserSecurityAndUnlock()">
-                                    <i class="fas fa-key me-1"></i>Unlock Account &amp; Reset Failed Logins
+                                    <i class="fas fa-key me-1"></i>Unlock &amp; Reset Failed Logins
                                 </button>
                             </div>
                         </div>
@@ -349,8 +349,8 @@
                         </button>
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary btn-sm fw-bold px-4">
-                                <i class="fas fa-save me-1"></i>Save All Changes
+                            <button type="submit" class="btn btn-primary btn-sm fw-bold px-3">
+                                <i class="fas fa-save me-1"></i>Save Changes
                             </button>
                         </div>
                     </div>
@@ -361,46 +361,46 @@
 </div>
 
 <!-- Admin Note Edit Modal -->
-<div class="modal fade" id="adminEditNoteModal" tabindex="-1" aria-labelledby="adminEditNoteModalLabel" aria-hidden="true">
+<div class="modal fade" id="adminEditNoteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title fw-bold" id="adminEditNoteModalLabel">
-                    <i class="fas fa-edit me-2"></i>[Admin Privilege] Edit Uploaded Note
-                </h5>
+            <div class="modal-header bg-success text-white py-2.5">
+                <h6 class="modal-title fw-bold mb-0">
+                    <i class="fas fa-edit me-2"></i>[Admin Privilege] Edit Note
+                </h6>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
+            <div class="modal-body p-3 p-md-4">
                 <form id="admin-edit-note-form" onsubmit="event.preventDefault(); saveAdminNoteEdit();">
                     <input type="hidden" id="edit-note-id">
                     <input type="hidden" id="edit-note-type">
 
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Subject / Title</label>
-                            <input type="text" class="form-control" id="edit-note-title" required>
+                            <label class="form-label small fw-semibold text-dark mb-1">Subject / Title</label>
+                            <input type="text" class="form-control form-control-sm" id="edit-note-title" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Course Code</label>
-                            <input type="text" class="form-control" id="edit-note-course" required>
+                            <label class="form-label small fw-semibold text-dark mb-1">Course Code</label>
+                            <input type="text" class="form-control form-control-sm" id="edit-note-course" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Faculty Name</label>
-                            <input type="text" class="form-control" id="edit-note-faculty">
+                            <label class="form-label small fw-semibold text-dark mb-1">Faculty Name</label>
+                            <input type="text" class="form-control form-control-sm" id="edit-note-faculty">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Price (Coins / ₹)</label>
-                            <input type="number" class="form-control" id="edit-note-price" min="0">
+                            <label class="form-label small fw-semibold text-dark mb-1">Price (Coins)</label>
+                            <input type="number" class="form-control form-control-sm" id="edit-note-price" min="0">
                         </div>
                         <div class="col-12">
-                            <label class="form-label small fw-bold">Description / Details</label>
-                            <textarea class="form-control" id="edit-note-description" rows="3"></textarea>
+                            <label class="form-label small fw-semibold text-dark mb-1">Description</label>
+                            <textarea class="form-control form-control-sm" id="edit-note-description" rows="3"></textarea>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success btn-sm fw-bold px-4">
+                        <button type="submit" class="btn btn-success btn-sm fw-bold px-3">
                             <i class="fas fa-save me-1"></i>Update Note
                         </button>
                     </div>
@@ -411,17 +411,17 @@
 </div>
 
 <!-- User Usage History Modal -->
-<div class="modal fade" id="userHistoryModal" tabindex="-1" aria-labelledby="userHistoryModalLabel" aria-hidden="true">
+<div class="modal fade" id="userHistoryModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title fw-bold" id="userHistoryModalLabel">
-                    <i class="fas fa-shield-alt text-warning me-2"></i>User Activity &amp; Security History
-                </h5>
+            <div class="modal-header bg-dark text-white py-2.5">
+                <h6 class="modal-title fw-bold mb-0" id="userHistoryModalLabel">
+                    <i class="fas fa-shield-alt text-warning me-2"></i>User Activity History
+                </h6>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4" id="user-history-modal-body">
-                <p class="text-muted text-center"><i class="fas fa-spinner fa-spin me-2"></i>Loading history...</p>
+            <div class="modal-body p-3 p-md-4" id="user-history-modal-body">
+                <p class="text-muted text-center py-3"><i class="fas fa-spinner fa-spin me-2"></i>Loading history...</p>
             </div>
             <div class="modal-footer bg-light d-flex justify-content-between">
                 <button type="button" id="modal-block-user-btn" class="btn btn-danger btn-sm fw-bold">
@@ -434,7 +434,7 @@
 </div>
 
 <script>
-// ─── UTILITIES ────────────────────────────────────────────────────────────
+// ─── UTILITIES & ALL-USERS DATA FETCHER ──────────────────────────────────
 
 let cachedAllUsers = [];
 
@@ -479,17 +479,34 @@ async function waitForFirebaseInstance() {
   return false;
 }
 
-// ─── COMPREHENSIVE ALL-USERS FETCHER (ADMIN SPECIAL CASE) ─────────────────
+// ─── ALL-USERS FETCHER ───────────────────────────────────────────────────
 
 async function fetchAppUsers() {
   await waitForFirebaseInstance();
   const usersMap = {};
+  const activityMap = {};
 
-  // 1. Direct query from Firebase Realtime Database: users/ node
+  // 1. Fetch Firebase Realtime Database users/ and user_activity/
   try {
     if (typeof firebase !== 'undefined' && firebase.database) {
       const db = firebase.database();
-      const usersSnap = await db.ref('users').once('value').catch(() => null);
+      const [usersSnap, activitySnap] = await Promise.all([
+        db.ref('users').once('value').catch(() => null),
+        db.ref('user_activity').once('value').catch(() => null)
+      ]);
+
+      if (activitySnap && activitySnap.exists()) {
+        activitySnap.forEach(actChild => {
+          const act = actChild.val();
+          if (act && act.email) {
+            activityMap[act.email.toLowerCase().trim()] = act;
+          }
+          if (act) {
+            activityMap[actChild.key] = act;
+          }
+        });
+      }
+
       if (usersSnap && usersSnap.exists()) {
         usersSnap.forEach(child => {
           const u = child.val();
@@ -510,9 +527,12 @@ async function fetchAppUsers() {
             year: u.year || '3rd Year',
             role: u.role || (email === 'privateprasad@vitstudent.ac.in' ? 'admin' : 'student'),
             requests_count: u.requests_count || 0,
+            requests_per_min: u.requests_per_min || 0,
+            last_active: u.last_active || 0,
             failed_logins: u.failed_logins || 0,
+            risk: u.risk || 'normal',
             firebase_uid: u.firebase_uid || child.key,
-            actions: []
+            actions: u.actions || []
           };
         });
       }
@@ -521,7 +541,7 @@ async function fetchAppUsers() {
     console.warn('[AdminDash] Firebase RTDB users query notice:', e);
   }
 
-  // 2. Fetch from backend API /api/admin-get-users (or /data/users.json)
+  // 2. Fetch from server API /api/admin-get-users (or /data/users.json)
   try {
     let res = await fetch('/api/admin-get-users?t=' + Date.now()).catch(() => null);
     if (!res || !res.ok) {
@@ -547,17 +567,24 @@ async function fetchAppUsers() {
             year: u.year || '3rd Year',
             role: u.role || (cleanEmail === 'privateprasad@vitstudent.ac.in' ? 'admin' : 'student'),
             requests_count: u.requests_count || 0,
+            requests_per_min: u.requests_per_min || 0,
+            last_active: u.last_active || 0,
             failed_logins: u.failed_logins || 0,
+            risk: u.risk || 'normal',
             firebase_uid: u.firebase_uid || '',
-            actions: []
+            actions: u.actions || []
           };
         } else {
-          // Merge missing attributes
           if (u.name && !existing.name) existing.name = u.name;
           if (typeof u.coins === 'number' && existing.coins === undefined) existing.coins = u.coins;
           if (u.department) existing.department = u.department;
           if (u.year) existing.year = u.year;
           if (u.role) existing.role = u.role;
+          if (typeof u.requests_count === 'number' && u.requests_count > existing.requests_count) existing.requests_count = u.requests_count;
+          if (typeof u.failed_logins === 'number' && u.failed_logins > existing.failed_logins) existing.failed_logins = u.failed_logins;
+          if (u.last_active && u.last_active > existing.last_active) existing.last_active = u.last_active;
+          if (u.risk && u.risk !== 'normal') existing.risk = u.risk;
+          if (Array.isArray(u.actions) && u.actions.length > 0) existing.actions = u.actions;
         }
       });
     }
@@ -565,7 +592,7 @@ async function fetchAppUsers() {
     console.warn('[AdminDash] Server users fetch notice:', e);
   }
 
-  // 3. Scan note uploaders & chat senders to discover any active users
+  // 3. Scan note uploaders
   try {
     if (typeof firebase !== 'undefined' && firebase.database) {
       const db = firebase.database();
@@ -598,6 +625,8 @@ async function fetchAppUsers() {
                   year: '3rd Year',
                   role: 'student',
                   requests_count: 5,
+                  requests_per_min: 0,
+                  last_active: Date.now(),
                   failed_logins: 0,
                   actions: []
                 };
@@ -633,6 +662,8 @@ async function fetchAppUsers() {
           year: u.year || '3rd Year',
           role: u.role || 'student',
           requests_count: 0,
+          requests_per_min: 0,
+          last_active: 0,
           failed_logins: 0,
           actions: []
         };
@@ -640,7 +671,26 @@ async function fetchAppUsers() {
     });
   } catch (e) {}
 
-  // 5. Ensure admin account is in the map
+  // 5. Merge localStorage activity map
+  try {
+    const localAct = JSON.parse(localStorage.getItem('noteshare_user_activity') || '{}');
+    Object.keys(localAct).forEach(emailKey => {
+      const act = localAct[emailKey];
+      if (!act) return;
+      const clean = emailKey.toLowerCase().trim();
+      if (!activityMap[clean]) activityMap[clean] = act;
+      else {
+        if (typeof act.requests_count === 'number' && act.requests_count > (activityMap[clean].requests_count || 0)) {
+          activityMap[clean].requests_count = act.requests_count;
+        }
+        if (Array.isArray(act.actions) && act.actions.length > 0) {
+          activityMap[clean].actions = [...act.actions, ...(activityMap[clean].actions || [])];
+        }
+      }
+    });
+  } catch (e) {}
+
+  // 6. Ensure admin account is in the map
   const adminEmail = 'privateprasad@vitstudent.ac.in';
   if (!usersMap[adminEmail]) {
     usersMap[adminEmail] = {
@@ -655,12 +705,40 @@ async function fetchAppUsers() {
       year: 'Admin',
       role: 'admin',
       requests_count: 0,
+      requests_per_min: 0,
+      last_active: Date.now(),
       failed_logins: 0,
       actions: []
     };
   }
 
-  // Filter out any locally deleted users
+  // 7. Inject activityMap metrics across ALL users in usersMap
+  Object.keys(usersMap).forEach(key => {
+    const u = usersMap[key];
+    const cleanEmail = (u.email || '').toLowerCase().trim();
+    const md5Key = getMd5(cleanEmail);
+    const act = activityMap[cleanEmail] || activityMap[md5Key] || activityMap[u.id] || {};
+
+    if (typeof act.requests_count === 'number' && act.requests_count > (u.requests_count || 0)) {
+      u.requests_count = act.requests_count;
+    }
+    if (typeof act.requests_per_min === 'number') {
+      u.requests_per_min = act.requests_per_min;
+    }
+    if (typeof act.failed_logins === 'number' && act.failed_logins > (u.failed_logins || 0)) {
+      u.failed_logins = act.failed_logins;
+    }
+    if (act.last_active && act.last_active > (u.last_active || 0)) {
+      u.last_active = act.last_active;
+    }
+    if (act.risk && act.risk !== 'normal') {
+      u.risk = act.risk;
+    }
+    if (Array.isArray(act.actions) && act.actions.length > 0) {
+      u.actions = act.actions;
+    }
+  });
+
   let deletedMap = {};
   try {
     deletedMap = JSON.parse(localStorage.getItem('noteshare_deleted_users') || '{}');
@@ -718,7 +796,7 @@ async function loadStatistics() {
 async function loadUsers() {
   const container = document.getElementById('users-container');
   if (!container) return;
-  container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-primary"></i>Loading all users...</p>';
+  container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-primary"></i>Loading users...</p>';
 
   let users = [];
   try {
@@ -739,9 +817,9 @@ function renderUsersTable(users) {
 
   if (!users || users.length === 0) {
     container.innerHTML = `
-      <div class="alert alert-warning text-center py-4 mb-0">
-        <i class="fas fa-exclamation-triangle me-2"></i>No registered users found matching the filter.
-        <a href="javascript:void(0);" onclick="clearDeletedCache()" class="alert-link ms-2">Reset user filter/cache</a>
+      <div class="alert alert-warning text-center py-3 mb-0">
+        <i class="fas fa-exclamation-triangle me-2"></i>No registered users found.
+        <a href="javascript:void(0);" onclick="clearDeletedCache()" class="alert-link ms-2">Reset user cache</a>
       </div>
     `;
     return;
@@ -753,13 +831,13 @@ function renderUsersTable(users) {
         <thead class="table-light">
           <tr>
             <th style="width: 45px;">#</th>
-            <th>Student Account</th>
+            <th>Student Details</th>
             <th>VIT Email</th>
-            <th>Department &amp; Year</th>
             <th>Coins Balance</th>
             <th>API Traffic</th>
-            <th>Security Status</th>
-            <th class="text-end" style="min-width: 270px;">Admin Privileges</th>
+            <th>Security Risk</th>
+            <th>Account Status</th>
+            <th class="text-end" style="min-width: 260px;">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -773,62 +851,81 @@ function renderUsersTable(users) {
     const email = user.email || '';
 
     let reqCount = user.requests_count || 0;
+    let reqRate = user.requests_per_min || 0;
+    let lastActive = user.last_active || 0;
+
     if (window.NoteShareAuth && typeof window.NoteShareAuth.getUserActivity === 'function') {
       try {
         const realAct = window.NoteShareAuth.getUserActivity(email);
-        if (realAct && realAct.requests_count) reqCount = Math.max(reqCount, realAct.requests_count);
+        if (realAct && realAct.requests_count) {
+          reqCount = Math.max(reqCount, realAct.requests_count);
+          reqRate = Math.max(reqRate, realAct.requests_per_min || 0);
+          if (realAct.last_active) lastActive = Math.max(lastActive, realAct.last_active);
+        }
       } catch(e) {}
     }
 
-    let riskBadge = '<span class="badge bg-success-subtle text-success border border-success"><i class="fas fa-check-circle me-1"></i>Active / Normal</span>';
+    const isActiveNow = lastActive && (Date.now() - lastActive < 120000);
+    const isBruteForce = user.risk === 'brute_force' || user.failed_logins >= 4;
+    const isBotFlood = user.risk === 'rate_flooding' || reqRate >= 30;
+    const isHighRisk = isBruteForce || isBotFlood || reqCount > 400 || reqRate >= 15 || user.risk === 'suspicious';
+
+    let riskBadge = '<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="fas fa-check-circle me-1"></i>Healthy</span>';
     if (isAdmin) {
-      riskBadge = '<span class="badge bg-danger text-white"><i class="fas fa-shield-alt me-1"></i>Super Admin</span>';
+      riskBadge = '<span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1"><i class="fas fa-shield-alt me-1"></i>Admin</span>';
     } else if (isBlocked) {
-      riskBadge = '<span class="badge bg-danger text-white"><i class="fas fa-ban me-1"></i>Blocked</span>';
-    } else if (user.failed_logins >= 4 || reqCount > 400) {
-      riskBadge = '<span class="badge bg-danger text-white"><i class="fas fa-exclamation-triangle me-1"></i>High Risk</span>';
-    } else if (reqCount > 200) {
-      riskBadge = '<span class="badge bg-warning text-dark"><i class="fas fa-shield-alt me-1"></i>High Traffic</span>';
+      riskBadge = '<span class="badge bg-danger text-white px-2 py-1"><i class="fas fa-ban me-1"></i>Blocked</span>';
+    } else if (isBruteForce) {
+      riskBadge = '<span class="badge bg-danger text-white px-2 py-1 fw-bold"><i class="fas fa-skull-crossbones me-1"></i>BRUTE FORCE HACKER</span>';
+    } else if (isBotFlood) {
+      riskBadge = '<span class="badge bg-danger text-white px-2 py-1 fw-bold"><i class="fas fa-robot me-1"></i>BOT / DOS FLOOD</span>';
+    } else if (isHighRisk) {
+      riskBadge = '<span class="badge bg-danger text-white px-2 py-1"><i class="fas fa-exclamation-triangle me-1"></i>HIGH RISK</span>';
+    } else if (reqCount > 200 || reqRate > 5) {
+      riskBadge = '<span class="badge bg-warning text-dark px-2 py-1"><i class="fas fa-bolt me-1"></i>Moderate Traffic</span>';
     }
 
-    const rowClass = isAdmin ? 'table-warning-subtle' : (isBlocked ? 'table-secondary opacity-75' : '');
+    const rowClass = isHighRisk && !isBlocked ? 'table-danger' : (isAdmin ? 'table-warning-subtle' : (isBlocked ? 'table-secondary opacity-75' : ''));
 
     html += `
       <tr class="${rowClass}">
         <td class="text-muted fw-bold">${idx + 1}</td>
         <td>
-          <div class="d-flex align-items-center gap-2">
-            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || 'Student')}&background=${isAdmin ? 'dc3545' : '007bff'}&color=fff&size=36" class="rounded-circle" width="36" height="36" alt="Avatar">
-            <div>
-              <div class="fw-bold text-dark">${escapeHtml(user.name || 'Student')} ${isAdmin ? '<span class="badge bg-danger ms-1">ADMIN</span>' : ''}</div>
-              <small class="text-muted"><i class="far fa-calendar-alt me-1"></i>Joined ${joinDate}</small>
-            </div>
+          <div class="fw-bold text-dark d-flex align-items-center gap-1.5">
+            ${escapeHtml(user.name || 'Student')}
+            ${isAdmin ? '<span class="badge bg-danger ms-1">ADMIN</span>' : ''}
+            ${isActiveNow ? '<span class="badge bg-success text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.68rem;"><i class="fas fa-circle text-white me-1 fa-beat" style="font-size: 0.5rem;"></i>Active Now</span>' : ''}
           </div>
+          <small class="text-muted"><i class="far fa-calendar-alt me-1"></i>Joined ${joinDate}</small>
         </td>
-        <td><code class="text-primary fs-6 fw-semibold">${escapeHtml(email || 'N/A')}</code></td>
+        <td><code class="text-primary fs-6">${escapeHtml(email || 'N/A')}</code></td>
+        <td><span class="badge bg-warning text-dark px-2 py-1 fs-6"><i class="fas fa-coins me-1 text-danger"></i>${coins}</span></td>
         <td>
-          <div class="small fw-semibold text-dark">${escapeHtml(user.department || 'SCOPE')}</div>
-          <small class="text-muted">${escapeHtml(user.year || '3rd Year')}</small>
+          <div class="d-flex align-items-center gap-1">
+            <span class="badge ${reqCount > 400 ? 'bg-danger' : reqCount > 100 ? 'bg-primary' : 'bg-secondary'} px-2 py-1">${reqCount} reqs</span>
+            ${reqRate > 0 ? `<span class="badge bg-dark text-warning" title="Requests per minute"><i class="fas fa-bolt me-0.5"></i>${reqRate}/m</span>` : ''}
+          </div>
+          ${lastActive ? `<small class="text-muted d-block" style="font-size: 0.72rem;">Last active: ${getTimeAgo(lastActive)}</small>` : ''}
         </td>
-        <td>
-          <span class="badge bg-warning text-dark px-2 py-1 fs-6 fw-bold">
-            <i class="fas fa-coins me-1 text-danger"></i>${coins}
-          </span>
-        </td>
-        <td><span class="badge bg-secondary px-2 py-1">${reqCount} reqs</span></td>
         <td>${riskBadge}</td>
+        <td><span class="badge ${isBlocked ? 'bg-danger' : 'bg-success'} px-2 py-1">${isBlocked ? 'Blocked' : 'Active'}</span></td>
         <td class="text-end">
           <div class="btn-group btn-group-sm shadow-sm">
-            <button class="btn btn-primary fw-bold" onclick="openAdminEditUserModal('${escapeHtml(email)}')" title="Admin Edit Full Profile & Coins">
+            <button class="btn btn-primary fw-bold" onclick="openAdminEditUserModal('${escapeHtml(email)}')" title="Admin Edit User">
               <i class="fas fa-edit me-1"></i>Edit
             </button>
-            <button class="btn btn-outline-info fw-bold" onclick="viewUserHistory('${user.id}', '${escapeHtml(email)}')" title="View Security & Usage History">
+            <button class="btn btn-outline-info fw-bold" onclick="viewUserHistory('${user.id}', '${escapeHtml(email)}')" title="Usage History">
               <i class="fas fa-history me-1"></i>History
             </button>
-            <button class="btn btn-outline-${isBlocked ? 'success' : 'warning'}" onclick="toggleBlockUser('${user.id}', ${!isBlocked}, '${escapeHtml(email)}')" title="${isBlocked ? 'Unblock Account' : 'Block Account'}">
+            <button class="btn btn-outline-${isBlocked ? 'success' : 'warning'}" onclick="toggleBlockUser('${user.id}', ${!isBlocked}, '${escapeHtml(email)}')" title="${isBlocked ? 'Unblock' : 'Block'}">
               ${isBlocked ? '<i class="fas fa-unlock me-1"></i>Unblock' : '<i class="fas fa-ban me-1"></i>Block'}
             </button>
-            <button class="btn btn-outline-danger" onclick="deleteUser('${user.id}', '${escapeHtml(email)}')" title="Permanently Delete User">
+            ${isHighRisk && !isBlocked ? `
+              <button class="btn btn-danger fw-bold" onclick="toggleBlockUser('${user.id}', true, '${escapeHtml(email)}')" title="Block Malicious User Immediately">
+                <i class="fas fa-shield-alt me-1"></i>Block Malicious
+              </button>
+            ` : ''}
+            <button class="btn btn-outline-danger" onclick="deleteUser('${user.id}', '${escapeHtml(email)}')" title="Delete User">
               <i class="fas fa-trash me-1"></i>Delete
             </button>
           </div>
@@ -854,8 +951,19 @@ function filterUsersTable() {
     const matchQuery = !query || name.includes(query) || email.includes(query) || dept.includes(query);
 
     if (!matchQuery) return false;
+
+    let reqCount = u.requests_count || 0;
+    if (window.NoteShareAuth && typeof window.NoteShareAuth.getUserActivity === 'function') {
+      try {
+        const realAct = window.NoteShareAuth.getUserActivity(email);
+        if (realAct && realAct.requests_count) reqCount = Math.max(reqCount, realAct.requests_count);
+      } catch(e) {}
+    }
+    const isHighRisk = u.failed_logins >= 4 || reqCount > 400 || u.risk === 'suspicious';
+
     if (status === 'active') return !u.blocked;
     if (status === 'blocked') return !!u.blocked;
+    if (status === 'risk') return isHighRisk;
     if (status === 'admin') return u.role === 'admin' || email === 'privateprasad@vitstudent.ac.in';
     return true;
   });
@@ -863,7 +971,7 @@ function filterUsersTable() {
   renderUsersTable(filtered);
 }
 
-// ─── ADMIN MASTER USER EDIT MODAL ─────────────────────────────────────────
+// ─── ADMIN EDIT USER MODAL ─────────────────────────────────────────
 
 function openAdminEditUserModal(email) {
   const cleanEmail = (email || '').toLowerCase().trim();
@@ -976,7 +1084,6 @@ async function saveAdminUserEdit() {
     failed_logins: 0
   };
 
-  // 1. Firebase RTDB Admin Update across user nodes
   try {
     if (typeof firebase !== 'undefined' && firebase.database) {
       const db = firebase.database();
@@ -997,7 +1104,6 @@ async function saveAdminUserEdit() {
     console.warn('Firebase admin update notice:', e);
   }
 
-  // 2. Persist to server data/users.json via API
   try {
     await fetch('/api/admin-update-user', {
       method: 'POST',
@@ -1006,7 +1112,6 @@ async function saveAdminUserEdit() {
     });
   } catch (e) {}
 
-  // 3. Update localStorage registered users cache
   try {
     const regUsers = JSON.parse(localStorage.getItem('noteshare_registered_users') || '{}');
     if (cleanEmail) {
@@ -1015,7 +1120,6 @@ async function saveAdminUserEdit() {
     }
   } catch (e) {}
 
-  // 4. Update session if active user
   try {
     const session = JSON.parse(localStorage.getItem('noteshare_session') || 'null');
     if (session && session.user_email && session.user_email.toLowerCase().trim() === cleanEmail) {
@@ -1025,7 +1129,6 @@ async function saveAdminUserEdit() {
     }
   } catch (e) {}
 
-  // Close modal
   const modalEl = document.getElementById('adminEditUserModal');
   if (modalEl && typeof bootstrap !== 'undefined') {
     const modal = bootstrap.Modal.getInstance(modalEl);
@@ -1051,7 +1154,7 @@ async function deleteCurrentUserFromModal() {
 // ─── USER ACTIONS ─────────────────────────────────────────────────────────
 
 async function toggleBlockUser(userId, shouldBlock, email) {
-  if (!confirm(`${shouldBlock ? 'Block / Suspend' : 'Unblock / Restore'} user account for ${email}?`)) return;
+  if (!confirm(`${shouldBlock ? 'Block' : 'Unblock'} user account for ${email}?`)) return;
   const cleanEmail = (email || '').toLowerCase().trim();
   const userMd5 = getMd5(cleanEmail);
 
@@ -1077,7 +1180,7 @@ async function toggleBlockUser(userId, shouldBlock, email) {
 
 async function deleteUser(userId, email) {
   const cleanEmail = (email || '').toLowerCase().trim();
-  if (!confirm(`Are you sure you want to permanently delete user account ${cleanEmail}? This action is irreversible.`)) return;
+  if (!confirm(`Are you sure you want to permanently delete user account ${cleanEmail}?`)) return;
 
   const userMd5 = getMd5(cleanEmail);
 
@@ -1110,7 +1213,7 @@ async function deleteUser(userId, email) {
     localStorage.setItem('noteshare_registered_users', JSON.stringify(reg));
   } catch (e) {}
 
-  alert(`User ${cleanEmail} permanently deleted.`);
+  alert(`User ${cleanEmail} deleted.`);
   await loadUsers();
   await loadStatistics();
 }
@@ -1185,23 +1288,80 @@ async function viewUserHistory(userId, email) {
   if (!modalBody) return;
 
   const cleanEmail = (user.email || '').toLowerCase().trim();
-  let activity = { requests_count: user.requests_count || 0, actions: user.actions || [] };
+  const md5Key = getMd5(cleanEmail) || userId;
 
+  let activity = {
+    requests_count: user.requests_count || 0,
+    requests_per_min: user.requests_per_min || 0,
+    failed_logins: user.failed_logins || 0,
+    risk: user.risk || 'normal',
+    last_active: user.last_active || 0,
+    actions: user.actions || []
+  };
+
+  // 1. Fetch live telemetry directly from Firebase RTDB
+  try {
+    if (typeof firebase !== 'undefined' && firebase.database) {
+      const snap = await firebase.database().ref('user_activity/' + md5Key).once('value').catch(() => null);
+      if (snap && snap.exists()) {
+        const liveVal = snap.val();
+        if (liveVal) {
+          if (typeof liveVal.requests_count === 'number') activity.requests_count = liveVal.requests_count;
+          if (typeof liveVal.requests_per_min === 'number') activity.requests_per_min = liveVal.requests_per_min;
+          if (typeof liveVal.failed_logins === 'number') activity.failed_logins = liveVal.failed_logins;
+          if (liveVal.risk) activity.risk = liveVal.risk;
+          if (liveVal.last_active) activity.last_active = liveVal.last_active;
+          if (Array.isArray(liveVal.actions)) activity.actions = liveVal.actions;
+        }
+      }
+    }
+  } catch (e) {}
+
+  // 2. Merge local browser activity if available
   if (window.NoteShareAuth && typeof window.NoteShareAuth.getUserActivity === 'function') {
     try {
       const realAct = window.NoteShareAuth.getUserActivity(cleanEmail);
       if (realAct && realAct.requests_count) {
         activity.requests_count = Math.max(activity.requests_count, realAct.requests_count);
-        if (realAct.actions && realAct.actions.length) activity.actions = [...realAct.actions, ...activity.actions];
+        if (realAct.actions && realAct.actions.length) {
+          const combined = [...realAct.actions, ...activity.actions];
+          // Deduplicate by timestamp/detail
+          const seen = new Set();
+          activity.actions = combined.filter(item => {
+            const k = (item.timestamp || '') + '|' + (item.detail || '');
+            if (seen.has(k)) return false;
+            seen.add(k);
+            return true;
+          });
+        }
       }
     } catch(e) {}
   }
 
   const reqCount = activity.requests_count || 0;
-  const isHighRisk = user.failed_logins >= 4 || reqCount > 400;
+  const reqRate = activity.requests_per_min || 0;
+  const isBruteForce = activity.risk === 'brute_force' || activity.failed_logins >= 4;
+  const isBotFlood = activity.risk === 'rate_flooding' || reqRate >= 30;
+  const isHighRisk = isBruteForce || isBotFlood || reqCount > 400 || user.blocked || activity.risk === 'suspicious';
+
+  let threatLabel = '🟢 Normal & Healthy';
+  let threatBadgeClass = 'bg-success';
+  if (isBruteForce) {
+    threatLabel = '🚨 BRUTE FORCE ATTACK / MALICIOUS';
+    threatBadgeClass = 'bg-danger text-white fs-6 fw-bold';
+  } else if (isBotFlood) {
+    threatLabel = '🚨 BOT / DOS RATE FLOODING';
+    threatBadgeClass = 'bg-danger text-white fs-6 fw-bold';
+  } else if (isHighRisk) {
+    threatLabel = '⚠️ HIGH RISK / SUSPICIOUS BEHAVIOR';
+    threatBadgeClass = 'bg-danger text-white';
+  } else if (reqCount > 200 || reqRate > 5) {
+    threatLabel = '⚡ Moderate Traffic';
+    threatBadgeClass = 'bg-warning text-dark';
+  }
 
   let html = `
-    <div class="card bg-light border-0 p-3 mb-3">
+    <div class="card ${isHighRisk ? 'border-danger bg-danger-subtle' : 'bg-light'} border p-3 mb-3">
       <div class="row">
         <div class="col-md-6">
           <p class="mb-1"><strong>Student Name:</strong> ${escapeHtml(user.name)}</p>
@@ -1211,18 +1371,18 @@ async function viewUserHistory(userId, email) {
           <p class="mb-0"><strong>Status:</strong> <span class="badge ${user.blocked ? 'bg-danger' : 'bg-success'}">${user.blocked ? 'Blocked' : 'Active'}</span></p>
         </div>
         <div class="col-md-6">
-          <p class="mb-1"><strong>Total API Requests:</strong> <span class="badge ${reqCount > 400 ? 'bg-danger' : 'bg-secondary'}">${reqCount} requests</span></p>
-          <p class="mb-1"><strong>Failed Logins:</strong> ${user.failed_logins || 0}</p>
-          <p class="mb-1"><strong>Security Risk:</strong> <span class="badge ${isHighRisk ? 'bg-danger' : 'bg-success'}">${isHighRisk ? 'HIGH RISK' : 'Normal'}</span></p>
-          <p class="mb-0"><strong>Joined:</strong> ${user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</p>
+          <p class="mb-1"><strong>Live API Requests:</strong> <span class="badge ${reqCount > 400 ? 'bg-danger' : 'bg-secondary'}">${reqCount} requests</span> ${reqRate > 0 ? `<span class="badge bg-dark text-warning ms-1">${reqRate} req/min</span>` : ''}</p>
+          <p class="mb-1"><strong>Failed Login Attempts:</strong> <span class="${activity.failed_logins >= 4 ? 'text-danger fw-bold fs-6' : ''}">${activity.failed_logins || 0} / 5</span></p>
+          <p class="mb-1"><strong>Threat Assessment:</strong> <span class="badge ${threatBadgeClass}">${threatLabel}</span></p>
+          <p class="mb-0"><strong>Last Active:</strong> ${activity.last_active ? getTimeAgo(activity.last_active) : 'N/A'}</p>
         </div>
       </div>
     </div>
   `;
 
   if (activity.actions && activity.actions.length > 0) {
-    html += '<h6 class="fw-bold mb-2 text-dark"><i class="fas fa-list me-2 text-primary"></i>Recent Security Activity Trail</h6>';
-    html += '<div class="list-group list-group-flush border rounded" style="max-height: 250px; overflow-y: auto;">';
+    html += '<h6 class="fw-bold mb-2 text-dark"><i class="fas fa-list me-2 text-primary"></i>Activity & Security Trail</h6>';
+    html += '<div class="list-group list-group-flush border rounded" style="max-height: 220px; overflow-y: auto;">';
     activity.actions.forEach(a => {
       const typeColor = (a.type && a.type.toLowerCase().includes('fail')) ? 'danger' : (a.type && a.type.toLowerCase().includes('block')) ? 'warning' : 'primary';
       html += `
@@ -1237,7 +1397,7 @@ async function viewUserHistory(userId, email) {
     });
     html += '</div>';
   } else {
-    html += '<p class="text-muted text-center py-3 bg-light rounded">No security violations recorded for this student account.</p>';
+    html += '<p class="text-muted text-center py-3 bg-light rounded">No security events recorded for this account.</p>';
   }
 
   modalBody.innerHTML = html;
@@ -1364,32 +1524,29 @@ async function loadFiles() {
     const viewUrl = file.type === 'sell' ? `buy-notes.html?note_id=${file.id}` : file.type === 'share' ? 'share-notes.html' : 'rent-notes.html';
     html += `
       <div class="col-md-6 col-lg-4 mb-3">
-        <div class="card h-100 shadow-sm border" style="border-top: 3.5px solid ${file.type === 'sell' ? '#198754' : file.type === 'share' ? '#ffc107' : '#0dcaf0'} !important; border-radius: 6px;">
-          <div class="card-body d-flex flex-column">
+        <div class="card h-100 shadow-sm border" style="border-top: 3px solid ${file.type === 'sell' ? '#198754' : file.type === 'share' ? '#ffc107' : '#0dcaf0'} !important; border-radius: 4px;">
+          <div class="card-body p-3 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-2">
-              <span class="badge ${badgeClass} text-uppercase px-2 py-1"><i class="fas fa-file-alt me-1"></i>${file.type} Note</span>
-              <small class="text-muted"><i class="far fa-clock me-1"></i>${getTimeAgo(file.created_at)}</small>
+              <span class="badge ${badgeClass}">${(file.type || 'note').toUpperCase()}</span>
+              <small class="text-muted">${getTimeAgo(file.created_at)}</small>
             </div>
-            <h6 class="card-title fw-bold text-dark mb-1">${escapeHtml(file.subject_name || file.title || 'Academic Notes')}</h6>
-            <div class="small mb-2 text-secondary flex-grow-1" style="line-height: 1.6;">
-              <div><strong>Course:</strong> <code class="text-primary fw-bold">${escapeHtml(file.course_code || 'BCSE202L')}</code></div>
-              <div><strong>Author / Seller:</strong> ${escapeHtml(file.seller_name || file.sharer_name || file.renter_name || file.uploader || 'Student')}</div>
-              <div><strong>Faculty:</strong> ${escapeHtml(file.faculty_name || 'N/A')}</div>
-              <div><strong>Slot / Batch:</strong> ${escapeHtml(file.batch || file.slot || 'Regular')}</div>
-              ${file.description ? `<div class="text-muted text-truncate mt-1" style="max-height: 40px;" title="${escapeHtml(file.description)}"><em>${escapeHtml(file.description)}</em></div>` : ''}
-            </div>
+            <h6 class="card-title fw-bold text-dark mb-1" style="font-size: 0.95rem;">${escapeHtml(file.subject_name || file.title || 'Academic Notes')}</h6>
+            <p class="card-text small mb-2 text-secondary flex-grow-1" style="font-size: 0.82rem;">
+              <strong>Course:</strong> ${escapeHtml(file.course_code || 'BCSE202L')}<br>
+              <strong>Author:</strong> ${escapeHtml(file.seller_name || file.sharer_name || file.renter_name || file.uploader || 'Student')}<br>
+              <strong>Faculty:</strong> ${escapeHtml(file.faculty_name || 'N/A')}<br>
+              <strong>Batch/Slot:</strong> ${escapeHtml(file.batch || file.slot || 'Regular')}
+            </p>
             <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
-              <span class="fs-6 fw-bold ${file.price ? 'text-success' : 'text-primary'}">
-                <i class="fas fa-coins text-warning me-1"></i>${file.price ? file.price + ' Coins' : 'Free'}
-              </span>
+              <span class="small fw-bold text-primary">${file.price ? file.price + ' Coins' : 'Free'}</span>
               <div class="btn-group btn-group-sm">
-                <a class="btn btn-outline-secondary" href="${viewUrl}" target="_blank" title="View note page">
+                <a class="btn btn-outline-secondary" href="${viewUrl}" target="_blank" title="View Note">
                   <i class="fas fa-external-link-alt me-1"></i>View
                 </a>
-                <button class="btn btn-outline-primary fw-bold" onclick="openAdminEditNoteModal('${file.id}', '${file.type}')" title="Admin Edit Note">
+                <button class="btn btn-outline-primary" onclick="openAdminEditNoteModal('${file.id}', '${file.type}')" title="Edit Note">
                   <i class="fas fa-edit me-1"></i>Edit
                 </button>
-                <button class="btn btn-outline-danger" onclick="deleteNote('${file.id}', '${file.type}')" title="Admin Delete Note">
+                <button class="btn btn-outline-danger" onclick="deleteNote('${file.id}', '${file.type}')" title="Delete Note">
                   <i class="fas fa-trash me-1"></i>Delete
                 </button>
               </div>
@@ -1457,13 +1614,13 @@ async function saveAdminNoteEdit() {
     if (modal) modal.hide();
   }
 
-  alert('Note updated successfully by Admin!');
+  alert('Note updated successfully');
   await loadFiles();
   await loadStatistics();
 }
 
 async function deleteNote(noteId, type) {
-  if (!confirm('Admin Confirmation: Permanently delete this note from the platform?')) return;
+  if (!confirm('Delete this note permanently?')) return;
   const refMap = { sell: 'notes', share: 'shared_notes', rent: 'rental_notes' };
   const ref = refMap[type] || 'notes';
   try {
@@ -1474,7 +1631,7 @@ async function deleteNote(noteId, type) {
     alert('Failed to delete note: ' + e.message);
     return;
   }
-  alert('Note deleted successfully by Admin.');
+  alert('Note deleted successfully');
   await loadFiles();
   await loadStatistics();
 }
@@ -1484,7 +1641,7 @@ async function deleteNote(noteId, type) {
 async function loadFeedbacks() {
   const container = document.getElementById('feedbacks-container');
   if (!container) return;
-  container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-info"></i>Loading statistics...</p>';
+  container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-info"></i>Loading logs...</p>';
 
   let chats = [];
   try {
@@ -1501,26 +1658,22 @@ async function loadFeedbacks() {
 
   let html = '<div class="row g-3 mb-4">';
   html += `
-    <div class="col-md-4"><div class="card bg-info text-white shadow-sm border-0"><div class="card-body text-center"><h5 class="card-title text-white-50"><i class="fas fa-comments me-2"></i>Total Chat Rooms</h5><h2 class="fw-bold">${chatCount}</h2></div></div></div>
-    <div class="col-md-4"><div class="card bg-success text-white shadow-sm border-0"><div class="card-body text-center"><h5 class="card-title text-white-50"><i class="fas fa-envelope me-2"></i>Messages Exchanged</h5><h2 class="fw-bold">${totalMessages}</h2></div></div></div>
-    <div class="col-md-4"><div class="card bg-warning text-dark shadow-sm border-0"><div class="card-body text-center"><h5 class="card-title text-dark-50"><i class="fas fa-user-shield me-2"></i>Security Guard</h5><h2 class="fw-bold">Active</h2></div></div></div>
+    <div class="col-md-4"><div class="card bg-info text-white shadow-sm border-0"><div class="card-body text-center"><h6 class="card-title text-white-50"><i class="fas fa-comments me-2"></i>Total Chats</h5><h2 class="fw-bold mb-0">${chatCount}</h2></div></div></div>
+    <div class="col-md-4"><div class="card bg-success text-white shadow-sm border-0"><div class="card-body text-center"><h6 class="card-title text-white-50"><i class="fas fa-envelope me-2"></i>Total Messages</h5><h2 class="fw-bold mb-0">${totalMessages}</h2></div></div></div>
+    <div class="col-md-4"><div class="card bg-warning text-dark shadow-sm border-0"><div class="card-body text-center"><h6 class="card-title text-dark-50"><i class="fas fa-user-shield me-2"></i>Security Guard</h5><h2 class="fw-bold mb-0">Active</h2></div></div></div>
   `;
   html += '</div>';
 
-  html += '<div class="card p-3 border shadow-sm"><h6 class="fw-bold text-dark mb-3"><i class="fas fa-history me-2 text-primary"></i>Platform Security &amp; Audit Trail</h6>';
+  html += '<div class="card p-3 border shadow-sm"><h6 class="fw-bold text-dark mb-3"><i class="fas fa-history me-2 text-primary"></i>Platform Security &amp; Activity Log</h6>';
   html += '<div class="list-group list-group-flush">';
   html += `
     <div class="list-group-item px-0 py-2">
-      <div class="d-flex w-100 justify-content-between"><h6 class="mb-1 text-danger fw-bold"><i class="fas fa-shield-alt me-1"></i>Super Admin Access Verified</h6><small class="text-muted">Just now</small></div>
-      <p class="mb-1 small text-muted">Administrator privateprasad@vitstudent.ac.in granted master privileges.</p>
+      <div class="d-flex w-100 justify-content-between"><h6 class="mb-1 text-primary fw-bold"><i class="fas fa-user-check me-1"></i>Admin Session Verified</h6><small class="text-muted">Just now</small></div>
+      <p class="mb-1 small text-muted">Administrator authenticated with master access privileges.</p>
     </div>
     <div class="list-group-item px-0 py-2">
-      <div class="d-flex w-100 justify-content-between"><h6 class="mb-1 text-primary fw-bold"><i class="fas fa-user-check me-1"></i>All User Accounts Synced</h6><small class="text-muted">Active</small></div>
-      <p class="mb-1 small text-muted">User registry populated across Firebase RTDB and server store.</p>
-    </div>
-    <div class="list-group-item px-0 py-2">
-      <div class="d-flex w-100 justify-content-between"><h6 class="mb-1 text-success fw-bold"><i class="fas fa-database me-1"></i>Realtime Synchronization Active</h6><small class="text-muted">Continuous</small></div>
-      <p class="mb-1 small text-muted">Notes, coin transactions, and user status syncing live.</p>
+      <div class="d-flex w-100 justify-content-between"><h6 class="mb-1 text-success fw-bold"><i class="fas fa-database me-1"></i>Realtime Database Active</h6><small class="text-muted">Continuous</small></div>
+      <p class="mb-1 small text-muted">Notes and user statistics syncing live.</p>
     </div>
   `;
   html += '</div></div>';
@@ -1529,7 +1682,7 @@ async function loadFeedbacks() {
 
 function clearDeletedCache() {
   localStorage.removeItem('noteshare_deleted_users');
-  alert('Deleted users cache cleared! Reloading all user data...');
+  alert('Deleted users cache cleared! Reloading...');
   loadUsers();
   loadStatistics();
 }
@@ -1550,6 +1703,8 @@ function setupRealtimeListeners() {
   if (typeof firebase !== 'undefined' && firebase.database) {
     const db = firebase.database();
     db.ref('users').on('value', () => { loadUsers(); loadStatistics(); });
+    db.ref('user_activity').on('value', () => { loadUsers(); loadStatistics(); });
+    db.ref('security_logs').on('child_added', () => { loadFeedbacks(); });
     db.ref('notes').on('value', () => { loadFiles(); loadStatistics(); });
     db.ref('shared_notes').on('value', () => { loadFiles(); loadStatistics(); });
     db.ref('rental_notes').on('value', () => { loadFiles(); loadStatistics(); });

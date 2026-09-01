@@ -37,12 +37,22 @@ async function handleApi(req, res, pathname) {
   let body = '';
   for await (const chunk of req) body += chunk;
 
+  let parsedBody = {};
+  if (body) {
+    try {
+      parsedBody = JSON.parse(body);
+    } catch (e) {
+      parsedBody = {};
+    }
+  }
+
   delete require.cache[require.resolve(apiFile)];
   const handler = require(apiFile);
 
   const mockReq = {
     method: req.method,
-    body: body ? JSON.parse(body) : {},
+    body: parsedBody,
+    query: req.query || {},
     headers: req.headers,
   };
   const mockRes = {
