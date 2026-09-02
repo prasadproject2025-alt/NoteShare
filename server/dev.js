@@ -30,7 +30,7 @@ async function handleApi(req, res, pathname) {
   const apiFile = path.join(ROOT, 'api', endpoint + '.js');
   if (!fs.existsSync(apiFile)) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ success: false, message: 'API not found' }));
+    res.end(JSON.stringify({ success: false, message: 'NAHH THE SERVER IS COOKED 💀' }));
     return;
   }
 
@@ -103,8 +103,14 @@ function serveStatic(req, res, pathname) {
   }
 
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.end('Not found');
+    const page404 = path.join(ROOT, '404.html');
+    if (fs.existsSync(page404)) {
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+      fs.createReadStream(page404).pipe(res);
+      return;
+    }
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('NAHH THE SERVER IS COOKED 💀');
     return;
   }
 

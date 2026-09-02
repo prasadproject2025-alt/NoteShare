@@ -11,9 +11,114 @@
     "year": "3rd Year",
     "role": "student",
     "failed_logins": 0,
-    "requests_count": 44,
-    "last_active": 1788329893494,
+    "requests_count": 59,
+    "last_active": 1788344368962,
     "actions": [
+      {
+        "timestamp": "3:49:28 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344368962
+      },
+      {
+        "timestamp": "3:49:28 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344368533
+      },
+      {
+        "timestamp": "3:49:28 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344368203
+      },
+      {
+        "timestamp": "3:49:27 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344367876
+      },
+      {
+        "timestamp": "3:49:27 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344367563
+      },
+      {
+        "timestamp": "3:49:27 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344367205
+      },
+      {
+        "timestamp": "3:49:26 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344366833
+      },
+      {
+        "timestamp": "3:49:26 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344366518
+      },
+      {
+        "timestamp": "3:49:26 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344366158
+      },
+      {
+        "timestamp": "3:49:25 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344365591
+      },
+      {
+        "timestamp": "3:49:23 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344363836
+      },
+      {
+        "timestamp": "3:49:13 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344353579
+      },
+      {
+        "timestamp": "3:49:11 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Sell Notes",
+        "time_ms": 1788344351647
+      },
+      {
+        "timestamp": "3:49:07 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344347601
+      },
+      {
+        "timestamp": "3:48:13 PM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788344293880
+      },
       {
         "timestamp": "11:48:13 AM",
         "date": "9/2/2026",
@@ -83,111 +188,6 @@
         "type": "Page Visit",
         "detail": "Viewed NoteShare - VIT Note Sharing Platform",
         "time_ms": 1788329559753
-      },
-      {
-        "timestamp": "11:42:30 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Sell Notes",
-        "time_ms": 1788329550458
-      },
-      {
-        "timestamp": "11:42:22 AM",
-        "date": "9/2/2026",
-        "type": "API Call",
-        "detail": "Requested clear_session.html",
-        "time_ms": 1788329542649
-      },
-      {
-        "timestamp": "11:42:12 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788329532022
-      },
-      {
-        "timestamp": "11:40:14 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Sell Notes",
-        "time_ms": 1788329414792
-      },
-      {
-        "timestamp": "11:40:02 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788329402022
-      },
-      {
-        "timestamp": "11:39:58 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Sell Notes",
-        "time_ms": 1788329398278
-      },
-      {
-        "timestamp": "11:28:09 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788328689750
-      },
-      {
-        "timestamp": "11:22:23 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788328343180
-      },
-      {
-        "timestamp": "11:22:06 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788328326112
-      },
-      {
-        "timestamp": "11:18:47 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788328127976
-      },
-      {
-        "timestamp": "11:18:45 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Messages & Chat",
-        "time_ms": 1788328125779
-      },
-      {
-        "timestamp": "11:18:40 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Messages & Chat",
-        "time_ms": 1788328120513
-      },
-      {
-        "timestamp": "11:18:39 AM",
-        "date": "9/2/2026",
-        "type": "API Call",
-        "detail": "Requested /api/admin-update-user",
-        "time_ms": 1788328119824
-      },
-      {
-        "timestamp": "11:18:35 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788328115784
-      },
-      {
-        "timestamp": "11:18:31 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788328111421
       }
     ],
     "risk": "normal"
@@ -245,197 +245,189 @@
     "role": "student",
     "failed_logins": 0
   },
-  "hi@vitstudent.ac.in": {
-    "email": "hi@vitstudent.ac.in",
-    "name": "Hi Student",
-    "coins": 25,
-    "created_at": "2026-07-14T11:00:00.000Z",
-    "firebase_uid": "v72yiZ5epKXcdoA5OPZtZMS6...",
-    "status": "active"
-  },
   "privateprasad@vitstudent.ac.in": {
     "email": "privateprasad@vitstudent.ac.in",
     "name": "Prasad (Admin)",
     "coins": 9999,
     "created_at": "2026-01-01T00:00:00.000Z",
     "status": "active",
-    "requests_count": 9475,
-    "last_active": 1788329989177,
+    "requests_count": 9684,
+    "last_active": 1788354655587,
     "actions": [
       {
-        "timestamp": "11:49:49 AM",
+        "timestamp": "6:40:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329989177
+        "time_ms": 1788354655587
       },
       {
-        "timestamp": "11:49:45 AM",
+        "timestamp": "6:39:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329985864
+        "time_ms": 1788354595598
       },
       {
-        "timestamp": "11:49:44 AM",
+        "timestamp": "6:38:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329984352
+        "time_ms": 1788354535615
       },
       {
-        "timestamp": "11:49:42 AM",
+        "timestamp": "6:37:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329982834
+        "time_ms": 1788354475658
       },
       {
-        "timestamp": "11:49:41 AM",
+        "timestamp": "6:36:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329981317
+        "time_ms": 1788354415593
       },
       {
-        "timestamp": "11:49:39 AM",
+        "timestamp": "6:35:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329979804
+        "time_ms": 1788354355586
       },
       {
-        "timestamp": "11:49:38 AM",
+        "timestamp": "6:34:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329978283
+        "time_ms": 1788354295571
       },
       {
-        "timestamp": "11:49:36 AM",
+        "timestamp": "6:33:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329976765
+        "time_ms": 1788354235590
       },
       {
-        "timestamp": "11:49:35 AM",
+        "timestamp": "6:32:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329975252
+        "time_ms": 1788354175575
       },
       {
-        "timestamp": "11:49:33 AM",
+        "timestamp": "6:31:56 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329973732
+        "time_ms": 1788354116056
       },
       {
-        "timestamp": "11:49:32 AM",
+        "timestamp": "6:30:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329972216
+        "time_ms": 1788354055579
       },
       {
-        "timestamp": "11:49:30 AM",
+        "timestamp": "6:29:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329970707
+        "time_ms": 1788353995592
       },
       {
-        "timestamp": "11:49:29 AM",
+        "timestamp": "6:28:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329969203
+        "time_ms": 1788353935572
       },
       {
-        "timestamp": "11:49:27 AM",
+        "timestamp": "6:27:55 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329967700
+        "time_ms": 1788353875611
       },
       {
-        "timestamp": "11:49:26 AM",
+        "timestamp": "6:27:35 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329966186
+        "time_ms": 1788353855573
       },
       {
-        "timestamp": "11:49:24 AM",
+        "timestamp": "6:27:33 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329964669
+        "time_ms": 1788353853566
       },
       {
-        "timestamp": "11:49:23 AM",
+        "timestamp": "6:27:31 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329963158
+        "time_ms": 1788353851565
       },
       {
-        "timestamp": "11:49:21 AM",
+        "timestamp": "6:27:29 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329961654
+        "time_ms": 1788353849568
       },
       {
-        "timestamp": "11:49:21 AM",
+        "timestamp": "6:27:27 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329961128
+        "time_ms": 1788353847564
       },
       {
-        "timestamp": "11:49:18 AM",
+        "timestamp": "6:27:25 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329958625
+        "time_ms": 1788353845572
       },
       {
-        "timestamp": "11:49:17 AM",
+        "timestamp": "6:27:23 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329957110
+        "time_ms": 1788353843571
       },
       {
-        "timestamp": "11:49:15 AM",
+        "timestamp": "6:27:21 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329955597
+        "time_ms": 1788353841561
       },
       {
-        "timestamp": "11:49:14 AM",
+        "timestamp": "6:27:19 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329954080
+        "time_ms": 1788353839571
       },
       {
-        "timestamp": "11:49:12 AM",
+        "timestamp": "6:27:17 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329952563
+        "time_ms": 1788353837589
       },
       {
-        "timestamp": "11:49:11 AM",
+        "timestamp": "6:27:15 PM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788329951046
+        "time_ms": 1788353835574
       }
     ],
     "risk": "suspicious"
