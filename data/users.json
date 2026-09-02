@@ -2,15 +2,195 @@
   "sahna.r2022@vitstudent.ac.in": {
     "email": "sahna.r2022@vitstudent.ac.in",
     "name": "sahna.r2022",
-    "coins": 80,
+    "coins": 77,
     "created_at": "2026-08-31T12:00:00.000Z",
-    "firebase_uid": "uZnSLw2nqAXVHakvt8vT2krIE...",
+    "firebase_uid": "uZnSLw2nqAXVHakvt8vT2krlEYB3",
     "status": "active",
     "blocked": false,
     "department": "School of Computer Science & Engineering (SCOPE)",
     "year": "3rd Year",
     "role": "student",
-    "failed_logins": 0
+    "failed_logins": 0,
+    "requests_count": 28,
+    "last_active": 1788328689750,
+    "actions": [
+      {
+        "timestamp": "11:28:09 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788328689750
+      },
+      {
+        "timestamp": "11:22:23 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788328343180
+      },
+      {
+        "timestamp": "11:22:06 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788328326112
+      },
+      {
+        "timestamp": "11:18:47 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788328127976
+      },
+      {
+        "timestamp": "11:18:45 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Messages & Chat",
+        "time_ms": 1788328125779
+      },
+      {
+        "timestamp": "11:18:40 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Messages & Chat",
+        "time_ms": 1788328120513
+      },
+      {
+        "timestamp": "11:18:39 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-update-user",
+        "time_ms": 1788328119824
+      },
+      {
+        "timestamp": "11:18:35 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788328115784
+      },
+      {
+        "timestamp": "11:18:31 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788328111421
+      },
+      {
+        "timestamp": "11:18:25 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788328105722
+      },
+      {
+        "timestamp": "11:18:16 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788328096984
+      },
+      {
+        "timestamp": "11:18:16 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788328096315
+      },
+      {
+        "timestamp": "11:18:15 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788328095532
+      },
+      {
+        "timestamp": "11:17:47 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788328067799
+      },
+      {
+        "timestamp": "11:17:43 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Messages & Chat",
+        "time_ms": 1788328063720
+      },
+      {
+        "timestamp": "11:17:41 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Messages & Chat",
+        "time_ms": 1788328061270
+      },
+      {
+        "timestamp": "11:17:39 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Messages & Chat",
+        "time_ms": 1788328059919
+      },
+      {
+        "timestamp": "11:17:26 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Messages & Chat",
+        "time_ms": 1788328046573
+      },
+      {
+        "timestamp": "11:17:25 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-update-user",
+        "time_ms": 1788328045965
+      },
+      {
+        "timestamp": "11:17:20 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788328040576
+      },
+      {
+        "timestamp": "11:17:11 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Messages & Chat",
+        "time_ms": 1788328031466
+      },
+      {
+        "timestamp": "11:17:01 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788328021137
+      },
+      {
+        "timestamp": "11:16:37 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788327997134
+      },
+      {
+        "timestamp": "11:12:37 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788327757265
+      },
+      {
+        "timestamp": "11:12:27 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
+        "time_ms": 1788327747713
+      }
+    ],
+    "risk": "normal"
   },
   "durgaprasad.s2022a@vitstudent.ac.in": {
     "email": "durgaprasad.s2022a@vitstudent.ac.in",
@@ -90,99 +270,185 @@
     "coins": 9999,
     "created_at": "2026-01-01T00:00:00.000Z",
     "status": "active",
-    "requests_count": 3,
-    "last_active": 1788286131721,
+    "requests_count": 9013,
+    "last_active": 1788328706584,
     "actions": [
       {
-        "timestamp": "11:38:51 PM",
-        "date": "9/1/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788286131721
+        "timestamp": "11:28:26 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328706584
       },
       {
-        "timestamp": "11:38:51 PM",
-        "date": "9/1/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - VTOP",
-        "time_ms": 1788286131646
+        "timestamp": "11:28:24 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328704582
       },
       {
-        "timestamp": "11:38:33 PM",
-        "date": "9/1/2026",
+        "timestamp": "11:28:22 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328702593
+      },
+      {
+        "timestamp": "11:28:20 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328700658
+      },
+      {
+        "timestamp": "11:28:19 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328699147
+      },
+      {
+        "timestamp": "11:28:17 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328697642
+      },
+      {
+        "timestamp": "11:28:16 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328696138
+      },
+      {
+        "timestamp": "11:28:14 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328694622
+      },
+      {
+        "timestamp": "11:28:13 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328693157
+      },
+      {
+        "timestamp": "11:28:10 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328690726
+      },
+      {
+        "timestamp": "11:28:09 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328689210
+      },
+      {
+        "timestamp": "11:28:07 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328687708
+      },
+      {
+        "timestamp": "11:28:06 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328686196
+      },
+      {
+        "timestamp": "11:28:04 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328684688
+      },
+      {
+        "timestamp": "11:28:03 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328683182
+      },
+      {
+        "timestamp": "11:28:01 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328681672
+      },
+      {
+        "timestamp": "11:28:00 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-update-user",
+        "time_ms": 1788328680387
+      },
+      {
+        "timestamp": "11:27:58 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328678569
+      },
+      {
+        "timestamp": "11:27:57 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328677059
+      },
+      {
+        "timestamp": "11:27:55 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328675551
+      },
+      {
+        "timestamp": "11:27:54 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328674033
+      },
+      {
+        "timestamp": "11:27:52 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328672519
+      },
+      {
+        "timestamp": "11:27:51 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328671007
+      },
+      {
+        "timestamp": "11:27:49 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788328669790
+      },
+      {
+        "timestamp": "11:27:48 AM",
+        "date": "9/2/2026",
         "type": "Page Visit",
         "detail": "Viewed NoteShare - Admin Dashboard",
-        "time_ms": 1788286113613
+        "time_ms": 1788328668142
       }
     ],
-    "risk": "normal"
-  },
-  "testuser@vitstudent.ac.in": {
-    "email": "testuser@vitstudent.ac.in",
-    "name": "testuser",
-    "coins": 10,
-    "created_at": "2026-09-01T18:14:36.360Z",
-    "status": "active",
-    "requests_count": 1,
-    "failed_logins": 0,
-    "actions": [
-      {
-        "timestamp": "11:44:36 PM",
-        "date": "9/1/2026",
-        "type": "Test Ping",
-        "detail": "Testing API",
-        "time_ms": 1788286476378
-      }
-    ],
-    "last_active": 1788286476360,
-    "risk": "normal"
-  },
-  "hacker_attacker@vitstudent.ac.in": {
-    "email": "hacker_attacker@vitstudent.ac.in",
-    "name": "hacker_attacker",
-    "coins": 10,
-    "created_at": "2026-09-01T18:15:20.983Z",
-    "status": "active",
-    "requests_count": 5,
-    "failed_logins": 5,
-    "actions": [
-      {
-        "timestamp": "11:45:21 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password incorrect attempt 5",
-        "time_ms": 1788286521018
-      },
-      {
-        "timestamp": "11:45:21 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password incorrect attempt 4",
-        "time_ms": 1788286521008
-      },
-      {
-        "timestamp": "11:45:21 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password incorrect attempt 3",
-        "time_ms": 1788286521000
-      },
-      {
-        "timestamp": "11:45:20 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password incorrect attempt 2",
-        "time_ms": 1788286520988
-      },
-      {
-        "timestamp": "11:45:20 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password incorrect attempt 1",
-        "time_ms": 1788286520983
-      }
-    ],
-    "last_active": 1788286521018,
     "risk": "suspicious"
   },
   "durga.prasad2023@vitstudent.ac.in": {
@@ -219,53 +485,20 @@
     "last_active": 1788286676002,
     "risk": "normal"
   },
-  "suspected_hacker2026@vitstudent.ac.in": {
-    "email": "suspected_hacker2026@vitstudent.ac.in",
-    "name": "suspected_hacker2026",
+  "testuser@vitstudent.ac.in": {
+    "email": "testuser@vitstudent.ac.in",
+    "name": "testuser",
     "coins": 10,
-    "created_at": "2026-09-01T18:17:56.007Z",
+    "created_at": "2026-09-02T05:51:44.239Z",
+    "status": "active",
+    "blocked": false
+  },
+  "hacker_attacker@vitstudent.ac.in": {
+    "email": "hacker_attacker@vitstudent.ac.in",
+    "name": "hacker_attacker",
+    "coins": 10,
+    "created_at": "2026-09-02T05:57:19.576Z",
     "status": "blocked",
-    "requests_count": 5,
-    "failed_logins": 5,
-    "actions": [
-      {
-        "timestamp": "11:47:56 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password guess 5 failed",
-        "time_ms": 1788286676027
-      },
-      {
-        "timestamp": "11:47:56 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password guess 4 failed",
-        "time_ms": 1788286676022
-      },
-      {
-        "timestamp": "11:47:56 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password guess 3 failed",
-        "time_ms": 1788286676018
-      },
-      {
-        "timestamp": "11:47:56 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password guess 2 failed",
-        "time_ms": 1788286676012
-      },
-      {
-        "timestamp": "11:47:56 PM",
-        "date": "9/1/2026",
-        "type": "Failed Login Attempt",
-        "detail": "Password guess 1 failed",
-        "time_ms": 1788286676008
-      }
-    ],
-    "last_active": 1788286676027,
-    "risk": "suspicious",
     "blocked": true
   }
 }

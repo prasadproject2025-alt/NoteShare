@@ -47,6 +47,12 @@
   function recordUserActivity(email, actionType, detail, extra) {
     if (!email) return;
     const cleanEmail = email.toLowerCase().trim();
+
+    const isDashboard = typeof window !== 'undefined' && window.location.pathname.toLowerCase().includes('admin-dashboard');
+    if (isDashboard && (!actionType || actionType === 'API Request' || actionType === 'Admin Read')) {
+      return;
+    }
+
     let md5Key = '';
     try {
       md5Key = md5(cleanEmail);
@@ -281,10 +287,50 @@
     });
   }
 
+  async function checkIfUserIsBlocked(email) {
+    if (!email) return false;
+    const clean = email.toLowerCase().trim();
+    if (clean === 'privateprasad@vitstudent.ac.in') return false;
+
+    // 1. Check local session
+    const sess = getSession();
+    if (sess && (sess.user_email || '').toLowerCase().trim() === clean) {
+      if (sess.blocked || sess.status === 'blocked') return true;
+    }
+
+    // 2. Check localStorage registered users
+    try {
+      const reg = JSON.parse(localStorage.getItem('noteshare_registered_users') || '{}');
+      if (reg[clean] && (reg[clean].blocked || reg[clean].status === 'blocked')) return true;
+    } catch (e) {}
+
+    // 3. Check localStorage deleted users
+    try {
+      const del = JSON.parse(localStorage.getItem('noteshare_deleted_users') || '{}');
+      if (del[clean] || del[md5(clean)]) return true;
+    } catch (e) {}
+
+    // 4. Check Firebase RTDB
+    try {
+      if (typeof firebase !== 'undefined' && firebase.database) {
+        const md5Key = md5(clean);
+        const snap = await firebase.database().ref('users/' + md5Key).once('value').catch(() => null);
+        if (snap && snap.exists()) {
+          const val = snap.val();
+          if (val && (val.blocked || val.status === 'blocked')) return true;
+        }
+      }
+    } catch (e) {}
+
+    return false;
+  }
+
   async function syncUserToDatabase(user, extra) {
     const userId = md5(user.email);
-    const name = extra?.name || user.displayName || user.email.split('@')[0];
+    const cleanEmail = user.email.toLowerCase().trim();
+    const name = extra?.name || user.displayName || cleanEmail.split('@')[0];
     let coins = 10;
+    let isBlocked = false;
 
     try {
       const ref = firebase.database().ref('users/' + userId);
@@ -296,12 +342,16 @@
           coins: 10,
           created_at: new Date().toISOString(),
           status: 'active',
+          blocked: false,
           firebase_uid: user.uid,
         });
         coins = 10;
       } else {
         const val = snap.val();
         coins = val?.coins ?? 10;
+        if (val && (val.blocked || val.status === 'blocked')) {
+          isBlocked = true;
+        }
         try {
           await ref.update({ firebase_uid: user.uid, email: user.email });
         } catch (e) {
@@ -312,15 +362,26 @@
       console.warn('Database sync failed (login still OK):', err.message);
     }
 
+    if (isBlocked) {
+      try {
+        if (typeof firebase !== 'undefined' && firebase.auth) {
+          await firebase.auth().signOut().catch(() => {});
+        }
+      } catch (e) {}
+      clearSession();
+      throw new Error('Your account has been blocked by the administrator. Access denied.');
+    }
+
     try {
       const regUsersMap = JSON.parse(localStorage.getItem('noteshare_registered_users') || '{}');
-      regUsersMap[user.email.toLowerCase().trim()] = {
+      regUsersMap[cleanEmail] = {
         id: userId,
         email: user.email,
         name,
         coins,
         created_at: new Date().toISOString(),
         status: 'active',
+        blocked: false,
         firebase_uid: user.uid
       };
       localStorage.setItem('noteshare_registered_users', JSON.stringify(regUsersMap));
@@ -347,6 +408,8 @@
       user_name: name,
       user_coins: coins,
       firebase_uid: user.uid,
+      blocked: false,
+      status: 'active'
     });
     return userId;
   }
@@ -445,6 +508,12 @@
         throw new Error('Your account is locked due to 5 consecutive failed login attempts. Please reset your password using "Forgot Password?" to unlock your account.');
       }
 
+      // Check if user is blocked before logging in
+      const preBlocked = await checkIfUserIsBlocked(cleanEmail);
+      if (preBlocked) {
+        throw new Error('Your account has been blocked by the administrator. Access denied.');
+      }
+
       const auth = await waitForFirebaseAuth();
       try {
         const cred = await auth.signInWithEmailAndPassword(cleanEmail, password);
@@ -452,6 +521,9 @@
         await syncUserToDatabase(cred.user);
         return cred.user;
       } catch (err) {
+        if (err.message && err.message.includes('blocked by the administrator')) {
+          throw err;
+        }
         const errStr = (err.code || '') + ' ' + (err.message || '');
         const isCredentialErr =
           err.code === 'auth/wrong-password' ||
@@ -519,29 +591,54 @@
       } catch (e) {
         console.warn(e);
       }
+      sessionStorage.removeItem('noteshare_admin');
       clearSession();
       window.location.replace('login.html');
     },
 
-    requireAuth(redirectTo) {
+    async requireAuth(redirectTo) {
       if (!NoteShareAuth.isLoggedIn()) {
         window.location.replace(redirectTo || 'login.html');
         return false;
       }
+      const email = NoteShareAuth.getUserEmail();
+      if (email && !NoteShareAuth.isAdmin()) {
+        const blocked = await checkIfUserIsBlocked(email);
+        if (blocked) {
+          NoteShareAuth.logout();
+          alert('Account Suspended: Your account has been blocked by the administrator.');
+          return false;
+        }
+      }
       return true;
     },
 
-    checkAuthGuard() {
+    async checkAuthGuard() {
       const rawPath = window.location.pathname.split('/').pop() || 'index.html';
       const page = rawPath.toLowerCase();
 
-      const isGuestPage = page === 'login.html' || page === 'create-account.html' || page === 'admin-login.html';
       const isAdminPage = page === 'admin-dashboard.html';
+      const isAdminLoginPage = page === 'admin-login.html';
+      const isGuestPage = page === 'login.html' || page === 'create-account.html';
 
       const loggedIn = NoteShareAuth.isLoggedIn();
       const isAdmin = NoteShareAuth.isAdmin();
+      const email = NoteShareAuth.getUserEmail();
 
-      if (isGuestPage) {
+      if (loggedIn && !isAdmin && email) {
+        const blocked = await checkIfUserIsBlocked(email);
+        if (blocked) {
+          NoteShareAuth.logout();
+          alert('Account Suspended: Your account has been blocked by the administrator.');
+          return;
+        }
+      }
+
+      if (isAdminLoginPage) {
+        if (isAdmin) {
+          window.location.replace('admin-dashboard.html');
+        }
+      } else if (isGuestPage) {
         if (isAdmin) {
           window.location.replace('admin-dashboard.html');
         } else if (loggedIn) {
@@ -549,7 +646,7 @@
         }
       } else if (isAdminPage) {
         if (!isAdmin) {
-          window.location.replace('login.html');
+          window.location.replace('admin-login.html');
         }
       } else {
         // Protected student pages
@@ -582,26 +679,51 @@
     },
 
     isAdmin() {
+      const session = getSession();
+      if (session && (session.isAdmin || session.role === 'admin')) return true;
+
       const admin = JSON.parse(sessionStorage.getItem('noteshare_admin') || 'null');
       if (!admin) return false;
-      if (Date.now() - admin.loginTime > 30 * 60 * 1000) {
+      if (Date.now() - admin.loginTime > 12 * 60 * 60 * 1000) {
         sessionStorage.removeItem('noteshare_admin');
         return false;
       }
       return true;
     },
 
-    setAdmin(username) {
+    setAdmin(username, email) {
+      const adminUsername = username || 'Administrator';
+      const adminEmail = email || (adminUsername.includes('@') ? adminUsername : 'privateprasad@vitstudent.ac.in');
+      const adminMd5 = md5(adminEmail);
+
       sessionStorage.setItem(
         'noteshare_admin',
-        JSON.stringify({ username, loginTime: Date.now() })
+        JSON.stringify({ username: adminUsername, email: adminEmail, loginTime: Date.now() })
       );
+
+      const adminSession = {
+        user_id: adminMd5 || 'admin_user',
+        user_email: adminEmail,
+        user_name: adminUsername,
+        user_coins: 9999,
+        firebase_uid: 'vit-admin-' + (adminMd5 || 'prasad'),
+        isAdmin: true,
+        role: 'admin'
+      };
+      setSession(adminSession);
+    },
+
+    async isBlocked(email) {
+      const target = email || NoteShareAuth.getUserEmail();
+      return checkIfUserIsBlocked(target);
     },
 
     clearAdmin() {
       sessionStorage.removeItem('noteshare_admin');
+      clearSession();
     },
   };
+
 
   global.NoteShareAuth = NoteShareAuth;
 })(window);

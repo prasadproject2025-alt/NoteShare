@@ -35,6 +35,22 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    const fs = require('fs');
+    const path = require('path');
+    const USERS_FILE = path.join(__dirname, '..', 'data', 'users.json');
+    try {
+      if (fs.existsSync(USERS_FILE)) {
+        const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8') || '{}');
+        const clean = email.toLowerCase().trim();
+        if (users[clean] && (users[clean].blocked || users[clean].status === 'blocked')) {
+          return res.status(403).json({
+            success: false,
+            message: 'Your account has been blocked by the administrator. Access denied.'
+          });
+        }
+      }
+    } catch (e) {}
+
     const otp = generateOTP();
     const displayName = name || email.split('@')[0];
     const expirationTime = Date.now() + 10 * 60 * 1000;

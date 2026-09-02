@@ -50,6 +50,13 @@ document.addEventListener('DOMContentLoaded', function () {
     uploadSpinner?.classList.remove('d-none');
 
     try {
+      if (window.NoteShareAuth && typeof window.NoteShareAuth.isBlocked === 'function') {
+        const isBlocked = await window.NoteShareAuth.isBlocked();
+        if (isBlocked) {
+          throw new Error('Account Blocked: Your account has been suspended by the administrator. You cannot upload notes.');
+        }
+      }
+
       const fileInputs = Array.from(form.querySelectorAll('input[type="file"]')); 
       const files = fileInputs.reduce((acc, input) => {
         if (input.files && input.files[0]) acc.push(input.files[0]);

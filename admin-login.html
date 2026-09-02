@@ -17,20 +17,20 @@
     <script src="js/auth.js" defer></script>
     <script src="js/nav.js" defer></script>
     <script src="js/page-init.js" defer></script>
-    <script>window.location.replace('login.html');</script>
 </head>
 <body>
 <div id="app-header"></div>
 <main class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-danger text-white">
-                    <h4 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Admin Login</h4>
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white py-3">
+                    <h4 class="mb-0 fs-5"><i class="fas fa-shield-alt me-2"></i>Admin Control Login</h4>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-danger">
-                            <i class="fas fa-exclamation-triangle me-2"></i></div>
+                <div class="card-body p-4">
+                    <div class="alert alert-danger d-none" id="admin-login-error">
+                        <i class="fas fa-exclamation-triangle me-2"></i><span id="admin-login-error-text"></span>
+                    </div>
                     <form method="POST">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>

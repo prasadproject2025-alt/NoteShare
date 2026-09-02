@@ -481,7 +481,21 @@ async function waitForFirebaseInstance() {
 
 // ─── ALL-USERS FETCHER ───────────────────────────────────────────────────
 
+let activeFetchUsersPromise = null;
+
 async function fetchAppUsers() {
+  if (activeFetchUsersPromise) return activeFetchUsersPromise;
+  activeFetchUsersPromise = (async () => {
+    try {
+      return await _executeFetchAppUsers();
+    } finally {
+      activeFetchUsersPromise = null;
+    }
+  })();
+  return activeFetchUsersPromise;
+}
+
+async function _executeFetchAppUsers() {
   await waitForFirebaseInstance();
   const usersMap = {};
   const activityMap = {};
@@ -515,14 +529,15 @@ async function fetchAppUsers() {
           const key = email || child.key;
           if (!key) return;
 
+          const isBlocked = !!(u.blocked || u.status === 'blocked');
           usersMap[key] = {
             id: child.key,
             email: email || `${child.key}@vitstudent.ac.in`,
             name: u.name || (email ? email.split('@')[0] : 'Student'),
             coins: typeof u.coins === 'number' ? u.coins : 10,
             created_at: u.created_at || new Date().toISOString(),
-            status: u.status || 'active',
-            blocked: !!u.blocked,
+            status: isBlocked ? 'blocked' : (u.status || 'active'),
+            blocked: isBlocked,
             department: u.department || 'SCOPE',
             year: u.year || '3rd Year',
             role: u.role || (email === 'privateprasad@vitstudent.ac.in' ? 'admin' : 'student'),
@@ -553,6 +568,7 @@ async function fetchAppUsers() {
       list.forEach(u => {
         if (!u || !u.email) return;
         const cleanEmail = u.email.toLowerCase().trim();
+        const isBlocked = !!(u.blocked || u.status === 'blocked');
         const existing = usersMap[cleanEmail];
         if (!existing) {
           usersMap[cleanEmail] = {
@@ -561,8 +577,8 @@ async function fetchAppUsers() {
             name: u.name || cleanEmail.split('@')[0],
             coins: typeof u.coins === 'number' ? u.coins : 10,
             created_at: u.created_at || new Date().toISOString(),
-            status: u.status || 'active',
-            blocked: !!u.blocked,
+            status: isBlocked ? 'blocked' : (u.status || 'active'),
+            blocked: isBlocked,
             department: u.department || 'SCOPE',
             year: u.year || '3rd Year',
             role: u.role || (cleanEmail === 'privateprasad@vitstudent.ac.in' ? 'admin' : 'student'),
@@ -580,6 +596,12 @@ async function fetchAppUsers() {
           if (u.department) existing.department = u.department;
           if (u.year) existing.year = u.year;
           if (u.role) existing.role = u.role;
+          if (u.blocked !== undefined) existing.blocked = !!u.blocked;
+          if (u.status) existing.status = u.status;
+          if (isBlocked) {
+            existing.blocked = true;
+            existing.status = 'blocked';
+          }
           if (typeof u.requests_count === 'number' && u.requests_count > existing.requests_count) existing.requests_count = u.requests_count;
           if (typeof u.failed_logins === 'number' && u.failed_logins > existing.failed_logins) existing.failed_logins = u.failed_logins;
           if (u.last_active && u.last_active > existing.last_active) existing.last_active = u.last_active;
@@ -649,6 +671,7 @@ async function fetchAppUsers() {
       const u = reg[k];
       if (!u || !u.email) return;
       const cleanEmail = u.email.toLowerCase().trim();
+      const isBlocked = !!(u.blocked || u.status === 'blocked');
       if (!usersMap[cleanEmail]) {
         usersMap[cleanEmail] = {
           id: u.id || getMd5(cleanEmail) || k,
@@ -656,8 +679,8 @@ async function fetchAppUsers() {
           name: u.name || cleanEmail.split('@')[0],
           coins: typeof u.coins === 'number' ? u.coins : 10,
           created_at: u.created_at || new Date().toISOString(),
-          status: u.status || 'active',
-          blocked: !!u.blocked,
+          status: isBlocked ? 'blocked' : (u.status || 'active'),
+          blocked: isBlocked,
           department: u.department || 'SCOPE',
           year: u.year || '3rd Year',
           role: u.role || 'student',
@@ -667,6 +690,13 @@ async function fetchAppUsers() {
           failed_logins: 0,
           actions: []
         };
+      } else {
+        if (u.blocked !== undefined) usersMap[cleanEmail].blocked = !!u.blocked;
+        if (u.status) usersMap[cleanEmail].status = u.status;
+        if (isBlocked) {
+          usersMap[cleanEmail].blocked = true;
+          usersMap[cleanEmail].status = 'blocked';
+        }
       }
     });
   } catch (e) {}
@@ -796,7 +826,9 @@ async function loadStatistics() {
 async function loadUsers() {
   const container = document.getElementById('users-container');
   if (!container) return;
-  container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-primary"></i>Loading users...</p>';
+  if (!container.innerHTML.trim() || container.children.length === 0) {
+    container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-primary"></i>Loading users...</p>';
+  }
 
   let users = [];
   try {
@@ -1174,6 +1206,22 @@ async function toggleBlockUser(userId, shouldBlock, email) {
     });
   } catch (e) {}
 
+  try {
+    const regUsers = JSON.parse(localStorage.getItem('noteshare_registered_users') || '{}');
+    if (cleanEmail) {
+      if (!regUsers[cleanEmail]) regUsers[cleanEmail] = { email: cleanEmail };
+      regUsers[cleanEmail].blocked = shouldBlock;
+      regUsers[cleanEmail].status = shouldBlock ? 'blocked' : 'active';
+      localStorage.setItem('noteshare_registered_users', JSON.stringify(regUsers));
+    }
+  } catch (e) {}
+
+  const cachedUser = cachedAllUsers.find(u => (u.email || '').toLowerCase().trim() === cleanEmail);
+  if (cachedUser) {
+    cachedUser.blocked = shouldBlock;
+    cachedUser.status = shouldBlock ? 'blocked' : 'active';
+  }
+
   alert(`User ${cleanEmail} ${shouldBlock ? 'blocked' : 'unblocked'} successfully!`);
   await loadUsers();
 }
@@ -1435,7 +1483,9 @@ async function loadFiles() {
   if (!container) return;
   const filterSelect = document.getElementById('file-type-filter');
   const filter = filterSelect ? filterSelect.value : 'all';
-  container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-success"></i>Loading files...</p>';
+  if (!container.innerHTML.trim() || container.children.length === 0) {
+    container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-success"></i>Loading files...</p>';
+  }
 
   let allFiles = [];
   try {
@@ -1641,7 +1691,9 @@ async function deleteNote(noteId, type) {
 async function loadFeedbacks() {
   const container = document.getElementById('feedbacks-container');
   if (!container) return;
-  container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-info"></i>Loading logs...</p>';
+  if (!container.innerHTML.trim() || container.children.length === 0) {
+    container.innerHTML = '<p class="text-muted text-center py-4"><i class="fas fa-spinner fa-spin me-2 text-info"></i>Loading logs...</p>';
+  }
 
   let chats = [];
   try {
@@ -1699,16 +1751,28 @@ async function refreshAllData() {
 
 // ─── INITIALIZATION ───────────────────────────────────────────────────────
 
+let realtimeDebounceTimer = null;
+
+function debouncedDashboardRefresh() {
+  if (realtimeDebounceTimer) clearTimeout(realtimeDebounceTimer);
+  realtimeDebounceTimer = setTimeout(() => {
+    loadStatistics();
+    loadUsers();
+    loadFiles();
+    loadFeedbacks();
+  }, 1500);
+}
+
 function setupRealtimeListeners() {
   if (typeof firebase !== 'undefined' && firebase.database) {
     const db = firebase.database();
-    db.ref('users').on('value', () => { loadUsers(); loadStatistics(); });
-    db.ref('user_activity').on('value', () => { loadUsers(); loadStatistics(); });
-    db.ref('security_logs').on('child_added', () => { loadFeedbacks(); });
-    db.ref('notes').on('value', () => { loadFiles(); loadStatistics(); });
-    db.ref('shared_notes').on('value', () => { loadFiles(); loadStatistics(); });
-    db.ref('rental_notes').on('value', () => { loadFiles(); loadStatistics(); });
-    db.ref('chats').on('value', () => { loadFeedbacks(); loadStatistics(); });
+    db.ref('users').on('value', () => debouncedDashboardRefresh());
+    db.ref('user_activity').on('value', () => debouncedDashboardRefresh());
+    db.ref('security_logs').on('child_added', () => debouncedDashboardRefresh());
+    db.ref('notes').on('value', () => debouncedDashboardRefresh());
+    db.ref('shared_notes').on('value', () => debouncedDashboardRefresh());
+    db.ref('rental_notes').on('value', () => debouncedDashboardRefresh());
+    db.ref('chats').on('value', () => debouncedDashboardRefresh());
   }
 }
 

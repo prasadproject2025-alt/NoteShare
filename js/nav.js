@@ -82,7 +82,7 @@
       '<div class="dropdown">' +
       '<a class="vtop-user-pill dropdown-toggle" href="javascript:void(0);" role="button" onclick="window.toggleUserMenu(event);">' +
       '<img class="vtop-avatar-img" src="https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=ffedd5&color=c2410c&bold=true&size=64" alt="avatar">' +
-      '<span>' + escapeHtml(regNo) + ' (STUDENT)</span>' +
+      '<span>' + escapeHtml(regNo) + (isAdmin ? ' (ADMIN)' : ' (STUDENT)') + '</span>' +
       '</a>' +
       '<ul class="dropdown-menu dropdown-menu-end shadow p-2" id="user-profile-dropdown-menu" style="min-width:240px;">' +
       '<li><a class="dropdown-item py-2" href="index.html"><i class="fas fa-th-large me-2 text-primary"></i>Dashboard</a></li>' +

@@ -56,6 +56,12 @@
       if (!userId && !userMd5) {
         return { success: false, message: 'Invalid request' };
       }
+      if (email && window.NoteShareAuth?.isBlocked) {
+        const isBlocked = await window.NoteShareAuth.isBlocked(email);
+        if (isBlocked) {
+          return { success: false, message: 'Account Blocked: Your account has been suspended by the administrator.' };
+        }
+      }
       if (amount <= 0) {
         return { success: false, message: 'Invalid coin amount' };
       }
