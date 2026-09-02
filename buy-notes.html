@@ -181,114 +181,29 @@
 let userId = '';
 const selectedNoteId = new URLSearchParams(window.location.search).get('note_id');
 
-// Core Baseline Academic Notes Catalog (Guarantees rich display 4 in a row immediately)
-const defaultAcademicNotes = [
-    {
-        id: 'note-cse1001-dsa',
-        subject_name: 'Data Structures & Algorithms Comprehensive Notes',
-        course_code: 'CSE2001',
-        faculty_name: 'Prof. K. Ramesh',
-        slot: 'A1',
-        year: '2nd',
-        price: 25,
-        likes: 42,
-        description: 'Complete Trees, Graphs, Sorting, Dynamic Programming with handwritten code & FAT solved questions.',
-        created_at: Date.now() - 3600000 * 24 * 2
-    },
-    {
-        id: 'note-mat1011-calc',
-        subject_name: 'Calculus & Differential Equations Quick Prep',
-        course_code: 'MAT1011',
-        faculty_name: 'Dr. V. Sudha',
-        slot: 'B1',
-        year: '1st',
-        price: 20,
-        likes: 38,
-        description: 'Eigenvalues, Taylor Series, Multiple Integrals formula sheets and CAT-1 & CAT-2 revision problems.',
-        created_at: Date.now() - 3600000 * 24 * 3
-    },
-    {
-        id: 'note-cse2005-os',
-        subject_name: 'Operating Systems - CPU Scheduling & Deadlocks',
-        course_code: 'CSE2005',
-        faculty_name: 'Prof. M. Anitha',
-        slot: 'C1',
-        year: '2nd',
-        price: 30,
-        likes: 55,
-        description: 'Process Synchronization, Semaphores, Banker Algorithm, and Paging with clear diagrammatic notes.',
-        created_at: Date.now() - 3600000 * 24 * 1
-    },
-    {
-        id: 'note-cse1004-dbms',
-        subject_name: 'Database Management Systems & SQL Queries',
-        course_code: 'CSE1004',
-        faculty_name: 'Dr. S. Karthik',
-        slot: 'D1',
-        year: '2nd',
-        price: 25,
-        likes: 29,
-        description: 'ER Diagrams, Normalization (1NF to BCNF), Relational Algebra, and Transaction Concurrency.',
-        created_at: Date.now() - 3600000 * 24 * 4
-    },
-    {
-        id: 'note-cse3002-cn',
-        subject_name: 'Computer Networks - OSI & TCP/IP Layer Notes',
-        course_code: 'CSE3002',
-        faculty_name: 'Prof. R. Priya',
-        slot: 'E1',
-        year: '3rd',
-        price: 25,
-        likes: 34,
-        description: 'Subnetting calculations, Routing protocols (OSPF/BGP), Flow control, and Socket programming.',
-        created_at: Date.now() - 3600000 * 24 * 5
-    },
-    {
-        id: 'note-ece2003-dld',
-        subject_name: 'Digital Logic & Circuit Design Handwritten',
-        course_code: 'ECE2003',
-        faculty_name: 'Dr. T. Natarajan',
-        slot: 'F1',
-        year: '2nd',
-        price: 20,
-        likes: 21,
-        description: 'K-Maps simplification, Multiplexers, Counters, Shift Registers, and State Machines.',
-        created_at: Date.now() - 3600000 * 24 * 6
-    },
-    {
-        id: 'note-phy1701-eng',
-        subject_name: 'Engineering Physics - Lasers & Quantum Mechanics',
-        course_code: 'PHY1701',
-        faculty_name: 'Dr. G. Lakshmi',
-        slot: 'G1',
-        year: '1st',
-        price: 15,
-        likes: 19,
-        description: 'Schrodinger equations, Fiber optics derivation, Wave optics, and solved previous year papers.',
-        created_at: Date.now() - 3600000 * 24 * 7
-    },
-    {
-        id: 'note-cse1002-java',
-        subject_name: 'Java Programming & OOPs Concepts Master Sheet',
-        course_code: 'CSE1002',
-        faculty_name: 'Prof. B. Suresh',
-        slot: 'A2',
-        year: '1st',
-        price: 20,
-        likes: 47,
-        description: 'Inheritance, Polymorphism, Exception Handling, Collections Framework, and Multithreading.',
-        created_at: Date.now() - 3600000 * 24 * 8
-    }
-];
+let allNotesCache = [];
 
-let allNotesCache = [...defaultAcademicNotes];
+function showSearchingState() {
+    const notesList = document.getElementById('notes-list');
+    if (notesList) {
+        notesList.innerHTML = `
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary mb-3" role="status" style="width: 2.5rem; height: 2.5rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5 class="fw-semibold text-primary mb-1">
+                    <i class="fas fa-search me-2 fa-spin"></i>searching notes wait a sec buddy
+                </h5>
+                <p class="text-muted small">Fetching latest student uploaded notes from database...</p>
+            </div>
+        `;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     loadCoinBalance();
-    // Render initial notes immediately so there is zero delay
-    displayNotes(allNotesCache);
+    showSearchingState();
 
-    // Then fetch and merge any database uploaded notes
     if (window.NoteShareBoot && typeof window.NoteShareBoot.waitForApp === 'function') {
         window.NoteShareBoot.waitForApp().then(() => {
             loadAllAvailableNotes();
@@ -327,8 +242,7 @@ function loadAllAvailableNotes() {
                     });
                 }
                 
-                // Merge database notes with default catalog (db notes appear first)
-                allNotesCache = [...dbNotes, ...defaultAcademicNotes];
+                allNotesCache = dbNotes;
                 
                 if (selectedNoteId) {
                     const matchingNote = allNotesCache.find(note => note.id === selectedNoteId);
@@ -340,14 +254,14 @@ function loadAllAvailableNotes() {
 
                 displayNotes(allNotesCache);
             }).catch(err => {
-                console.warn('DB notes read fallback:', err);
-                displayNotes(allNotesCache);
+                console.warn('DB notes read error:', err);
+                displayNotes([]);
             });
         } else {
-            displayNotes(allNotesCache);
+            displayNotes([]);
         }
     } catch (e) {
-        displayNotes(allNotesCache);
+        displayNotes([]);
     }
 }
 
@@ -374,11 +288,20 @@ function searchNotes() {
 }
 
 function displayNotes(notes) {
-    console.log('displayNotes called with', notes.length, 'notes');
+    console.log('displayNotes called with', notes ? notes.length : 0, 'notes');
 
     const notesList = document.getElementById('notes-list');
     if (!notesList) {
         console.error('notes-list element not found');
+        return;
+    }
+
+    if (!notes || notes.length === 0) {
+        notesList.innerHTML = `
+            <div class="alert alert-info text-center py-4 mb-0">
+                <i class="fas fa-info-circle me-2"></i>No notes available right now. Be the first to <a href="sell-notes.html" class="alert-link">sell your notes</a>!
+            </div>
+        `;
         return;
     }
 

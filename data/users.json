@@ -11,9 +11,121 @@
     "year": "3rd Year",
     "role": "student",
     "failed_logins": 0,
-    "requests_count": 28,
-    "last_active": 1788328689750,
+    "requests_count": 44,
+    "last_active": 1788329893494,
     "actions": [
+      {
+        "timestamp": "11:48:13 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329893494
+      },
+      {
+        "timestamp": "11:47:55 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Sell Notes",
+        "time_ms": 1788329875940
+      },
+      {
+        "timestamp": "11:47:49 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329869329
+      },
+      {
+        "timestamp": "11:46:58 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329818992
+      },
+      {
+        "timestamp": "11:46:44 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329804999
+      },
+      {
+        "timestamp": "11:46:32 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329792081
+      },
+      {
+        "timestamp": "11:42:58 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329578125
+      },
+      {
+        "timestamp": "11:42:56 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Sell Notes",
+        "time_ms": 1788329576213
+      },
+      {
+        "timestamp": "11:42:51 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Share Notes",
+        "time_ms": 1788329571773
+      },
+      {
+        "timestamp": "11:42:39 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329559753
+      },
+      {
+        "timestamp": "11:42:30 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Sell Notes",
+        "time_ms": 1788329550458
+      },
+      {
+        "timestamp": "11:42:22 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested clear_session.html",
+        "time_ms": 1788329542649
+      },
+      {
+        "timestamp": "11:42:12 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329532022
+      },
+      {
+        "timestamp": "11:40:14 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Sell Notes",
+        "time_ms": 1788329414792
+      },
+      {
+        "timestamp": "11:40:02 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
+        "time_ms": 1788329402022
+      },
+      {
+        "timestamp": "11:39:58 AM",
+        "date": "9/2/2026",
+        "type": "Page Visit",
+        "detail": "Viewed VIT Vellore - Sell Notes",
+        "time_ms": 1788329398278
+      },
       {
         "timestamp": "11:28:09 AM",
         "date": "9/2/2026",
@@ -76,126 +188,14 @@
         "type": "Page Visit",
         "detail": "Viewed VIT Vellore - NoteShare Dashboard",
         "time_ms": 1788328111421
-      },
-      {
-        "timestamp": "11:18:25 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788328105722
-      },
-      {
-        "timestamp": "11:18:16 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788328096984
-      },
-      {
-        "timestamp": "11:18:16 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788328096315
-      },
-      {
-        "timestamp": "11:18:15 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788328095532
-      },
-      {
-        "timestamp": "11:17:47 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788328067799
-      },
-      {
-        "timestamp": "11:17:43 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Messages & Chat",
-        "time_ms": 1788328063720
-      },
-      {
-        "timestamp": "11:17:41 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Messages & Chat",
-        "time_ms": 1788328061270
-      },
-      {
-        "timestamp": "11:17:39 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Messages & Chat",
-        "time_ms": 1788328059919
-      },
-      {
-        "timestamp": "11:17:26 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Messages & Chat",
-        "time_ms": 1788328046573
-      },
-      {
-        "timestamp": "11:17:25 AM",
-        "date": "9/2/2026",
-        "type": "API Call",
-        "detail": "Requested /api/admin-update-user",
-        "time_ms": 1788328045965
-      },
-      {
-        "timestamp": "11:17:20 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788328040576
-      },
-      {
-        "timestamp": "11:17:11 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - Messages & Chat",
-        "time_ms": 1788328031466
-      },
-      {
-        "timestamp": "11:17:01 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - VIT Note Sharing Platform",
-        "time_ms": 1788328021137
-      },
-      {
-        "timestamp": "11:16:37 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788327997134
-      },
-      {
-        "timestamp": "11:12:37 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788327757265
-      },
-      {
-        "timestamp": "11:12:27 AM",
-        "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed VIT Vellore - NoteShare Dashboard",
-        "time_ms": 1788327747713
       }
     ],
     "risk": "normal"
   },
   "durgaprasad.s2022a@vitstudent.ac.in": {
     "email": "durgaprasad.s2022a@vitstudent.ac.in",
-    "name": "Durgaprasad S",
-    "coins": 1042,
+    "name": "durgaprasad.s2022a",
+    "coins": 100,
     "created_at": "2026-08-28T08:07:52.000Z",
     "firebase_uid": "ai7Dlkumpwaiy5pXYOEbLpa6...",
     "status": "active",
@@ -238,23 +238,12 @@
         "time_ms": 1788286520922
       }
     ],
-    "risk": "normal"
-  },
-  "a@vitstudent.ac.in": {
-    "email": "a@vitstudent.ac.in",
-    "name": "A Student",
-    "coins": 50,
-    "created_at": "2026-08-05T15:00:00.000Z",
-    "firebase_uid": "kKPFJQcOrNey5vLGHYtdOuM...",
-    "status": "active"
-  },
-  "tester@vitstudent.ac.in": {
-    "email": "tester@vitstudent.ac.in",
-    "name": "Tester User",
-    "coins": 100,
-    "created_at": "2026-07-14T10:00:00.000Z",
-    "firebase_uid": "6EQ8sdpSm7gvpY7IBfBiZNW...",
-    "status": "active"
+    "risk": "normal",
+    "blocked": false,
+    "department": "School of Computer Science & Engineering (SCOPE)",
+    "year": "3rd Year",
+    "role": "student",
+    "failed_logins": 0
   },
   "hi@vitstudent.ac.in": {
     "email": "hi@vitstudent.ac.in",
@@ -270,220 +259,186 @@
     "coins": 9999,
     "created_at": "2026-01-01T00:00:00.000Z",
     "status": "active",
-    "requests_count": 9013,
-    "last_active": 1788328706584,
+    "requests_count": 9475,
+    "last_active": 1788329989177,
     "actions": [
       {
-        "timestamp": "11:28:26 AM",
+        "timestamp": "11:49:49 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328706584
+        "time_ms": 1788329989177
       },
       {
-        "timestamp": "11:28:24 AM",
+        "timestamp": "11:49:45 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328704582
+        "time_ms": 1788329985864
       },
       {
-        "timestamp": "11:28:22 AM",
+        "timestamp": "11:49:44 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328702593
+        "time_ms": 1788329984352
       },
       {
-        "timestamp": "11:28:20 AM",
+        "timestamp": "11:49:42 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328700658
+        "time_ms": 1788329982834
       },
       {
-        "timestamp": "11:28:19 AM",
+        "timestamp": "11:49:41 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328699147
+        "time_ms": 1788329981317
       },
       {
-        "timestamp": "11:28:17 AM",
+        "timestamp": "11:49:39 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328697642
+        "time_ms": 1788329979804
       },
       {
-        "timestamp": "11:28:16 AM",
+        "timestamp": "11:49:38 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328696138
+        "time_ms": 1788329978283
       },
       {
-        "timestamp": "11:28:14 AM",
+        "timestamp": "11:49:36 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328694622
+        "time_ms": 1788329976765
       },
       {
-        "timestamp": "11:28:13 AM",
+        "timestamp": "11:49:35 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328693157
+        "time_ms": 1788329975252
       },
       {
-        "timestamp": "11:28:10 AM",
+        "timestamp": "11:49:33 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328690726
+        "time_ms": 1788329973732
       },
       {
-        "timestamp": "11:28:09 AM",
+        "timestamp": "11:49:32 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328689210
+        "time_ms": 1788329972216
       },
       {
-        "timestamp": "11:28:07 AM",
+        "timestamp": "11:49:30 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328687708
+        "time_ms": 1788329970707
       },
       {
-        "timestamp": "11:28:06 AM",
+        "timestamp": "11:49:29 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328686196
+        "time_ms": 1788329969203
       },
       {
-        "timestamp": "11:28:04 AM",
+        "timestamp": "11:49:27 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328684688
+        "time_ms": 1788329967700
       },
       {
-        "timestamp": "11:28:03 AM",
+        "timestamp": "11:49:26 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328683182
+        "time_ms": 1788329966186
       },
       {
-        "timestamp": "11:28:01 AM",
+        "timestamp": "11:49:24 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328681672
+        "time_ms": 1788329964669
       },
       {
-        "timestamp": "11:28:00 AM",
-        "date": "9/2/2026",
-        "type": "API Call",
-        "detail": "Requested /api/admin-update-user",
-        "time_ms": 1788328680387
-      },
-      {
-        "timestamp": "11:27:58 AM",
+        "timestamp": "11:49:23 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328678569
+        "time_ms": 1788329963158
       },
       {
-        "timestamp": "11:27:57 AM",
+        "timestamp": "11:49:21 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328677059
+        "time_ms": 1788329961654
       },
       {
-        "timestamp": "11:27:55 AM",
+        "timestamp": "11:49:21 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328675551
+        "time_ms": 1788329961128
       },
       {
-        "timestamp": "11:27:54 AM",
+        "timestamp": "11:49:18 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328674033
+        "time_ms": 1788329958625
       },
       {
-        "timestamp": "11:27:52 AM",
+        "timestamp": "11:49:17 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328672519
+        "time_ms": 1788329957110
       },
       {
-        "timestamp": "11:27:51 AM",
+        "timestamp": "11:49:15 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328671007
+        "time_ms": 1788329955597
       },
       {
-        "timestamp": "11:27:49 AM",
+        "timestamp": "11:49:14 AM",
         "date": "9/2/2026",
         "type": "API Call",
         "detail": "Requested /api/admin-get-users",
-        "time_ms": 1788328669790
+        "time_ms": 1788329954080
       },
       {
-        "timestamp": "11:27:48 AM",
+        "timestamp": "11:49:12 AM",
         "date": "9/2/2026",
-        "type": "Page Visit",
-        "detail": "Viewed NoteShare - Admin Dashboard",
-        "time_ms": 1788328668142
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788329952563
+      },
+      {
+        "timestamp": "11:49:11 AM",
+        "date": "9/2/2026",
+        "type": "API Call",
+        "detail": "Requested /api/admin-get-users",
+        "time_ms": 1788329951046
       }
     ],
     "risk": "suspicious"
-  },
-  "durga.prasad2023@vitstudent.ac.in": {
-    "email": "durga.prasad2023@vitstudent.ac.in",
-    "name": "durga.prasad2023",
-    "coins": 10,
-    "created_at": "2026-09-01T18:17:55.991Z",
-    "status": "active",
-    "requests_count": 3,
-    "failed_logins": 0,
-    "actions": [
-      {
-        "timestamp": "11:47:56 PM",
-        "date": "9/1/2026",
-        "type": "Page Visit",
-        "detail": "Visited Page 3 (Study Materials)",
-        "time_ms": 1788286676003
-      },
-      {
-        "timestamp": "11:47:55 PM",
-        "date": "9/1/2026",
-        "type": "Page Visit",
-        "detail": "Visited Page 2 (Study Materials)",
-        "time_ms": 1788286675995
-      },
-      {
-        "timestamp": "11:47:55 PM",
-        "date": "9/1/2026",
-        "type": "Page Visit",
-        "detail": "Visited Page 1 (Study Materials)",
-        "time_ms": 1788286675991
-      }
-    ],
-    "last_active": 1788286676002,
-    "risk": "normal"
   },
   "testuser@vitstudent.ac.in": {
     "email": "testuser@vitstudent.ac.in",
